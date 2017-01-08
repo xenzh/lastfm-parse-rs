@@ -6,6 +6,7 @@ pub struct Wiki {
     content: String,
 }
 
+/// api methods: tag.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     name: String,

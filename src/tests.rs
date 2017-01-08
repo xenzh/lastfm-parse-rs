@@ -7,6 +7,7 @@ use self::hyper::error::Result as HttpResult;
 use self::hyper::client::Client;
 use self::hyper::Url;
 
+use super::api_error::ApiError;
 use super::album::Info as AlbumInfo;
 use super::artist::Info as ArtistInfo;
 use super::tag::Info as TagInfo;
@@ -32,7 +33,10 @@ fn get_content(url: &Url) -> HttpResult<String> {
     Ok(res)
 }
 
-fn get_lastfm_obj_raw<'a>(api_key: &'a str, method: &'a str, params: Option<QueryPairs<'a>>) -> HttpResult<String> {
+fn get_lastfm_obj_raw<'a>(api_key: &'a str,
+                          method: &'a str,
+                          params: Option<QueryPairs<'a>>)
+                          -> HttpResult<String> {
     let mut params = match params {
         Some(vc) => vc,
         None => Vec::new(),
@@ -60,45 +64,45 @@ macro_rules! test_fn {
     };
 }
 
-test_fn!(
-    deserialize_album_info,
-    "album.getinfo",
-    album,
-    AlbumInfo,
-    Some(vec![("artist", "iamthemorning"), ("album", "~")])
-);
+test_fn!(deserialize_album_info,
+         "album.getinfo",
+         album,
+         AlbumInfo,
+         Some(vec![("artist", "iamthemorning"), ("album", "~")]));
 
-test_fn!(
-    deserialize_artist_info,
-    "artist.getinfo",
-    artist,
-    ArtistInfo,
-    Some(vec![("artist", "schtimm")])
-);
+test_fn!(deserialize_artist_info,
+         "artist.getinfo",
+         artist,
+         ArtistInfo,
+         Some(vec![("artist", "schtimm")]));
 
-test_fn!(
-    deserialize_tag_info,
-    "tag.getinfo",
-    tag,
-    TagInfo,
-    Some(vec![("tag", "free jazz")])
-);
+test_fn!(deserialize_tag_info,
+         "tag.getinfo",
+         tag,
+         TagInfo,
+         Some(vec![("tag", "free jazz")]));
 
-test_fn!(
-    deserialize_track_info,
-    "track.getinfo",
-    track,
-    TrackInfo,
-    Some(vec![("artist", "strawfoot"), ("track", "the lord's wrath")])
-);
+test_fn!(deserialize_track_info,
+         "track.getinfo",
+         track,
+         TrackInfo,
+         Some(vec![("artist", "strawfoot"), ("track", "the lord's wrath")]));
 
-test_fn!(
-    deserialize_user_info,
-    "user.getinfo",
-    user,
-    UserInfo,
-    Some(vec![("user", "xenzh")])
-);
+test_fn!(deserialize_user_info,
+         "user.getinfo",
+         user,
+         UserInfo,
+         Some(vec![("user", "xenzh")]));
+
+#[test]
+fn deserialize_api_error() {
+    let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
+    // parameter error: in non-authenticated mode user should be specified for gettags
+    let params = Some(vec![("artist", "the beatles"), ("album", "abbey road")]);
+    let json_str = get_lastfm_obj_raw(api_key, "album.gettags", params).unwrap();
+    let api_error: ApiError = serde_json::from_str(&json_str).unwrap();
+    println!("Deserialized \"ApiError\":\n{:?}\n", api_error);
+}
 
 // ----------------------------------------------------------------
 
@@ -112,8 +116,14 @@ use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 
-fn dump_lastfm_obj<'a>(api_key: &'a str, method: &'a str, params: Option<QueryPairs<'a>>, dump_path: &str) -> IoResult<String> {
-    let rsp = get_lastfm_obj_raw(api_key, method, params).map_err( |e| IoError::new(IoErrorKind::Other, e.description()) )?;
+fn dump_lastfm_obj<'a>(api_key: &'a str,
+                       method: &'a str,
+                       params: Option<QueryPairs<'a>>,
+                       dump_path: &str)
+                       -> IoResult<String> {
+    let rsp = get_lastfm_obj_raw(api_key, method, params)
+        .map_err( |e| IoError::new(IoErrorKind::Other, e.description()) )?;
+
     let path = Path::new(dump_path);
     let mut file = File::create(&path)?;
     file.write_all(rsp.as_bytes())?;
@@ -124,6 +134,7 @@ fn dump_lastfm_obj<'a>(api_key: &'a str, method: &'a str, params: Option<QueryPa
 #[ignore]
 fn dump_info() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    let params = Some(vec![("user", "xenzh")]);
-    let _raw_json = dump_lastfm_obj(api_key, "user.getinfo", params, "user.json").unwrap();
+    let params = Some(vec![("artist", "the beatles"), ("album", "abbey road"), ("user", "xenzh")]);
+    let _raw_json = dump_lastfm_obj(api_key, "album.gettags", params, "album.gettags.json")
+        .unwrap();
 }

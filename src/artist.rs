@@ -40,6 +40,7 @@ pub struct Bio {
     content: String,
 }
 
+/// api methods: artist.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,

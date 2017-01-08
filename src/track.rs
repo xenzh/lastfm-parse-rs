@@ -3,6 +3,7 @@ use super::artist::Ref as ArtistRef;
 use super::album::Ref as AlbumRef;
 use super::tag::Refs as TagRefs;
 
+/// api methods: track.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,
@@ -21,8 +22,7 @@ pub struct Info {
 pub struct Ref {
     pub name: String,
     pub url: Url,
-    pub duration: u32,
-    // artist, streamable and @attr fields omitted for now
+    pub duration: u32, // artist, streamable and @attr fields omitted for now
 }
 
 #[derive(Deserialize, Debug)]

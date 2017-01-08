@@ -2,6 +2,7 @@ use super::common::{Url, Image};
 use super::track::Refs as TrackRefs;
 use super::tag::Refs as TagRefs;
 
+/// api methods: album.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,
@@ -21,6 +22,5 @@ pub struct Ref {
     pub title: String,
     pub mbid: String,
     pub url: Url,
-    pub image: Vec<Image>,
-    // attr position is omitted for now
+    pub image: Vec<Image>, // attr position is omitted for now
 }
