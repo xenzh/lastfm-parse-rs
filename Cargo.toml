@@ -1,6 +1,6 @@
 [package]
-name = "test-lastfm-serde"
-version = "0.1.1"
+name = "lastfm-parse-rs"
+version = "0.1.2"
 authors = ["xenzh <xenzh0@gmail.com>"]
 
 [dependencies]

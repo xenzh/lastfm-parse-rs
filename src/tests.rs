@@ -2,7 +2,6 @@ extern crate hyper;
 extern crate serde_json;
 
 use std::io::Read;
-use serde::Deserialize;
 
 use self::hyper::error::Result as HttpResult;
 use self::hyper::client::Client;
