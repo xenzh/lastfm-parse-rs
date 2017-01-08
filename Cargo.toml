@@ -1,0 +1,13 @@
+[package]
+name = "test-lastfm-serde"
+version = "0.1.1"
+authors = ["xenzh <xenzh0@gmail.com>"]
+
+[dependencies]
+serde = "0.8"
+serde_derive = "0.8"
+serde_json = "0.8"
+url = "1.2"
+
+[dev-dependencies]
+hyper = "0.9"
