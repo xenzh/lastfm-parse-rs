@@ -1,4 +1,5 @@
 use std::error::Error as StdError;
+use std::fmt::{Display, Formatter, Result as FmtResult};
 use serde::de::{Deserialize, Deserializer, Visitor};
 
 #[derive(Debug)]
@@ -116,9 +117,27 @@ impl Deserialize for ApiErrorKind {
     }
 }
 
+impl Display for ApiErrorKind {
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        write!(f, "{}", self.description())
+    }
+}
+
 #[derive(Deserialize, Debug)]
 pub struct ApiError {
     pub error: ApiErrorKind,
     pub message: String,
     // links omitted for now
+}
+
+impl ApiError {
+    pub fn description(&self) -> &str {
+        self.error.description()
+    }
+}
+
+impl Display for ApiError {
+    fn fmt(&self, f: &mut Formatter) -> FmtResult {
+        write!(f, "Error kind: {}\nMessage: {}", self.error.description(), self.message)
+    }
 }

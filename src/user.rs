@@ -1,5 +1,8 @@
 use super::common::{Image, Url};
 
+/// api methods: user.getinfo
+wrapper_t!(user, Info);
+
 #[derive(Deserialize, Debug)]
 pub enum Gender {
     #[serde(rename="m")]

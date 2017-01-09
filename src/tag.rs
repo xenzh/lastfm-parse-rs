@@ -1,12 +1,14 @@
 use super::common::Url;
 
+/// api methods: tag.getinfo
+wrapper_t!(tag, Info);
+
 #[derive(Deserialize, Debug)]
 pub struct Wiki {
     summary: String,
     content: String,
 }
 
-/// api methods: tag.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     name: String,

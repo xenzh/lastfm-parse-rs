@@ -1,19 +1,20 @@
 use std::error::Error;
 use std::convert::{Into, From};
+use std::marker::Sized;
 use url::Url as StdUrl;
 use serde::de::{Deserialize, Deserializer, Visitor};
 
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct PoundText {
-    #[serde(rename="#text")]
-    pub text: String,
-}
-
-#[derive(Deserialize, Debug)]
 pub struct Token {
     pub token: String,
+}
+
+pub trait Wrapped
+    where Self: Sized
+{
+    type Outer: Deserialize + Into<Self>;
 }
 
 // ----------------------------------------------------------------

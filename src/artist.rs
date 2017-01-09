@@ -1,6 +1,9 @@
 use super::common::{Url, Image};
 use super::tag::Refs as TagRefs;
 
+/// api methods: artist.getinfo
+wrapper_t!(artist, Info);
+
 #[derive(Deserialize, Debug)]
 pub struct Stats {
     pub listeners: u32,
@@ -40,7 +43,6 @@ pub struct Bio {
     content: String,
 }
 
-/// api methods: artist.getinfo
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,

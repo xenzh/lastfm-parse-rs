@@ -7,6 +7,7 @@ use self::hyper::error::Result as HttpResult;
 use self::hyper::client::Client;
 use self::hyper::Url;
 
+use super::lastfm_obj_from_json;
 use super::api_error::ApiError;
 use super::album::Info as AlbumInfo;
 use super::artist::Info as ArtistInfo;
@@ -52,48 +53,6 @@ fn get_lastfm_obj_raw<'a>(api_key: &'a str,
 
 // ----------------------------------------------------------------
 
-macro_rules! test_fn {
-    ($title:ident, $method:expr, $name:ident, $entity:ty, $params:expr) => {
-        #[test]
-        fn $title() {
-            let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-            let json_str = get_lastfm_obj_raw(api_key, $method, $params).unwrap();
-            let data = lastfm_obj_from_json!($entity, $name, json_str);
-            println!("Deserialized \"{}\":\n{:?}\n", stringify!($entity), data);
-        }
-    };
-}
-
-test_fn!(deserialize_album_info,
-         "album.getinfo",
-         album,
-         AlbumInfo,
-         Some(vec![("artist", "iamthemorning"), ("album", "~")]));
-
-test_fn!(deserialize_artist_info,
-         "artist.getinfo",
-         artist,
-         ArtistInfo,
-         Some(vec![("artist", "schtimm")]));
-
-test_fn!(deserialize_tag_info,
-         "tag.getinfo",
-         tag,
-         TagInfo,
-         Some(vec![("tag", "free jazz")]));
-
-test_fn!(deserialize_track_info,
-         "track.getinfo",
-         track,
-         TrackInfo,
-         Some(vec![("artist", "strawfoot"), ("track", "the lord's wrath")]));
-
-test_fn!(deserialize_user_info,
-         "user.getinfo",
-         user,
-         UserInfo,
-         Some(vec![("user", "xenzh")]));
-
 #[test]
 fn deserialize_api_error() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
@@ -103,6 +62,44 @@ fn deserialize_api_error() {
     let api_error: ApiError = serde_json::from_str(&json_str).unwrap();
     println!("Deserialized \"ApiError\":\n{:?}\n", api_error);
 }
+
+
+macro_rules! test_fn {
+    ($title:ident, $method:expr, $entity:ty, $params:expr) => {
+        #[test]
+        fn $title() {
+            let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
+            let json_str = get_lastfm_obj_raw(api_key, $method, $params).unwrap();
+            let data: $entity = lastfm_obj_from_json(&json_str).unwrap();
+            println!("Deserialized \"{}\":\n{:?}\n", stringify!($entity), data);
+        }
+    };
+}
+
+test_fn!(deserialize_album_info,
+         "album.getinfo",
+         AlbumInfo,
+         Some(vec![("artist", "iamthemorning"), ("album", "~")]));
+
+test_fn!(deserialize_artist_info,
+         "artist.getinfo",
+         ArtistInfo,
+         Some(vec![("artist", "schtimm")]));
+
+test_fn!(deserialize_tag_info,
+         "tag.getinfo",
+         TagInfo,
+         Some(vec![("tag", "free jazz")]));
+
+test_fn!(deserialize_track_info,
+         "track.getinfo",
+         TrackInfo,
+         Some(vec![("artist", "strawfoot"), ("track", "the lord's wrath")]));
+
+test_fn!(deserialize_user_info,
+         "user.getinfo",
+         UserInfo,
+         Some(vec![("user", "xenzh")]));
 
 // ----------------------------------------------------------------
 

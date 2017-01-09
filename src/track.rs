@@ -4,6 +4,8 @@ use super::album::Ref as AlbumRef;
 use super::tag::Refs as TagRefs;
 
 /// api methods: track.getinfo
+wrapper_t!(track, Info);
+
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,
