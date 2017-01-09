@@ -2,7 +2,7 @@ use std::error::Error as StdError;
 use std::fmt::{Display, Formatter, Result as FmtResult};
 use serde::de::{Deserialize, Deserializer, Visitor};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum ApiErrorKind {
     InvalidService,
     InvalidMethod,

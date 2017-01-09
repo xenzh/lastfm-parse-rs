@@ -7,8 +7,9 @@ use self::hyper::error::Result as HttpResult;
 use self::hyper::client::Client;
 use self::hyper::Url;
 
-use super::lastfm_obj_from_json;
-use super::api_error::ApiError;
+use super::{lastfm_obj_from_json, Result, Error};
+
+use super::api_error::{ApiError, ApiErrorKind};
 use super::album::Info as AlbumInfo;
 use super::artist::Info as ArtistInfo;
 use super::tag::Info as TagInfo;
@@ -53,17 +54,6 @@ fn get_lastfm_obj_raw<'a>(api_key: &'a str,
 
 // ----------------------------------------------------------------
 
-#[test]
-fn deserialize_api_error() {
-    let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    // parameter error: in non-authenticated mode user should be specified for gettags
-    let params = Some(vec![("artist", "the beatles"), ("album", "abbey road")]);
-    let json_str = get_lastfm_obj_raw(api_key, "album.gettags", params).unwrap();
-    let api_error: ApiError = serde_json::from_str(&json_str).unwrap();
-    println!("Deserialized \"ApiError\":\n{:?}\n", api_error);
-}
-
-
 macro_rules! test_fn {
     ($title:ident, $method:expr, $entity:ty, $params:expr) => {
         #[test]
@@ -101,12 +91,41 @@ test_fn!(deserialize_user_info,
          UserInfo,
          Some(vec![("user", "xenzh")]));
 
+
+fn get_api_error_json() -> String {
+    let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
+    // parameter error: in non-authenticated mode user should be specified for gettags
+    let params = Some(vec![("artist", "the beatles"), ("album", "abbey road")]);
+    get_lastfm_obj_raw(api_key, "album.gettags", params).unwrap()
+}
+
+#[test]
+fn deserialize_api_error() {
+    let json_str = get_api_error_json();
+    let api_error: ApiError = serde_json::from_str(&json_str).unwrap();
+    println!("Deserialized \"ApiError\":\n{:?}\n", api_error);
+}
+
+#[test]
+fn capture_api_error() {
+    let json_str = get_api_error_json();
+    // TODO: change type to actual taglist once available
+    let res: Result<TagInfo> = lastfm_obj_from_json(&json_str);
+
+    assert!(res.is_err());
+
+    match res.unwrap_err() {
+        Error::Api(e) => assert_eq!(e.error, ApiErrorKind::InvalidParameters),
+        _ => assert!(false),
+    };
+}
+
 // ----------------------------------------------------------------
 
 // temp for debug purposes, remove once done implementig data structures
 // or maybe make some kind of lastfm-cli crate?..
 
-use std::error::Error;
+use std::error::Error as StdError;
 use std::io::Result as IoResult;
 use std::io::{Error as IoError, ErrorKind as IoErrorKind};
 use std::io::prelude::*;
