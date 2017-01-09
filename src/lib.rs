@@ -10,22 +10,22 @@ extern crate serde_derive;
 // ----------------------------------------------------------------
 
 // Generates a wrapper over root json object
-// Is expected to be used from first-level child crates
+// Following should be included in order to use this macros:
+// use std::convert::Into;
+// use common::Wrapped;
 macro_rules! wrapper_t {
-    ($wrapped:ident, $wrapped_t:ty) => {
-        use std::convert::Into;
-        use super::common::Wrapped;
+    ($name:ident, $wrapped:ident, $wrapped_t:ty) => {
         #[derive(Deserialize, Debug)]
-        pub struct Wrapper {
+        pub struct $name {
             $wrapped: $wrapped_t,
         }
-        impl Into<$wrapped_t> for Wrapper {
+        impl Into<$wrapped_t> for $name {
             fn into(self) -> $wrapped_t {
                 self.$wrapped
             }
         }
         impl Wrapped for $wrapped_t {
-            type Outer = Wrapper;
+            type Outer = $name;
         }
     }
 }

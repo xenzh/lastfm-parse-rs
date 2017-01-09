@@ -1,8 +1,14 @@
 use super::common::{Url, Image};
 use super::tag::Refs as TagRefs;
 
+use std::convert::Into;
+use super::common::Wrapped;
+
 /// api methods: artist.getinfo
-wrapper_t!(artist, Info);
+wrapper_t!(ArtistInfo, artist, Info);
+
+/// api methods: artist.getsimilar
+wrapper_t!(SimilarArtistList, similarartists, SimilarArtists);
 
 #[derive(Deserialize, Debug)]
 pub struct Stats {
@@ -11,15 +17,15 @@ pub struct Stats {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarArtist {
+pub struct SimilarArtistInfo {
     pub name: String,
     pub url: Url,
     pub image: Vec<Image>,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Similar {
-    pub artist: Vec<SimilarArtist>,
+pub struct SimilarInfo {
+    pub artist: Vec<SimilarArtistInfo>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -46,13 +52,13 @@ pub struct Bio {
 #[derive(Deserialize, Debug)]
 pub struct Info {
     pub name: String,
-    pub mbid: String,
+    pub mbid: Option<String>,
     pub url: Url,
     pub image: Vec<Image>,
     pub streamable: u32,
     pub ontour: u32,
     pub stats: Stats,
-    pub similar: Similar,
+    pub similar: SimilarInfo,
     pub tags: TagRefs,
     pub bio: Bio,
 }
@@ -60,6 +66,22 @@ pub struct Info {
 #[derive(Deserialize, Debug)]
 pub struct Ref {
     pub name: String,
-    pub mbid: String,
+    pub mbid: Option<String>,
     pub url: Url,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SimilarArtist {
+    pub name: String,
+    pub mbid: Option<String>,
+    #[serde(rename="match")]
+    pub similar_match: f32,
+    pub url: Url,
+    pub image: Vec<Image>,
+    pub streamable: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SimilarArtists {
+    pub artist: Vec<SimilarArtist>,
 }

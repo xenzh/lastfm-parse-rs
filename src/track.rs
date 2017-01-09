@@ -3,8 +3,11 @@ use super::artist::Ref as ArtistRef;
 use super::album::Ref as AlbumRef;
 use super::tag::Refs as TagRefs;
 
+use std::convert::Into;
+use super::common::Wrapped;
+
 /// api methods: track.getinfo
-wrapper_t!(track, Info);
+wrapper_t!(TrackInfo, track, Info);
 
 #[derive(Deserialize, Debug)]
 pub struct Info {

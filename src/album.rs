@@ -2,8 +2,11 @@ use super::common::{Url, Image};
 use super::track::Refs as TrackRefs;
 use super::tag::Refs as TagRefs;
 
+use std::convert::Into;
+use super::common::Wrapped;
+
 /// api methods: album.getinfo
-wrapper_t!(album, Info);
+wrapper_t!(AlbumInfo, album, Info);
 
 #[derive(Deserialize, Debug)]
 pub struct Info {

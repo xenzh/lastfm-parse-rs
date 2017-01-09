@@ -11,8 +11,8 @@ use super::{lastfm_obj_from_json, Result, Error};
 
 use super::api_error::{ApiError, ApiErrorKind};
 use super::album::Info as AlbumInfo;
-use super::artist::Info as ArtistInfo;
-use super::tag::Info as TagInfo;
+use super::artist::{Info as ArtistInfo, SimilarArtists as ArtistsList};
+use super::tag::{Info as TagInfo, Refs as TagList, TopRefs as TopTagList};
 use super::track::Info as TrackInfo;
 use super::user::Info as UserInfo;
 
@@ -71,25 +71,68 @@ test_fn!(deserialize_album_info,
          AlbumInfo,
          Some(vec![("artist", "iamthemorning"), ("album", "~")]));
 
+test_fn!(deserialize_album_user_tags,
+         "album.gettags",
+         TagList,
+         Some(vec![("artist", "amiina"), ("album", "fantomas"), ("user", "xenzh")]));
+
+test_fn!(deserialize_album_top_tags,
+         "album.gettoptags",
+         TopTagList,
+         Some(vec![("artist", "paavoharju"), ("album", "yhä hämärää")]));
+
+
 test_fn!(deserialize_artist_info,
          "artist.getinfo",
          ArtistInfo,
          Some(vec![("artist", "schtimm")]));
+
+test_fn!(deserialize_artist_user_tags,
+         "artist.gettags",
+         TagList,
+         Some(vec![("artist", "adam lane"), ("user", "xenzh")]));
+
+test_fn!(deserialize_artist_top_tags,
+         "artist.gettoptags",
+         TopTagList,
+         Some(vec![("artist", "clann lir")]));
+
+test_fn!(deserialize_artist_similar_artists,
+         "artist.getsimilar",
+         ArtistsList,
+         Some(vec![("artist", "jill tracy"), ("limit", "3")]));
+
 
 test_fn!(deserialize_tag_info,
          "tag.getinfo",
          TagInfo,
          Some(vec![("tag", "free jazz")]));
 
+
 test_fn!(deserialize_track_info,
          "track.getinfo",
          TrackInfo,
          Some(vec![("artist", "strawfoot"), ("track", "the lord's wrath")]));
 
+test_fn!(deserialize_track_user_tags,
+         "track.gettags",
+         TagList,
+         Some(vec![("artist", "skalpel"), ("track", "test drive"), ("user", "xenzh")]));
+
+test_fn!(deserialize_track_top_tags,
+         "track.gettoptags",
+         TopTagList,
+         Some(vec![("artist", "vołosi"), ("track", "tsavkisi")]));
+
+
 test_fn!(deserialize_user_info,
          "user.getinfo",
          UserInfo,
          Some(vec![("user", "xenzh")]));
+
+
+
+
 
 
 fn get_api_error_json() -> String {
@@ -147,10 +190,10 @@ fn dump_lastfm_obj<'a>(api_key: &'a str,
 }
 
 #[test]
-#[ignore]
+//#[ignore]
 fn dump_info() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    let params = Some(vec![("artist", "the beatles"), ("album", "abbey road"), ("user", "xenzh")]);
-    let _raw_json = dump_lastfm_obj(api_key, "album.gettags", params, "album.gettags.json")
+    let params = Some(vec![("artist", "vołosi"), ("limit", "2")]);
+    let _raw_json = dump_lastfm_obj(api_key, "artist.getsimilar", params, "artist.gettags.json")
         .unwrap();
 }

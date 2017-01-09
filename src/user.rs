@@ -1,7 +1,10 @@
 use super::common::{Image, Url};
 
+use std::convert::Into;
+use super::common::Wrapped;
+
 /// api methods: user.getinfo
-wrapper_t!(user, Info);
+wrapper_t!(UserInfo, user, Info);
 
 #[derive(Deserialize, Debug)]
 pub enum Gender {
