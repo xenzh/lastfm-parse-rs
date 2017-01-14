@@ -1,0 +1,34 @@
+What's left to cover from API side:
+
+auth
+    auth.getMobileSession
+
+rq auth (add Serialize impl for request structs?)
+    album.addtags - ?
+    album.removetag - ?
+    artist.addtags - ?
+    artist.removetag - ?
+    track.love - ?
+    track.scrobble - ?
+    track.unlove - ?
+    track.updateNowPlaying
+
+noauth
+    tag.getTopArtists
+    tag.getTopTags
+    tag.getTopTracks
+    tag.getWeeklyChartList
+    track.getCorrection
+    user.getArtistTracks
+    user.getFriends
+    user.getLovedTracks
+    user.getPersonalTags
+    user.getRecentTracks
+    user.getTopAlbums
+    user.getTopArtists
+    user.getTopTags
+    user.getTopTracks
+    user.getWeeklyAlbumChart
+    user.getWeeklyArtistChart
+    user.getWeeklyChartList
+    user.getWeeklyTrackChart

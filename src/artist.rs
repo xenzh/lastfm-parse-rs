@@ -13,6 +13,18 @@ wrapper_t!(SimilarArtistList, similarartists, SimilarList);
 search_t!(Search, artistmatches, SearchRefs);
 wrapper_t!(ArtistSearch, results, Search);
 
+/// api methods: artist.getcorrection
+wrapper_t!(ArtistCorrections, corrections, Corrections);
+
+/// api methods: chart.gettopartists
+wrapper_t!(ArtistChartRefs, artists, ChartRefs);
+
+/// api methods: geo.gettopartists
+wrapper_t!(ArtistGeoRefs, topartists, GeoRefs);
+
+/// api methods: library.getartists
+wrapper_t!(ArtistLibraryRefs, artists, LibraryRefs);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Stats {
@@ -103,4 +115,51 @@ pub struct SearchRef {
 #[derive(Deserialize, Debug)]
 pub struct SearchRefs {
     pub artist: Option<Vec<SearchRef>>
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Correction {
+    pub artist: Ref,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Corrections {
+    pub correction: Option<Correction>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ChartRef {
+    pub name: String,
+    pub playcount: u32,
+    pub listeners: u32,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub streamable: u32,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ChartRefs {
+    pub artist: Option<Vec<ChartRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GeoRefs {
+    pub artist: Option<Vec<SearchRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct LibraryRef {
+    name: String,
+    playcount: u32,
+    tagcount: u32,
+    mbid: Option<String>,
+    url: Url,
+    streamable: u32,
+    image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct LibraryRefs {
+    artist: Option<Vec<LibraryRef>>,
 }

@@ -15,6 +15,15 @@ wrapper_t!(TrackSimilarList, similartracks, SimilarList);
 search_t!(Search, trackmatches, SearchRefs);
 wrapper_t!(TrackSearch, results, Search);
 
+/// api methods: artist.gettoptracks
+wrapper_t!(TopTracks, toptracks, TopRefs);
+
+/// api methods: chart.gettoptracks
+wrapper_t!(ChartTopTracks, tracks, ChartRefs);
+
+/// api methods: geo.gettoptracks
+wrapper_t!(GeoTopTracks, tracks, GeoRefs);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Info {
@@ -26,8 +35,8 @@ pub struct Info {
     pub listeners: u32,
     pub playcount: u32,
     pub artist: ArtistRef,
-    pub album: AlbumRef,
-    pub toptags: TagRefs,
+    pub album: Option<AlbumRef>,
+    pub toptags: Option<TagRefs>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -74,4 +83,42 @@ pub struct SearchRef {
 #[derive(Deserialize, Debug)]
 pub struct SearchRefs {
     pub track: Option<Vec<SearchRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRef {
+    pub name: String,
+    pub playcount: u32,
+    pub listeners: u32,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub streamable: u32,
+    pub artist: ArtistRef,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRefs {
+    pub track: Option<Vec<TopRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ChartRefs {
+    pub track: Option<Vec<Info>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GeoRef {
+    pub name: String,
+    pub duration: Option<u32>,
+    pub listeners: u32,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub artist: ArtistRef,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GeoRefs {
+    pub track: Option<Vec<GeoRef>>,
 }

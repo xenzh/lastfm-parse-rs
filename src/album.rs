@@ -1,5 +1,6 @@
 use std::convert::Into;
 use super::common::{Url, Image, Wrapped, SearchQuery};
+use super::artist::Ref as ArtistRef;
 use super::track::Refs as TrackRefs;
 use super::tag::Refs as TagRefs;
 
@@ -10,6 +11,12 @@ wrapper_t!(AlbumInfo, album, Info);
 /// api methods: album.search
 search_t!(Search, albummatches, SearchRefs);
 wrapper_t!(AlbumSearch, results, Search);
+
+/// api methods: artist.gettopalbums
+wrapper_t!(TopAlbums, topalbums, TopRefs);
+
+/// api methods: tag.gettopalbums
+wrapper_t!(Albums, albums, Refs);
 
 
 #[derive(Deserialize, Debug)]
@@ -47,4 +54,24 @@ pub struct SearchRef {
 #[derive(Deserialize, Debug)]
 pub struct SearchRefs {
     pub album: Option<Vec<SearchRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRef {
+    name: String,
+    playcount: Option<u32>,
+    mbid: Option<String>,
+    url: Url,
+    artist: ArtistRef,
+    image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRefs {
+    album: Option<Vec<TopRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Refs {
+    album: Option<Vec<TopRef>>,
 }

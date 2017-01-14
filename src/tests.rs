@@ -118,6 +118,69 @@ test_fn!(deserialize_artist_search,
          ArtistSearch,
          Some(vec![("artist", "monteverdi"), ("limit", "3")]));
 
+use super::artist::Corrections as ArtistCorrections;
+test_fn!(deserialize_artist_corrections,
+         "artist.getcorrection",
+         ArtistCorrections,
+         Some(vec![("artist", "blackmore")]));
+
+use super::album::TopRefs as AlbumTopRefs;
+test_fn!(deserialize_artist_top_albums,
+         "artist.gettopalbums",
+         AlbumTopRefs,
+         Some(vec![("artist", "rainbow")]));
+
+use super::track::TopRefs as TrackTopRefs;
+test_fn!(deserialize_artist_top_tracks,
+         "artist.gettoptracks",
+         TrackTopRefs,
+         Some(vec![("artist", "led zeppelin")]));
+
+
+// Chart
+
+use super::artist::ChartRefs as ChartArtistRefs;
+test_fn!(deserialize_chart_top_artists,
+         "chart.gettopartists",
+         ChartArtistRefs,
+         Some(vec![("limit", "5")]));
+
+use super::tag::ChartRefs as ChartTagRefs;
+test_fn!(deserialize_chart_top_tags,
+         "chart.gettoptags",
+         ChartTagRefs,
+         Some(vec![("limit", "5")]));
+
+use super::track::ChartRefs as ChartTrackRefs;
+test_fn!(deserialize_chart_top_tracks,
+         "chart.gettoptracks",
+         ChartTrackRefs,
+         Some(vec![("limit", "5")]));
+
+
+// Geo
+
+use super::artist::GeoRefs as ArtistGeoRefs;
+test_fn!(deserialize_geo_top_artists,
+         "geo.gettopartists",
+         ArtistGeoRefs,
+         Some(vec![("country", "ukraine"), ("limit", "5")]));
+
+use super::track::GeoRefs as TrackGeoRefs;
+test_fn!(deserialize_geo_top_tracks,
+         "geo.gettoptracks",
+         TrackGeoRefs,
+         Some(vec![("country", "belarus"), ("limit", "5")]));
+
+
+// Library
+
+use super::artist::LibraryRefs as ArtistLibraryRefs;
+test_fn!(deserialize_library_artists,
+         "library.getartists",
+         ArtistLibraryRefs,
+         Some(vec![("user", "xenzh"), ("limit", "5")]));
+
 
 // Tag
 
@@ -132,6 +195,12 @@ test_fn!(deserialize_tag_similar,
          "tag.getsimilar",
          TagSimilarList,
          Some(vec![("tag", "death country")]));
+
+use super::album::Refs as TagTopAlbumRefs;
+test_fn!(deserialize_tag_top_albums,
+         "tag.gettopalbums",
+         TagTopAlbumRefs,
+         Some(vec![("tag", "delta blues")]));
 
 
 // Track
@@ -164,6 +233,8 @@ test_fn!(deserialize_track_search,
          TrackSearch,
          Some(vec![("track", "fatalist"), ("limit", "3")]));
 
+
+// User
 
 use super::user::Info as UserInfo;
 test_fn!(deserialize_user_info,
@@ -235,7 +306,7 @@ fn dump_lastfm_obj<'a>(api_key: &'a str,
 //#[ignore]
 fn dump_info() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    let params = Some(vec![("track", "fatalist"), ("limit", "3")]);
-    let _raw_json = dump_lastfm_obj(api_key, "track.search", params, "sample.json")
+    let params = Some(vec![("tag", "delta blues")]);
+    let _raw_json = dump_lastfm_obj(api_key, "tag.gettopalbums", params, "sample.json")
         .unwrap();
 }

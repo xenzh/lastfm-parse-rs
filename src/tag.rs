@@ -14,11 +14,14 @@ wrapper_t!(TagTopList, toptags, TopRefs);
 /// api methods: tag.getsimilar
 wrapper_t!(TagSimilarList, similartags, SimilarList);
 
+/// api methods: chart.gettoptags
+wrapper_t!(ChartTopTags, tags, ChartRefs);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Wiki {
-    pub summary: String,
-    pub content: String,
+    pub summary: Option<String>,
+    pub content: Option<String>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -62,4 +65,19 @@ pub struct Similar {
 #[derive(Deserialize, Debug)]
 pub struct SimilarList {
     pub tag: Option<Vec<Similar>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ChartRef {
+    pub name: String,
+    pub url: Url,
+    pub reach: u32,
+    pub taggings: u32,
+    pub streamable: u32,
+    pub wiki: Wiki,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ChartRefs {
+    pub tag: Option<Vec<ChartRef>>,
 }
