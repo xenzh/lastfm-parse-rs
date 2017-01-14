@@ -202,6 +202,30 @@ test_fn!(deserialize_tag_top_albums,
          TagTopAlbumRefs,
          Some(vec![("tag", "delta blues")]));
 
+use super::artist::TopRefs as TagTopArtistRefs;
+test_fn!(deserialize_tag_top_artists,
+         "tag.gettopartists",
+         TagTopArtistRefs,
+         Some(vec![("tag", "freak cabaret")]));
+
+use super::tag::GlobalRefs as TagTopTagRefs;
+test_fn!(deserialize_tag_global_top_tags,
+         "tag.gettoptags",
+         TagTopTagRefs,
+         Some(vec![]));
+
+use super::track::TagTopRefs as TagTopTrackRefs;
+test_fn!(deserialize_tag_top_tracks,
+         "tag.gettoptracks",
+         TagTopTrackRefs,
+         Some(vec![]));
+
+use super::chart::Weekly as TagWeeklyChartList;
+test_fn!(deserialize_tag_weekly_chart_list,
+         "tag.getweeklychartlist",
+         TagWeeklyChartList,
+         Some(vec![("tag", "field recording")]));
+
 
 // Track
 
@@ -233,6 +257,12 @@ test_fn!(deserialize_track_search,
          TrackSearch,
          Some(vec![("track", "fatalist"), ("limit", "3")]));
 
+use super::track::Corrections as TrackCorrections;
+test_fn!(deserialize_track_correction,
+         "track.getcorrection",
+         TrackCorrections,
+         Some(vec![("artist", "guns and roses"), ("track", "Mrbrownstone")]));
+
 
 // User
 
@@ -241,7 +271,6 @@ test_fn!(deserialize_user_info,
          "user.getinfo",
          UserInfo,
          Some(vec![("user", "xenzh")]));
-
 
 
 // ApiError
@@ -306,7 +335,7 @@ fn dump_lastfm_obj<'a>(api_key: &'a str,
 //#[ignore]
 fn dump_info() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    let params = Some(vec![("tag", "delta blues")]);
-    let _raw_json = dump_lastfm_obj(api_key, "tag.gettopalbums", params, "sample.json")
+    let params = Some(vec![("artist", "dsfhshsfgh"), ("track", "bargain")]);
+    let _raw_json = dump_lastfm_obj(api_key, "track.getcorrection", params, "sample.json")
         .unwrap();
 }

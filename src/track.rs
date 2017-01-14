@@ -24,6 +24,12 @@ wrapper_t!(ChartTopTracks, tracks, ChartRefs);
 /// api methods: geo.gettoptracks
 wrapper_t!(GeoTopTracks, tracks, GeoRefs);
 
+/// api methods: tag.gettoptracks
+wrapper_t!(TagTopTracks, tracks, TagTopRefs);
+
+/// api methods: track.getcorrection
+wrapper_t!(TrackCorrections, corrections, Corrections);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Info {
@@ -121,4 +127,36 @@ pub struct GeoRef {
 #[derive(Deserialize, Debug)]
 pub struct GeoRefs {
     pub track: Option<Vec<GeoRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TagTopRef {
+    pub name: String,
+    pub duration: Option<u32>,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub artist: ArtistRef,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TagTopRefs {
+    pub track: Option<Vec<TagTopRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct CorrectionTrack {
+    pub name: Option<String>,
+    pub url: Url,
+    pub artist: ArtistRef,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Correction {
+    pub track: CorrectionTrack,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Corrections {
+    correction: Correction,
 }

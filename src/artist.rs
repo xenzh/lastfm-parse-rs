@@ -25,6 +25,9 @@ wrapper_t!(ArtistGeoRefs, topartists, GeoRefs);
 /// api methods: library.getartists
 wrapper_t!(ArtistLibraryRefs, artists, LibraryRefs);
 
+/// apt methods: tag.gettopartists
+wrapper_t!(ArtistTopRefs, topartists, TopRefs);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Stats {
@@ -81,7 +84,7 @@ pub struct Info {
 
 #[derive(Deserialize, Debug)]
 pub struct Ref {
-    pub name: String,
+    pub name: Option<String>,
     pub mbid: Option<String>,
     pub url: Url,
 }
@@ -150,16 +153,29 @@ pub struct GeoRefs {
 
 #[derive(Deserialize, Debug)]
 pub struct LibraryRef {
-    name: String,
-    playcount: u32,
-    tagcount: u32,
-    mbid: Option<String>,
-    url: Url,
-    streamable: u32,
-    image: Option<Vec<Image>>,
+    pub name: String,
+    pub playcount: u32,
+    pub tagcount: u32,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub streamable: u32,
+    pub image: Option<Vec<Image>>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct LibraryRefs {
-    artist: Option<Vec<LibraryRef>>,
+    pub artist: Option<Vec<LibraryRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRef {
+    pub name: String,
+    pub url: Url,
+    pub streamable: u32,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TopRefs {
+    pub artist: Option<Vec<TopRef>>,
 }

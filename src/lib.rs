@@ -15,6 +15,7 @@ pub mod album;
 pub mod artist;
 pub mod tag;
 pub mod track;
+pub mod chart;
 pub mod user;
 pub mod api_error;
 

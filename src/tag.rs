@@ -17,6 +17,9 @@ wrapper_t!(TagSimilarList, similartags, SimilarList);
 /// api methods: chart.gettoptags
 wrapper_t!(ChartTopTags, tags, ChartRefs);
 
+/// api methods: tag.gettoptags
+wrapper_t!(GlobalTopTags, toptags, GlobalRefs);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Wiki {
@@ -80,4 +83,16 @@ pub struct ChartRef {
 #[derive(Deserialize, Debug)]
 pub struct ChartRefs {
     pub tag: Option<Vec<ChartRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GlobalRef {
+    pub name: String,
+    pub count: u32,
+    pub reach: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct GlobalRefs {
+    tag: Option<Vec<GlobalRef>>,
 }
