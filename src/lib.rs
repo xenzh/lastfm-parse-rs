@@ -9,29 +9,6 @@ extern crate serde_derive;
 
 // ----------------------------------------------------------------
 
-// Generates a wrapper over root json object
-// Following should be included in order to use this macro:
-// use std::convert::Into;
-// use common::Wrapped;
-macro_rules! wrapper_t {
-    ($name:ident, $wrapped:ident, $wrapped_t:ty) => {
-        #[derive(Deserialize, Debug)]
-        pub struct $name {
-            $wrapped: $wrapped_t,
-        }
-        impl Into<$wrapped_t> for $name {
-            fn into(self) -> $wrapped_t {
-                self.$wrapped
-            }
-        }
-        impl Wrapped for $wrapped_t {
-            type Outer = $name;
-        }
-    }
-}
-
-// ----------------------------------------------------------------
-
 #[macro_use]
 pub mod common;
 pub mod album;
@@ -39,7 +16,6 @@ pub mod artist;
 pub mod tag;
 pub mod track;
 pub mod user;
-
 pub mod api_error;
 
 /// Deserializetion tests
@@ -53,12 +29,15 @@ mod tests;
 use std::fmt::{Display, Formatter, Result as FmtResult};
 use std::error::Error as StdError;
 use std::result::Result as StdResult;
+use std::convert::Into;
 
-use api_error::ApiError;
 use serde_json::error::Error as SerdeError;
-
 use serde::de::Deserialize;
 
+use api_error::ApiError;
+use common::Wrapped;
+
+// ----------------------------------------------------------------
 
 #[derive(Debug)]
 pub enum Error {
@@ -99,9 +78,6 @@ impl StdError for Error {
 pub type Result<T> = StdResult<T, Error>;
 
 // ----------------------------------------------------------------
-
-use std::convert::Into;
-use common::Wrapped;
 
 pub fn lastfm_obj_from_json<T>(json: &str) -> Result<T>
     where T: Deserialize + Wrapped

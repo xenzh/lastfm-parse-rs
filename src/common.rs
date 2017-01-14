@@ -17,6 +17,28 @@ pub trait Wrapped
     type Outer: Deserialize + Into<Self>;
 }
 
+// Generates a wrapper over root json object
+// Following should be included in order to use this macro:
+// use std::convert::Into;
+// use common::Wrapped;
+#[macro_export]
+macro_rules! wrapper_t {
+    ($name:ident, $wrapped:ident, $wrapped_t:ty) => {
+        #[derive(Deserialize, Debug)]
+        pub struct $name {
+            $wrapped: $wrapped_t,
+        }
+        impl Into<$wrapped_t> for $name {
+            fn into(self) -> $wrapped_t {
+                self.$wrapped
+            }
+        }
+        impl Wrapped for $wrapped_t {
+            type Outer = $name;
+        }
+    }
+}
+
 // ----------------------------------------------------------------
 
 #[derive(Debug)]
