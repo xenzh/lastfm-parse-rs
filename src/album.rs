@@ -12,9 +12,9 @@ wrapper_t!(AlbumInfo, album, Info);
 pub struct Info {
     pub name: String,
     pub artist: String,
-    pub mbid: String,
+    pub mbid: Option<String>,
     pub url: Url,
-    pub image: Vec<Image>,
+    pub image: Option<Vec<Image>>,
     pub listeners: u32,
     pub playcount: u32,
     pub tracks: TrackRefs,
@@ -27,5 +27,5 @@ pub struct Ref {
     pub title: String,
     pub mbid: String,
     pub url: Url,
-    pub image: Vec<Image>, // attr position is omitted for now
+    pub image: Option<Vec<Image>>, // attr position is omitted for now
 }

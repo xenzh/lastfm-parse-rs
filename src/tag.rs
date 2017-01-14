@@ -10,6 +10,9 @@ wrapper_t!(TagList, tags, Refs);
 /// apt methods: artist.gettoptags
 wrapper_t!(TagTopList, toptags, TopRefs);
 
+/// api methods: tag.getsimilar
+wrapper_t!(TagSimilatList, similartags, SimilarList);
+
 #[derive(Deserialize, Debug)]
 pub struct Wiki {
     summary: String,
@@ -45,4 +48,16 @@ pub struct TopRef {
 #[derive(Deserialize, Debug)]
 pub struct TopRefs {
     pub tag: Option<Vec<TopRef>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Similar {
+    name: String,
+    url: Url,
+    streamable: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SimilarList {
+    tag: Option<Vec<Similar>>,
 }

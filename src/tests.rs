@@ -11,9 +11,9 @@ use super::{lastfm_obj_from_json, Result, Error};
 
 use super::api_error::{ApiError, ApiErrorKind};
 use super::album::Info as AlbumInfo;
-use super::artist::{Info as ArtistInfo, SimilarArtists as ArtistsList};
-use super::tag::{Info as TagInfo, Refs as TagList, TopRefs as TopTagList};
-use super::track::Info as TrackInfo;
+use super::artist::{Info as ArtistInfo, SimilarList as ArtistsList};
+use super::tag::{Info as TagInfo, Refs as TagList, TopRefs as TopTagList, SimilarList as TagSimilarList};
+use super::track::{Info as TrackInfo, SimilarList as TrackSimilarList};
 use super::user::Info as UserInfo;
 
 // ----------------------------------------------------------------
@@ -97,7 +97,7 @@ test_fn!(deserialize_artist_top_tags,
          TopTagList,
          Some(vec![("artist", "clann lir")]));
 
-test_fn!(deserialize_artist_similar_artists,
+test_fn!(deserialize_artist_similar,
          "artist.getsimilar",
          ArtistsList,
          Some(vec![("artist", "jill tracy"), ("limit", "3")]));
@@ -107,6 +107,11 @@ test_fn!(deserialize_tag_info,
          "tag.getinfo",
          TagInfo,
          Some(vec![("tag", "free jazz")]));
+
+test_fn!(deserialize_tag_similar,
+         "tag.getsimilar",
+         TagSimilarList,
+         Some(vec![("tag", "death country")]));
 
 
 test_fn!(deserialize_track_info,
@@ -123,6 +128,11 @@ test_fn!(deserialize_track_top_tags,
          "track.gettoptags",
          TopTagList,
          Some(vec![("artist", "vołosi"), ("track", "tsavkisi")]));
+
+test_fn!(deserialize_track_similar,
+         "track.getsimilar",
+         TrackSimilarList,
+         Some(vec![("artist", "charles mingus"), ("track", "moanin'")]));
 
 
 test_fn!(deserialize_user_info,
@@ -193,7 +203,7 @@ fn dump_lastfm_obj<'a>(api_key: &'a str,
 //#[ignore]
 fn dump_info() {
     let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
-    let params = Some(vec![("artist", "vołosi"), ("limit", "2")]);
-    let _raw_json = dump_lastfm_obj(api_key, "artist.getsimilar", params, "artist.gettags.json")
+    let params = Some(vec![("artist", "charles mingus"), ("track", "moanin'")]);
+    let _raw_json = dump_lastfm_obj(api_key, "track.getsimilar", params, "sample.json")
         .unwrap();
 }

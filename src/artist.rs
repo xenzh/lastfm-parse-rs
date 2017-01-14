@@ -8,7 +8,7 @@ use super::common::Wrapped;
 wrapper_t!(ArtistInfo, artist, Info);
 
 /// api methods: artist.getsimilar
-wrapper_t!(SimilarArtistList, similarartists, SimilarArtists);
+wrapper_t!(SimilarArtistList, similarartists, SimilarList);
 
 #[derive(Deserialize, Debug)]
 pub struct Stats {
@@ -17,15 +17,15 @@ pub struct Stats {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarArtistInfo {
+pub struct SimilarInfo {
     pub name: String,
     pub url: Url,
-    pub image: Vec<Image>,
+    pub image: Option<Vec<Image>>,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarInfo {
-    pub artist: Vec<SimilarArtistInfo>,
+pub struct SimilarInfoList {
+    pub artist: Option<Vec<SimilarInfo>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -54,11 +54,11 @@ pub struct Info {
     pub name: String,
     pub mbid: Option<String>,
     pub url: Url,
-    pub image: Vec<Image>,
+    pub image: Option<Vec<Image>>,
     pub streamable: u32,
     pub ontour: u32,
     pub stats: Stats,
-    pub similar: SimilarInfo,
+    pub similar: SimilarInfoList,
     pub tags: TagRefs,
     pub bio: Bio,
 }
@@ -71,17 +71,17 @@ pub struct Ref {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarArtist {
+pub struct Similar {
     pub name: String,
     pub mbid: Option<String>,
     #[serde(rename="match")]
     pub similar_match: f32,
     pub url: Url,
-    pub image: Vec<Image>,
+    pub image: Option<Vec<Image>>,
     pub streamable: u32,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarArtists {
-    pub artist: Vec<SimilarArtist>,
+pub struct SimilarList {
+    pub artist: Option<Vec<Similar>>,
 }

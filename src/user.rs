@@ -26,7 +26,7 @@ pub struct Registered {
 pub struct Info {
     pub name: String,
     pub realname: String,
-    pub image: Vec<Image>,
+    pub image: Option<Vec<Image>>,
     pub url: Url,
     pub country: String,
     pub age: u32,
