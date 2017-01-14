@@ -1,16 +1,20 @@
-use super::common::{Url, Image};
+use std::convert::Into;
+use super::common::{Url, Image, Wrapped, SearchQuery};
 use super::artist::Ref as ArtistRef;
 use super::album::Ref as AlbumRef;
 use super::tag::Refs as TagRefs;
 
-use std::convert::Into;
-use super::common::Wrapped;
 
 /// api methods: track.getinfo
 wrapper_t!(TrackInfo, track, Info);
 
 /// api methods: track.getsimilar
 wrapper_t!(TrackSimilarList, similartracks, SimilarList);
+
+/// api methods: track.search
+search_t!(Search, trackmatches, SearchRefs);
+wrapper_t!(TrackSearch, results, Search);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Info {
@@ -40,19 +44,34 @@ pub struct Refs {
 
 #[derive(Deserialize, Debug)]
 pub struct Similar {
-    name: String,
-    playcount: u32,
-    mbid: Option<String>,
+    pub name: String,
+    pub playcount: u32,
+    pub mbid: Option<String>,
     #[serde(rename="match")]
-    trackmatch: f32,
-    url: Url,
+    pub trackmatch: f32,
+    pub url: Url,
     // streamable is omitted for now
-    duration: Option<u32>,
-    artist: ArtistRef,
-    image: Option<Vec<Image>>,
+    pub duration: Option<u32>,
+    pub artist: ArtistRef,
+    pub image: Option<Vec<Image>>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SimilarList {
-    track: Option<Vec<Similar>>,
+    pub track: Option<Vec<Similar>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchRef {
+    pub name: String,
+    pub artist: String,
+    pub url: Url,
+    // pub streamable: u32, // seems to have server problems now
+    pub listeners: u32,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchRefs {
+    pub track: Option<Vec<SearchRef>>,
 }

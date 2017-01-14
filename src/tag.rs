@@ -1,6 +1,7 @@
 use std::convert::Into;
 use super::common::{Wrapped, Url};
 
+
 /// api methods: tag.getinfo
 wrapper_t!(TagInfo, tag, Info);
 
@@ -11,20 +12,21 @@ wrapper_t!(TagList, tags, Refs);
 wrapper_t!(TagTopList, toptags, TopRefs);
 
 /// api methods: tag.getsimilar
-wrapper_t!(TagSimilatList, similartags, SimilarList);
+wrapper_t!(TagSimilarList, similartags, SimilarList);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Wiki {
-    summary: String,
-    content: String,
+    pub summary: String,
+    pub content: String,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Info {
-    name: String,
-    total: u32,
-    reach: u32,
-    wiki: Wiki,
+    pub name: String,
+    pub total: u32,
+    pub reach: u32,
+    pub wiki: Wiki,
 }
 
 #[derive(Deserialize, Debug)]
@@ -52,12 +54,12 @@ pub struct TopRefs {
 
 #[derive(Deserialize, Debug)]
 pub struct Similar {
-    name: String,
-    url: Url,
-    streamable: u32,
+    pub name: String,
+    pub url: Url,
+    pub streamable: u32,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SimilarList {
-    tag: Option<Vec<Similar>>,
+    pub tag: Option<Vec<Similar>>,
 }

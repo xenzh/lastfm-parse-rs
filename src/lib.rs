@@ -10,7 +10,7 @@ extern crate serde_derive;
 // ----------------------------------------------------------------
 
 // Generates a wrapper over root json object
-// Following should be included in order to use this macros:
+// Following should be included in order to use this macro:
 // use std::convert::Into;
 // use common::Wrapped;
 macro_rules! wrapper_t {
@@ -32,6 +32,7 @@ macro_rules! wrapper_t {
 
 // ----------------------------------------------------------------
 
+#[macro_use]
 pub mod common;
 pub mod album;
 pub mod artist;

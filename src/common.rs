@@ -21,7 +21,7 @@ pub trait Wrapped
 
 #[derive(Debug)]
 pub struct Url {
-    url: StdUrl,
+    pub url: StdUrl,
 }
 
 impl Deserialize for Url {
@@ -77,4 +77,42 @@ pub struct Image {
     #[serde(rename="#text")]
     pub text: String,
     pub size: ImageSize,
+}
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
+pub enum SearchQueryRole {
+    #[serde(rename="request")]
+    Request,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchQuery {
+    pub role: SearchQueryRole,
+    #[serde(rename="searchTerms")]
+    pub search_terms: Option<String>,
+    #[serde(rename="startPage")]
+    pub start_page: u32,
+}
+
+// Generates a wrapper over opensearch object
+// Following should be included in order to use this macro:
+// use common::SearchQuery;
+#[macro_export]
+macro_rules! search_t {
+    ($name:ident, $matches:ident, $matches_t:ty) => {
+        #[derive(Deserialize, Debug)]
+        pub struct $name {
+            #[serde(rename="opensearch:Query")]
+            pub query: SearchQuery,
+            #[serde(rename="opensearch:totalResults")]
+            pub total_results: u32,
+            #[serde(rename="opensearch:startIndex")]
+            pub start_index: u32,
+            #[serde(rename="opensearch:itemsPerPage")]
+            pub iterms_per_page: u32,
+            pub $matches: Option<$matches_t>,
+        }
+    };
 }

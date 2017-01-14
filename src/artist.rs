@@ -1,14 +1,18 @@
-use super::common::{Url, Image};
+use std::convert::Into;
+use super::common::{Url, Image, Wrapped, SearchQuery};
 use super::tag::Refs as TagRefs;
 
-use std::convert::Into;
-use super::common::Wrapped;
 
 /// api methods: artist.getinfo
 wrapper_t!(ArtistInfo, artist, Info);
 
 /// api methods: artist.getsimilar
 wrapper_t!(SimilarArtistList, similarartists, SimilarList);
+
+/// api methods: artist.search
+search_t!(Search, artistmatches, SearchRefs);
+wrapper_t!(ArtistSearch, results, Search);
+
 
 #[derive(Deserialize, Debug)]
 pub struct Stats {
@@ -43,10 +47,10 @@ pub struct Links {
 
 #[derive(Deserialize, Debug)]
 pub struct Bio {
-    links: Links,
-    published: String, // TODO: change type to actual date (like Url)
-    summary: String,
-    content: String,
+    pub links: Links,
+    pub published: String, // TODO: change type to actual date (like Url)
+    pub summary: String,
+    pub content: String,
 }
 
 #[derive(Deserialize, Debug)]
@@ -84,4 +88,19 @@ pub struct Similar {
 #[derive(Deserialize, Debug)]
 pub struct SimilarList {
     pub artist: Option<Vec<Similar>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchRef {
+    pub name: String,
+    pub listeners: u32,
+    pub mbid: Option<String>,
+    pub url: Url,
+    pub streamable: u32,
+    pub image: Option<Vec<Image>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct SearchRefs {
+    pub artist: Option<Vec<SearchRef>>
 }
