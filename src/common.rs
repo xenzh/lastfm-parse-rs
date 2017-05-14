@@ -1,6 +1,7 @@
 use std::error::Error;
 use std::convert::{Into, From};
 use std::marker::Sized;
+use std::fmt::{Formatter, Result as FmtResult};
 use url::Url as StdUrl;
 use serde::de::{Deserialize, Deserializer, Visitor};
 
@@ -11,10 +12,10 @@ pub struct Token {
     pub token: String,
 }
 
-pub trait Wrapped
+pub trait Wrapped<'de>
     where Self: Sized
 {
-    type Outer: Deserialize + Into<Self>;
+    type Outer: Deserialize<'de> + Into<Self>;
 }
 
 // Generates a wrapper over root json object
@@ -33,7 +34,7 @@ macro_rules! wrapper_t {
                 self.$wrapped
             }
         }
-        impl Wrapped for $wrapped_t {
+        impl<'de> Wrapped<'de> for $wrapped_t {
             type Outer = $name;
         }
     }
@@ -46,14 +47,19 @@ pub struct Url {
     pub url: StdUrl,
 }
 
-impl Deserialize for Url {
-    fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
-        where D: Deserializer
+impl<'de> Deserialize<'de> for Url {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where D: Deserializer<'de>
     {
         struct UrlVisitor;
-        impl Visitor for UrlVisitor {
+        impl<'de> Visitor<'de> for UrlVisitor {
             type Value = Url;
-            fn visit_str<E>(&mut self, c: &str) -> Result<Self::Value, E>
+
+            fn expecting(&self, f: &mut Formatter) -> FmtResult {
+                write!(f, "url string")
+            }
+
+            fn visit_str<E>(self, c: &str) -> Result<Self::Value, E>
                 where E: Error
             {
                 let url = StdUrl::parse(c).unwrap(); // do something about it

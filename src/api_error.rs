@@ -99,14 +99,19 @@ impl ApiErrorKind {
     }
 }
 
-impl Deserialize for ApiErrorKind {
-    fn deserialize<D>(deserializer: &mut D) -> Result<Self, D::Error>
-        where D: Deserializer
+impl<'de> Deserialize<'de> for ApiErrorKind {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+        where D: Deserializer<'de>
     {
         struct ErrorKindVisitor;
-        impl Visitor for ErrorKindVisitor {
+        impl<'de> Visitor<'de> for ErrorKindVisitor {
             type Value = ApiErrorKind;
-            fn visit_u64<E>(&mut self, v: u64) -> Result<Self::Value, E>
+
+            fn expecting(&self, f: &mut Formatter) -> FmtResult {
+                write!(f, "u64 value described by API reference")
+            }
+
+            fn visit_u64<E>(self, v: u64) -> Result<Self::Value, E>
                 where E: StdError
             {
                 let kind = ApiErrorKind::from_u64(v);

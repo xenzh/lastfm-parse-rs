@@ -80,8 +80,8 @@ pub type Result<T> = StdResult<T, Error>;
 
 // ----------------------------------------------------------------
 
-pub fn lastfm_obj_from_json<T>(json: &str) -> Result<T>
-    where T: Deserialize + Wrapped
+pub fn lastfm_obj_from_json<'de, T>(json: &'de str) -> Result<T>
+    where T: Deserialize<'de> + Wrapped<'de>
 {
     let res: Result<T::Outer> = serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
     if res.is_err() {
