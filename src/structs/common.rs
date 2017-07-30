@@ -1,44 +1,9 @@
 use std::error::Error;
 use std::convert::{Into, From};
-use std::marker::Sized;
 use std::fmt::{Formatter, Result as FmtResult};
 use url::Url as StdUrl;
 use serde::de::{Deserialize, Deserializer, Visitor};
 
-// ----------------------------------------------------------------
-
-#[derive(Deserialize, Debug)]
-pub struct Token {
-    pub token: String,
-}
-
-pub trait Wrapped<'de>
-    where Self: Sized
-{
-    type Outer: Deserialize<'de> + Into<Self>;
-}
-
-// Generates a wrapper over root json object
-// Following should be included in order to use this macro:
-// use std::convert::Into;
-// use common::Wrapped;
-#[macro_export]
-macro_rules! wrapper_t {
-    ($name:ident, $wrapped:ident, $wrapped_t:ty) => {
-        #[derive(Deserialize, Debug)]
-        pub struct $name {
-            $wrapped: $wrapped_t,
-        }
-        impl Into<$wrapped_t> for $name {
-            fn into(self) -> $wrapped_t {
-                self.$wrapped
-            }
-        }
-        impl<'de> Wrapped<'de> for $wrapped_t {
-            type Outer = $name;
-        }
-    }
-}
 
 // ----------------------------------------------------------------
 
