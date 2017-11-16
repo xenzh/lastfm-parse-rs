@@ -1,0 +1,97 @@
+   Compiling lastfm-parse-rs v0.1.2 (file:///E:/code/rust/lastfm-parse-rs)
+error[E0495]: cannot infer an appropriate lifetime for lifetime parameter `'a` due to conflicting requirements
+  --> src\utils.rs:80:29
+   |
+80 |                       params: $params_t::$params_variant { $($param_key: $param_key,)* },
+   |                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   | 
+  ::: src\structs\tag.rs
+   |
+48 | / lastfm_t!(
+49 | |     Info, tag, TagInfo,
+50 | |     Method, TagGetInfo,
+51 | |     Params, GetInfo, [tag: &str]
+52 | | );
+   | |__- in this macro invocation
+   |
+note: first, the lifetime cannot outlive the anonymous lifetime #1 defined on the method body at 76:13...
+  --> src\utils.rs:76:13
+   |
+76 | /             fn request<'rq_str>(api_key: &'rq_str str, $($param_key: $param_t,)*) -> Request<'rq_str, $params_t<'rq_str>> {
+77 | |                 Request {
+78 | |                     api_key: api_key,
+79 | |                     method: $method_t::$method_variant,
+80 | |                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
+81 | |                 }
+82 | |             }
+   | |_____________^
+   | 
+  ::: src\structs\tag.rs
+   |
+48 | / lastfm_t!(
+49 | |     Info, tag, TagInfo,
+50 | |     Method, TagGetInfo,
+51 | |     Params, GetInfo, [tag: &str]
+52 | | );
+   | |__- in this macro invocation
+note: ...so that reference does not outlive borrowed content
+  --> src\utils.rs:80:72
+   |
+51 | | macro_rules! lastfm_t {
+   | |_________________________^
+...
+80 |                       params: $params_t::$params_variant { $($param_key: $param_key,)* },
+   |  ________________________________________________________________________^
+   | 
+  ::: src\structs\tag.rs
+   |
+48 | / lastfm_t!(
+49 | |     Info, tag, TagInfo,
+50 | |     Method, TagGetInfo,
+51 | |     Params, GetInfo, [tag: &str]
+52 | | );
+   | |__- in this macro invocation
+note: but, the lifetime must be valid for the lifetime 'rq_str as defined on the method body at 76:13...
+  --> src\utils.rs:76:13
+   |
+76 | /             fn request<'rq_str>(api_key: &'rq_str str, $($param_key: $param_t,)*) -> Request<'rq_str, $params_t<'rq_str>> {
+77 | |                 Request {
+78 | |                     api_key: api_key,
+79 | |                     method: $method_t::$method_variant,
+80 | |                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
+81 | |                 }
+82 | |             }
+   | |_____________^
+   | 
+  ::: src\structs\tag.rs
+   |
+48 | / lastfm_t!(
+49 | |     Info, tag, TagInfo,
+50 | |     Method, TagGetInfo,
+51 | |     Params, GetInfo, [tag: &str]
+52 | | );
+   | |__- in this macro invocation
+note: ...so that expression is assignable (expected utils::Request<'rq_str, structs::tag::Params<'rq_str>>, found utils::Request<'_, structs::tag::Params<'_>>)
+  --> src\utils.rs:77:17
+   |
+77 | /                 Request {
+78 | |                     api_key: api_key,
+79 | |                     method: $method_t::$method_variant,
+80 | |                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
+81 | |                 }
+   | |_________________^
+   | 
+  ::: src\structs\tag.rs
+   |
+48 | / lastfm_t!(
+49 | |     Info, tag, TagInfo,
+50 | |     Method, TagGetInfo,
+51 | |     Params, GetInfo, [tag: &str]
+52 | | );
+   | |__- in this macro invocation
+
+error: aborting due to previous error
+
+error: Could not compile `lastfm-parse-rs`.
+
+To learn more, run the command again with --verbose.

@@ -14,7 +14,8 @@ pub struct Url {
 
 impl<'de> Deserialize<'de> for Url {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-        where D: Deserializer<'de>
+    where
+        D: Deserializer<'de>,
     {
         struct UrlVisitor;
         impl<'de> Visitor<'de> for UrlVisitor {
@@ -25,7 +26,8 @@ impl<'de> Deserialize<'de> for Url {
             }
 
             fn visit_str<E>(self, c: &str) -> Result<Self::Value, E>
-                where E: Error
+            where
+                E: Error,
             {
                 let url = StdUrl::parse(c).unwrap(); // do something about it
                 Ok(Url::from(url))
@@ -51,23 +53,23 @@ impl From<StdUrl> for Url {
 
 #[derive(Deserialize, Debug)]
 pub enum ImageSize {
-    #[serde(rename="small")]
+    #[serde(rename = "small")]
     Small,
-    #[serde(rename="medium")]
+    #[serde(rename = "medium")]
     Medium,
-    #[serde(rename="large")]
+    #[serde(rename = "large")]
     Large,
-    #[serde(rename="extralarge")]
+    #[serde(rename = "extralarge")]
     ExtraLarge,
-    #[serde(rename="mega")]
+    #[serde(rename = "mega")]
     Mega,
-    #[serde(rename="")]
+    #[serde(rename = "")]
     Default,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Image {
-    #[serde(rename="#text")]
+    #[serde(rename = "#text")]
     pub text: String,
     pub size: ImageSize,
 }
@@ -76,16 +78,16 @@ pub struct Image {
 
 #[derive(Deserialize, Debug)]
 pub enum SearchQueryRole {
-    #[serde(rename="request")]
+    #[serde(rename = "request")]
     Request,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SearchQuery {
     pub role: SearchQueryRole,
-    #[serde(rename="searchTerms")]
+    #[serde(rename = "searchTerms")]
     pub search_terms: Option<String>,
-    #[serde(rename="startPage")]
+    #[serde(rename = "startPage")]
     pub start_page: u32,
 }
 

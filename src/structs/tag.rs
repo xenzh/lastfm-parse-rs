@@ -11,38 +11,72 @@ use lastfm_type::{LastfmType, Request, RequestParams};
 #[derive(Debug)]
 pub enum Params<'pr> {
     GetInfo { tag: &'pr str },
+    GetSimilar { tag: &'pr str },
+    GetTopAlbums {
+        tag: &'pr str,
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
+    GetTopArtists {
+        tag: &'pr str,
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
+    GetTopTags,
+    GetTopTracks {
+        tag: &'pr str,
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
+    GetWeeklyChartList { tag: &'pr str },
 }
 
 impl<'pr> RequestParams for Params<'pr> {
-    fn append_to(&self, url: &mut Url){
+    fn append_to(&self, url: &mut Url) {
         let mut query = url.query_pairs_mut();
         match *self {
-            Params::GetInfo { tag } => query.append_pair("tag", tag),
+            Params::GetInfo { tag } => {
+                query.append_pair("tag", tag);
+            }
+            Params::GetSimilar { tag } => {
+                query.append_pair("tag", tag);
+            }
+            Params::GetTopAlbums { tag, limit, page } => {
+                query.append_pair("tag", tag);
+                if let Some(lim) = limit {
+                    query.append_pair("limit", &lim.to_string());
+                }
+                if let Some(pg) = page {
+                    query.append_pair("page", &pg.to_string());
+                }
+            }
+            Params::GetTopArtists { tag, limit, page } => {
+                query.append_pair("tag", tag);
+                if let Some(lim) = limit {
+                    query.append_pair("limit", &lim.to_string());
+                }
+                if let Some(pg) = page {
+                    query.append_pair("page", &pg.to_string());
+                }
+            }
+            Params::GetTopTags => {}
+            Params::GetTopTracks { tag, limit, page } => {
+                query.append_pair("tag", tag);
+                if let Some(lim) = limit {
+                    query.append_pair("limit", &lim.to_string());
+                }
+                if let Some(pg) = page {
+                    query.append_pair("page", &pg.to_string());
+                }
+            }
+            Params::GetWeeklyChartList { tag } => {
+                query.append_pair("tag", tag);
+            }
         };
     }
 }
 
 // ----------------------------------------------------------------
-
-
-// /// api methods: tag.getinfo
-// wrapper_t!(TagInfo, tag, Info);
-
-// /// api methods: album.gettags, artist.gettags, tack.gettags
-// wrapper_t!(TagList, tags, Refs);
-
-// /// apt methods: artist.gettoptags
-// wrapper_t!(TagTopList, toptags, TopRefs);
-
-// /// api methods: tag.getsimilar
-// wrapper_t!(TagSimilarList, similartags, SimilarList);
-
-// /// api methods: chart.gettoptags
-// wrapper_t!(ChartTopTags, tags, ChartRefs);
-
-// /// api methods: tag.gettoptags
-// wrapper_t!(GlobalTopTags, toptags, GlobalRefs);
-
 
 #[derive(Deserialize, Debug)]
 pub struct Wiki<'dt> {
@@ -60,69 +94,12 @@ pub struct Info<'dt> {
 }
 
 lastfm_t!(
-    Info, tag, TagInfo,
-    Method, TagGetInfo,
-    Params, GetInfo, [tag: &'rq str]
+    tag,
+    Info,
+    _Info,
+    Method,
+    TagGetInfo,
+    Params,
+    GetInfo,
+    [tag: &'rq str]
 );
-
-// #[derive(Deserialize, Debug)]
-// pub struct Ref {
-//     pub name: String,
-//     pub url: Url,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct Refs {
-//     pub tag: Option<Vec<Ref>>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct TopRef {
-//     pub count: u32,
-//     pub name: String,
-//     pub url: Url,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct TopRefs {
-//     pub tag: Option<Vec<TopRef>>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct Similar {
-//     pub name: String,
-//     pub url: Url,
-//     pub streamable: u32,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct SimilarList {
-//     pub tag: Option<Vec<Similar>>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct ChartRef {
-//     pub name: String,
-//     pub url: Url,
-//     pub reach: u32,
-//     pub taggings: u32,
-//     pub streamable: u32,
-//     pub wiki: Wiki,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct ChartRefs {
-//     pub tag: Option<Vec<ChartRef>>,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct GlobalRef {
-//     pub name: String,
-//     pub count: u32,
-//     pub reach: u32,
-// }
-
-// #[derive(Deserialize, Debug)]
-// pub struct GlobalRefs {
-//     tag: Option<Vec<GlobalRef>>,
-// }

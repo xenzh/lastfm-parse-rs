@@ -21,23 +21,27 @@ use methods::Method;
 /// This trait is used internally to automatically generate wrapper objects and
 /// hide them from user (see lastfm_t! macro).
 pub trait LastfmType<'de>
-    where Self: Sized + Deserialize<'de>
+where
+    Self: Sized + Deserialize<'de>,
 {
     type Outer: Deserialize<'de> + Debug + Into<Self>;
+}
 
-    fn from_json(json: &'de str) -> Result<Self>
-    {
-        let res: Result<Self::Outer> = serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
-        if res.is_err() {
-            let err_res: Result<ApiError> = serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
+// Note: this can't be an associated method b/c result's lifetime should be taken
+// from json string, not the type it's called from.
+// Or, rather, it can be done but will look really awkward.
+pub fn from_json<'de, Lt: LastfmType<'de>>(json: &'de str) -> Result<Lt> {
+    let res: Result<Lt::Outer> = serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
+    if res.is_err() {
+        let err_res: Result<ApiError> =
+            serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
 
-            return match err_res {
-                Ok(api_err) => Err(Error::Api(api_err)),
-                Err(_) => Err(res.unwrap_err()),
-            };
-        }
-        Ok(res.unwrap().into())
+        return match err_res {
+            Ok(api_err) => Err(Error::Api(api_err)),
+            Err(_) => Err(res.unwrap_err()),
+        };
     }
+    Ok(res.unwrap().into())
 }
 
 /// Temporary solution: a trait for request parameter type that makes
@@ -52,7 +56,8 @@ pub trait RequestParams {
 /// Can be converted to a Url
 #[derive(Debug)]
 pub struct Request<'rq, T>
-    where T: RequestParams + Debug
+where
+    T: RequestParams + Debug,
 {
     pub base_url: &'rq str,
     pub api_key: &'rq str,
@@ -61,10 +66,12 @@ pub struct Request<'rq, T>
 }
 
 impl<'rq, T> Into<Url> for Request<'rq, T>
-    where T: RequestParams + Debug
+where
+    T: RequestParams + Debug,
 {
     fn into(self) -> Url {
-        let mut url = Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");
+        let mut url =
+            Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");
         {
             let mut query_pairs = url.query_pairs_mut();
             query_pairs.append_pair("api_key", self.api_key);
@@ -84,10 +91,15 @@ impl<'rq, T> Into<Url> for Request<'rq, T>
 // Following should be included in order to use this macro:
 //   use std::convert::Into;
 //   use utils::{LastfmType, Request};
+// lastfm_t!(
+//     /* entity name/type/wrapper */ , , ,
+//     /* method enum/variant      */ , ,
+//     /* params enum/variant/args */ , , ,
+// );
 #[macro_export]
 macro_rules! lastfm_t {
     (
-        $data_t:ident, $name:ident, $wrapper_name:ident,
+        $name:ident, $data_t:ident, $wrapper_name:ident,
         $method_t:ident, $method_variant:ident,
         $params_t:ident, $params_variant:ident,
         [$($param_key:ident: $param_t:ty)*]
