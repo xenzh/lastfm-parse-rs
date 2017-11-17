@@ -1,6 +1,6 @@
-use std::error::Error;
 use std::convert::{Into, From};
 use std::str::FromStr;
+use std::error::Error;
 use std::result::Result as StdResult;
 use std::fmt::{Display, Formatter, Result as FmtResult};
 
@@ -103,31 +103,12 @@ pub enum SearchQueryRole {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SearchQuery {
+pub struct SearchQuery<'dt> {
     pub role: SearchQueryRole,
     #[serde(rename = "searchTerms")]
-    pub search_terms: Option<String>,
+    #[serde(borrow)]
+    pub search_terms: Option<&'dt str>,
     #[serde(rename = "startPage")]
-    pub start_page: u32,
-}
-
-// Generates a wrapper over opensearch object
-// Following should be included in order to use this macro:
-// use common::SearchQuery;
-#[macro_export]
-macro_rules! search_t {
-    ($name:ident, $matches:ident, $matches_t:ty) => {
-        #[derive(Deserialize, Debug)]
-        pub struct $name {
-            #[serde(rename="opensearch:Query")]
-            pub query: SearchQuery,
-            #[serde(rename="opensearch:totalResults")]
-            pub total_results: u32,
-            #[serde(rename="opensearch:startIndex")]
-            pub start_index: u32,
-            #[serde(rename="opensearch:itemsPerPage")]
-            pub iterms_per_page: u32,
-            pub $matches: Option<$matches_t>,
-        }
-    };
+    #[serde(deserialize_with="str_to_option")]
+    pub start_page: Option<u32>,
 }

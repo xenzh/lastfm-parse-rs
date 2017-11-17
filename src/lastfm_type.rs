@@ -127,3 +127,48 @@ macro_rules! lastfm_t {
         }
     }
 }
+
+// ----------------------------------------------------------------
+
+// Generates lastfm_t wrapper over opensearch object
+// Following should be included in order to use this macro:
+//   use common::SearchQuery;
+#[macro_export]
+macro_rules! opensearch_t {
+    (
+        $name:ident, $data_name:ident, $wrapper_name:ident,
+        $result:ident, $result_t:ident,
+        $method_t:ident, $method_variant:ident,
+        $params_t:ident, $params_variant:ident,
+        [$($param_key:ident: $param_t:ty),*]
+    ) => {
+        #[derive(Deserialize, Debug)]
+        pub struct $data_name<'dt> {
+            #[serde(rename="opensearch:Query")]
+            #[serde(borrow)]
+            pub query: SearchQuery<'dt>,
+            #[serde(rename="opensearch:totalResults")]
+            #[serde(deserialize_with="str_to_option")]
+            pub total_results: Option<u32>,
+            #[serde(rename="opensearch:startIndex")]
+            #[serde(deserialize_with="str_to_option")]
+            pub start_index: Option<u32>,
+            #[serde(rename="opensearch:itemsPerPage")]
+            #[serde(deserialize_with="str_to_option")]
+            pub iterms_per_page: Option<u32>,
+            #[serde(borrow)]
+            pub $result: Option<$result_t<'dt>>,
+        }
+
+        lastfm_t!(
+            $name,
+            $data_name,
+            $wrapper_name,
+            $method_t,
+            $method_variant,
+            $params_t,
+            $params_variant,
+            [ $($param_key: $param_t),* ]
+        );
+    }
+}
