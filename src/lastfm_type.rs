@@ -91,20 +91,14 @@ where
 // Following should be included in order to use this macro:
 //   use std::convert::Into;
 //   use utils::{LastfmType, Request};
-// lastfm_t!(
-//     /* entity name/type/wrapper */ , , ,
-//     /* method enum/variant      */ , ,
-//     /* params enum/variant/args */ , , ,
-// );
 #[macro_export]
 macro_rules! lastfm_t {
     (
         $name:ident, $data_t:ident, $wrapper_name:ident,
         $method_t:ident, $method_variant:ident,
         $params_t:ident, $params_variant:ident,
-        [$($param_key:ident: $param_t:ty)*]
+        [$($param_key:ident: $param_t:ty),*]
     ) => {
-
         #[derive(Deserialize, Debug)]
         pub struct $wrapper_name<'dt> {
             #[serde(borrow)]

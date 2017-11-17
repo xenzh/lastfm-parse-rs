@@ -1,9 +1,12 @@
 use std::error::Error;
 use std::convert::{Into, From};
-use std::fmt::{Formatter, Result as FmtResult};
-use url::Url as StdUrl;
-use serde::de::{Deserialize, Deserializer, Visitor};
+use std::str::FromStr;
+use std::result::Result as StdResult;
+use std::fmt::{Display, Formatter, Result as FmtResult};
 
+use url::Url as StdUrl;
+use serde::de::{Deserialize, Deserializer, Visitor, Error as SerdeError};
+use serde_json as json;
 
 // ----------------------------------------------------------------
 
@@ -51,6 +54,23 @@ impl From<StdUrl> for Url {
 
 // ----------------------------------------------------------------
 
+// https://github.com/serde-rs/json/issues/373
+pub fn str_to_option<'de, T, D>(deserializer: D) -> StdResult<Option<T>, D::Error>
+where
+    T: FromStr,
+    T::Err: Display,
+    D: Deserializer<'de>,
+{
+    let res: StdResult<json::Value, _> = Deserialize::deserialize(deserializer);
+    if let Ok(json::Value::String(s)) = res {
+        let i = T::from_str(&s).map_err(SerdeError::custom)?;
+        return Ok(Some(i));
+    }
+    Ok(None)
+}
+
+// ----------------------------------------------------------------
+
 #[derive(Deserialize, Debug)]
 pub enum ImageSize {
     #[serde(rename = "small")]
@@ -68,9 +88,9 @@ pub enum ImageSize {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Image {
+pub struct Image<'dt> {
     #[serde(rename = "#text")]
-    pub text: String,
+    pub text: &'dt str,
     pub size: ImageSize,
 }
 

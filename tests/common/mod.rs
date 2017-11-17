@@ -30,6 +30,8 @@ pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
         let mut core = Core::new().unwrap();
         let client = Client::new(&core.handle());
 
+        println!("\nUrl: {}\n", uri);
+
         let work = client.get(uri).and_then(|res| {
             res.body().concat2().and_then(move |body: Chunk| {
                 // temporary measure:
@@ -40,12 +42,14 @@ pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
                     "\\\"",
                     "'",
                 );
+                
+                println!("\nRaw: {}\n", unescaped);
 
                 let data: $lastfm_type = from_json(&unescaped).map_err(
                     |e| IoError::new(IoErrorKind::Other, e),
                 )?;
 
-                println!("\nDeserialized {}:\n{:?}", stringify!(Jt), data);
+                println!("\nDeserialized {}:\n{:?}", stringify!($lastfm_type), data);
                 Ok(())
             })
         });

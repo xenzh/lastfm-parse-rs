@@ -14,8 +14,12 @@ pub mod structs;
 pub mod error;
 pub mod methods;
 
+// ----------------------------------------------------------------
+
 pub use lastfm_type::{LastfmType, from_json};
 pub use error::Result;
+
+// ----------------------------------------------------------------
 
 // Deserializetion tests
 // They query lastfm's REST API and parse json responses into objects.
