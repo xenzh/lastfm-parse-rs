@@ -5,40 +5,40 @@ extern crate lastfm_parse_rs as lastfm;
 mod common;
 use common::test_fn;
 
-use lastfm::structs::artist::Corrections;
-test_fn!(test_artist_getcorrection, Corrections, ["guns roses"]);
+use lastfm::structs::artist::GetCorrections;
+test_fn!(test_artist_getcorrection, GetCorrections, ["guns roses"]);
 
-use lastfm::structs::artist::Info;
+use lastfm::structs::artist::GetInfo;
 test_fn!(
     test_artist_getinfo,
-    Info,
+    GetInfo,
     ["iamthemorning", None, Some(1), None, Some("xenzh")]
 );
 
-use lastfm::structs::artist::SimilarList;
-test_fn!(test_artist_getsimilar, SimilarList, ["nadja", None, Some(1), Some(3)]);
+use lastfm::structs::artist::GetSimilar;
+test_fn!(test_artist_getsimilar, GetSimilar, ["nadja", None, Some(1), Some(3)]);
 
-use lastfm::structs::artist::UserTags;
+use lastfm::structs::artist::GetTags;
 test_fn!(
     test_artist_gettags,
-    UserTags,
+    GetTags,
     ["adam lane's full throttle orchestra", None, None, Some("xenzh")]
 );
 
-use lastfm::structs::artist::TopAlbums;
+use lastfm::structs::artist::GetTopAlbums;
 test_fn!(
     test_artist_gettopalbums,
-    TopAlbums,
+    GetTopAlbums,
     ["days n' daze", None, Some(1), Some(4), None]
 );
 
-use lastfm::structs::artist::TopTags;
-test_fn!(test_artist_gettoptags, TopTags, ["schtimm", None, Some(1)]);
+use lastfm::structs::artist::GetTopTags;
+test_fn!(test_artist_gettoptags, GetTopTags, ["schtimm", None, Some(1)]);
 
-use lastfm::structs::artist::TopTracks;
+use lastfm::structs::artist::GetTopTracks;
 test_fn!(
     test_artist_gettoptracks,
-    TopTracks,
+    GetTopTracks,
     ["charles mingus", None, Some(1), Some(4), None]
 );
 

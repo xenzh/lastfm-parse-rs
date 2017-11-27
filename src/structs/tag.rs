@@ -86,7 +86,7 @@ pub struct Wiki<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Info<'dt> {
+pub struct GetInfo<'dt> {
     pub name: &'dt str,
     pub total: Option<u32>,
     pub reach: Option<u32>,
@@ -96,7 +96,7 @@ pub struct Info<'dt> {
 
 lastfm_t!(
     tag,
-    Info,
+    GetInfo,
     _Info,
     Method,
     TagGetInfo,
@@ -115,14 +115,14 @@ pub struct Similar<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarList<'dt> {
+pub struct GetSimilar<'dt> {
     #[serde(borrow)]
     pub tag: Option<Vec<Similar<'dt>>>,
 }
 
 lastfm_t!(
     similartags,
-    SimilarList,
+    GetSimilar,
     _SimilarList,
     Method,
     TagGetSimilar,
@@ -153,14 +153,14 @@ pub struct Album<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopAlbums<'dt> {
+pub struct GetTopAlbums<'dt> {
     #[serde(borrow)]
     album: Option<Vec<Album<'dt>>>,
 }
 
 lastfm_t!(
     albums,
-    TopAlbums,
+    GetTopAlbums,
     _TopAlbums,
     Method,
     TagGetTopAlbums,
@@ -182,14 +182,14 @@ pub struct Artist2<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopArtists<'dt> {
+pub struct GetTopArtists<'dt> {
     #[serde(borrow)]
     pub artist: Option<Vec<Artist2<'dt>>>,
 }
 
 lastfm_t!(
     topartists,
-    TopArtists,
+    GetTopArtists,
     _TopArtists,
     Method,
     TagGetTopArtists,
@@ -208,14 +208,14 @@ pub struct Tag<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTags<'dt> {
+pub struct GetTopTags<'dt> {
     #[serde(borrow)]
     pub tag: Option<Vec<Tag<'dt>>>,
 }
 
 lastfm_t!(
     toptags,
-    TopTags,
+    GetTopTags,
     _TopTags,
     Method,
     TagGetTopTags,
@@ -240,14 +240,14 @@ pub struct Track<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTracks<'dt> {
+pub struct GetTopTracks<'dt> {
     #[serde(borrow)]
     pub track: Option<Vec<Track<'dt>>>,
 }
 
 lastfm_t!(
     tracks,
-    TopTracks,
+    GetTopTracks,
     _TopTracks,
     Method,
     TagGetTopTracks,
@@ -267,7 +267,7 @@ pub struct WeeklyChartItem {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct WeeklyChartList<'dt> {
+pub struct GetWeeklyChartList<'dt> {
     #[serde(skip)]
     phantom: PhantomData<&'dt ()>,
     chart: Option<Vec<WeeklyChartItem>>,
@@ -275,7 +275,7 @@ pub struct WeeklyChartList<'dt> {
 
 lastfm_t!(
     weeklychartlist,
-    WeeklyChartList,
+    GetWeeklyChartList,
     _WeeklyChartList,
     Method,
     TagGetWeeklyChartList,

@@ -176,14 +176,14 @@ pub struct Correction<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Corrections<'dt> {
+pub struct GetCorrections<'dt> {
     #[serde(borrow)]
     correction: Correction<'dt>,
 }
 
 lastfm_t!(
     corrections,
-    Corrections,
+    GetCorrections,
     _Correction,
     Method,
     TrackGetCorrection,
@@ -216,7 +216,7 @@ pub struct Tags<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Info<'dt> {
+pub struct GetInfo<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
     pub url: Option<Url<'dt>>,
@@ -237,7 +237,7 @@ pub struct Info<'dt> {
 
 lastfm_t!(
     track,
-    Info,
+    GetInfo,
     _Info,
     Method,
     TrackGetInfo,
@@ -271,14 +271,14 @@ pub struct Similar<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarList<'dt> {
+pub struct GetSimilar<'dt> {
     #[serde(borrow)]
     pub track: Option<Vec<Similar<'dt>>>,
 }
 
 lastfm_t!(
     similartracks,
-    SimilarList,
+    GetSimilar,
     _SimilarList,
     Method,
     TrackGetSimilar,
@@ -295,11 +295,11 @@ lastfm_t!(
 
 // ----------------------------------------------------------------
 
-pub type UserTags<'dt> = Tags<'dt>;
+pub type GetTags<'dt> = Tags<'dt>;
 
 lastfm_t!(
     tags,
-    UserTags,
+    GetTags,
     _UserTags,
     Method,
     TrackGetTags,
@@ -324,14 +324,14 @@ pub struct Tag2<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTags<'dt> {
+pub struct GetTopTags<'dt> {
     #[serde(borrow)]
     pub tag: Option<Vec<Tag2<'dt>>>,
 }
 
 lastfm_t!(
     toptags,
-    TopTags,
+    GetTopTags,
     _TopTags,
     Method,
     TrackGetTopTags,

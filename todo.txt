@@ -1,33 +1,21 @@
 What's left to cover from API side:
 
-auth
+Client, auth and related methods:
     * auth.getMobileSession
-
-rq auth (add Serialize impl for request structs?)
-    * album.addtags - ?
-    * album.removetag - ?
-    * artist.addtags - ?
-    * artist.removetag - ?
-    * track.love - ?
-    * track.scrobble - ?
-    * track.unlove - ?
+    * album.addtags
+    * album.removetag
+    * artist.addtags
+    * artist.removetag
+    * track.love
+    * track.scrobble
+    * track.unlove
     * track.updateNowPlaying
 
-noauth
-    * user.getArtistTracks
-    * user.getFriends
-    * user.getLovedTracks
-    * user.getPersonalTags
-    * user.getRecentTracks
-    * user.getTopAlbums
-    * user.getTopArtists
-    * user.getTopTags
-    * user.getTopTracks
-    * user.getWeeklyAlbumChart
-    * user.getWeeklyArtistChart
-    * user.getWeeklyChartList
-    * user.getWeeklyTrackChart
+Structs
+    * charts
 
 Refactoring:
     * name data types in a consistent manner
     * add "not found" kind of tests
+    * remove Option<> from where it's not needed - Url, str_to_val
+    * organize response data types so that they are intuitive to import (maybe add lastfm::user etc mods with reexports from lastfm::structs:: ..?)

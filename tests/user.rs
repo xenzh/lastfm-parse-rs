@@ -29,17 +29,17 @@ test_fn!(test_user_getlovedtracks, GetLovedTracks, ["xenzh", Some(5), None]);
 
 use lastfm::structs::user::GetTaggings;
 test_fn!(
-    test_user_getperonaltags_artist,
+    test_user_getpersonaltags_artist,
     GetTaggings,
     ["xenzh", "folk metal", TaggingType::Artist, Some(3), None]
 );
 test_fn!(
-    test_user_getperonaltags_track,
+    test_user_getpersonaltags_track,
     GetTaggings,
     ["xenzh", "folk metal", TaggingType::Track, None, None]
 );
 test_fn!(
-    test_user_getperonaltags_album,
+    test_user_getpersonaltags_album,
     GetTaggings,
     ["xenzh", "folk metal", TaggingType::Album, Some(3), None]
 );

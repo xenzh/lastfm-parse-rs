@@ -144,7 +144,7 @@ pub struct Tags<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Info<'dt> {
+pub struct GetInfo<'dt> {
     pub name: &'dt str,
     pub artist: &'dt str,
     pub mbid: Option<&'dt str>,
@@ -163,7 +163,7 @@ pub struct Info<'dt> {
 
 lastfm_t!(
     album,
-    Info,
+    GetInfo,
     _Info,
     Method,
     AlbumGetInfo,
@@ -181,11 +181,11 @@ lastfm_t!(
 
 // ----------------------------------------------------------------
 
-pub type UserTags<'dt> = Tags<'dt>;
+pub type GetUserTags<'dt> = Tags<'dt>;
 
 lastfm_t!(
     tags,
-    UserTags,
+    GetUserTags,
     _UserTags,
     Method,
     AlbumGetTags,
@@ -211,14 +211,14 @@ pub struct Tag2<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTags<'dt> {
+pub struct GetTopTags<'dt> {
     #[serde(borrow)]
     pub tag: Option<Vec<Tag2<'dt>>>,
 }
 
 lastfm_t!(
     toptags,
-    TopTags,
+    GetTopTags,
     _TopTags,
     Method,
     AlbumGetTopTags,

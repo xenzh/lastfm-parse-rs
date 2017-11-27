@@ -181,14 +181,14 @@ pub struct Correction<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Corrections<'dt> {
+pub struct GetCorrections<'dt> {
     #[serde(borrow)]
     pub correction: Option<Correction<'dt>>,
 }
 
 lastfm_t!(
     corrections,
-    Corrections,
+    GetCorrections,
     _Corrections,
     Method,
     ArtistGetCorrection,
@@ -261,7 +261,7 @@ pub struct Bio<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Info<'dt> {
+pub struct GetInfo<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
     pub url: Option<Url<'dt>>,
@@ -280,7 +280,7 @@ pub struct Info<'dt> {
 
 lastfm_t!(
     artist,
-    Info,
+    GetInfo,
     _Info,
     Method,
     ArtistGetInfo,
@@ -312,14 +312,14 @@ pub struct Similar2<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SimilarList<'dt> {
+pub struct GetSimilar<'dt> {
     #[serde(borrow)]
     pub artist: Option<Vec<Similar2<'dt>>>,
 }
 
 lastfm_t!(
     similarartists,
-    SimilarList,
+    GetSimilar,
     _SimilarList,
     Method,
     ArtistGetSimilar,
@@ -335,11 +335,11 @@ lastfm_t!(
 
 // ----------------------------------------------------------------
 
-pub type UserTags<'dt> = Tags<'dt>;
+pub type GetTags<'dt> = Tags<'dt>;
 
 lastfm_t!(
     tags,
-    UserTags,
+    GetTags,
     _UserTags,
     Method,
     ArtistGetTags,
@@ -369,14 +369,14 @@ pub struct Album<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopAlbums<'dt> {
+pub struct GetTopAlbums<'dt> {
     #[serde(borrow)]
     pub album: Option<Vec<Album<'dt>>>,
 }
 
 lastfm_t!(
     topalbums,
-    TopAlbums,
+    GetTopAlbums,
     _TopAlbums,
     Method,
     ArtistGetTopAlbums,
@@ -402,14 +402,14 @@ pub struct Tag2<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTags<'dt> {
+pub struct GetTopTags<'dt> {
     #[serde(borrow)]
     pub tag: Option<Vec<Tag2<'dt>>>,
 }
 
 lastfm_t!(
     toptags,
-    TopTags,
+    GetTopTags,
     _TopTags,
     Method,
     ArtistGetTopTags,
@@ -449,14 +449,14 @@ pub struct Track<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopTracks<'dt> {
+pub struct GetTopTracks<'dt> {
     #[serde(borrow)]
     pub track: Option<Vec<Track<'dt>>>,
 }
 
 lastfm_t!(
     toptracks,
-    TopTracks,
+    GetTopTracks,
     _TopTracks,
     Method,
     ArtistGetTopTracks,
