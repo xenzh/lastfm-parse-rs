@@ -110,7 +110,7 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Similar<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url>,
+    pub url: Option<Url<'dt>>,
     pub streamable: Option<u32>,
 }
 
@@ -137,7 +137,7 @@ lastfm_t!(
 pub struct Artist1<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url>,
+    pub url: Option<Url<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -145,7 +145,7 @@ pub struct Album<'dt> {
     name: &'dt str,
     playcount: Option<u32>,
     mbid: Option<String>,
-    url: Option<Url>,
+    url: Option<Url<'dt>>,
     #[serde(borrow)]
     artist: Option<Artist1<'dt>>,
     #[serde(borrow)]
@@ -174,7 +174,7 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Artist2<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url>,
+    pub url: Option<Url<'dt>>,
     #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
     #[serde(borrow)]
@@ -204,7 +204,7 @@ lastfm_t!(
 pub struct Tag<'dt> {
     pub name: &'dt str,
     pub count: Option<u32>,
-    pub url: Option<Url>,
+    pub url: Option<Url<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -232,7 +232,7 @@ pub struct Track<'dt> {
     #[serde(deserialize_with="str_to_option")]
     pub duration: Option<u32>,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url>,
+    pub url: Option<Url<'dt>>,
     #[serde(borrow)]
     pub artist: Option<Artist1<'dt>>,
     #[serde(borrow)]
