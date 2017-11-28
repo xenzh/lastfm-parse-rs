@@ -18,6 +18,19 @@ pub enum Method {
     ArtistRemoveTag,
     ArtistSearch,
 
+    AuthGetMobileSession,
+    AuthGetSession,
+    AuthGetToken,
+
+    ChartGetTopArtists,
+    ChartGetTopTags,
+    ChartGetTopTracks,
+
+    GeoGetTopArtists,
+    GeoGetTopTracks,
+
+    LibraryGetArtists,
+
     TagGetInfo,
     TagGetSimilar,
     TagGetTopAlbums,
@@ -75,6 +88,19 @@ impl Method {
             Method::ArtistGetTopTracks => "artist.gettoptracks",
             Method::ArtistRemoveTag => "artist.removetag",
             Method::ArtistSearch => "artist.search",
+
+            Method::AuthGetMobileSession => "auth.getmobilesession",
+            Method::AuthGetSession => "auth.getsession",
+            Method::AuthGetToken => "auth.gettoken",
+
+            Method::ChartGetTopArtists => "chart.gettopartists",
+            Method::ChartGetTopTags => "chart.gettoptags",
+            Method::ChartGetTopTracks => "chart.gettoptracks",
+
+            Method::GeoGetTopArtists => "geo.gettopartists",
+            Method::GeoGetTopTracks => "geo.gettoptracks",
+
+            Method::LibraryGetArtists => "library.getartists",
 
             Method::TagGetInfo => "tag.getinfo",
             Method::TagGetSimilar => "tag.getsimilar",

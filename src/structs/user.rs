@@ -5,7 +5,7 @@ use url::Url as StdUrl;
 
 use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{Url, Image, str_to_option, str_to_val};
+use super::common::{Url, Image, Id1, Id2, Streamable, Rank, str_to_option, str_to_val};
 
 // ----------------------------------------------------------------
 
@@ -279,21 +279,6 @@ impl<'pr> RequestParams for Params<'pr> {
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Id1<'dt> {
-    #[serde(rename="#text")]
-    pub name: &'dt str,
-    pub mbid: Option<&'dt str>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Id2<'dt> {
-    pub name: &'dt str,
-    pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
-}
-
-#[derive(Deserialize, Debug)]
 pub struct Date1<'dt> {
     #[serde(deserialize_with="str_to_option")]
     pub uts: Option<UnixTimestamp>,
@@ -485,17 +470,6 @@ lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Streamable<'dt> {
-    #[serde(skip)]
-    phantom: PhantomData<&'dt ()>,
-    #[serde(rename="#text")]
-    #[serde(deserialize_with="str_to_val")]
-    pub streamable: u32,
-    #[serde(deserialize_with="str_to_val")]
-    pub fulltrack: u32,
-}
-
-#[derive(Deserialize, Debug)]
 pub struct Track3<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
@@ -503,7 +477,7 @@ pub struct Track3<'dt> {
     pub date: Date1<'dt>,
     pub artist: Option<Id2<'dt>>,
     pub image: Option<Vec<Image<'dt>>>,
-    pub streamable: Option<Streamable<'dt>>,
+    pub streamable: Option<Streamable>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -550,7 +524,7 @@ pub struct Track4<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
     pub url: Option<Url<'dt>>,
-    pub streamable: Option<Streamable<'dt>>,
+    pub streamable: Option<Streamable>,
     pub artist: Id2<'dt>,
     pub image: Option<Vec<Image<'dt>>>,
 
@@ -651,14 +625,6 @@ lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Rank<'dt> {
-    #[serde(skip)]
-    phantom: PhantomData<&'dt ()>,
-    #[serde(deserialize_with="str_to_val")]
-    pub rank: u32,
-}
-
-#[derive(Deserialize, Debug)]
 pub struct Album2<'dt> {
     pub name: &'dt str,
     #[serde(deserialize_with="str_to_option")]
@@ -668,7 +634,7 @@ pub struct Album2<'dt> {
     pub artist: Id2<'dt>,
     pub image: Option<Vec<Image<'dt>>>,
     #[serde(rename="@attr")]
-    pub rank: Option<Rank<'dt>>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -706,7 +672,7 @@ pub struct Artist2<'dt> {
     pub streamable: Option<u32>,
     pub image: Option<Vec<Image<'dt>>>,
     #[serde(rename="@attr")]
-    pub rank: Option<Rank<'dt>>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -772,11 +738,11 @@ pub struct Track6<'dt> {
     pub playcount: u32,
     #[serde(deserialize_with="str_to_option")]
     pub duration: Option<u32>,
-    pub streamable: Option<Streamable<'dt>>,
+    pub streamable: Option<Streamable>,
     pub artist: Option<Id2<'dt>>,
     pub image: Option<Vec<Image<'dt>>>,
     #[serde(rename="@attr")]
-    pub rank: Rank<'dt>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -812,7 +778,7 @@ pub struct Album3<'dt> {
     pub playcount: Option<u32>,
     pub artist: Id1<'dt>,
     #[serde(rename="@attr")]
-    pub rank: Option<Rank<'dt>>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -846,7 +812,7 @@ pub struct Artist3<'dt> {
     #[serde(deserialize_with="str_to_val")]
     pub playcount: u32,
     #[serde(rename="@attr")]
-    pub rank: Option<Rank<'dt>>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -881,7 +847,7 @@ pub struct Track7<'dt> {
     pub playcount: u32,
     pub artist: Id1<'dt>,
     #[serde(rename="@attr")]
-    pub rank: Option<Rank<'dt>>,
+    pub rank: Option<Rank>,
 }
 
 #[derive(Deserialize, Debug)]

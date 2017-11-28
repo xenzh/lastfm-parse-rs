@@ -88,3 +88,37 @@ pub struct SearchQuery<'dt> {
     #[serde(deserialize_with="str_to_option")]
     pub start_page: Option<u32>,
 }
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
+pub struct Id1<'dt> {
+    #[serde(rename="#text")]
+    pub name: &'dt str,
+    pub mbid: Option<&'dt str>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Id2<'dt> {
+    pub name: &'dt str,
+    pub mbid: Option<&'dt str>,
+    pub url: Option<Url<'dt>>,
+    pub image: Option<Vec<Image<'dt>>>,
+}
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
+pub struct Streamable {
+    #[serde(rename="#text")]
+    #[serde(deserialize_with="str_to_val")]
+    pub streamable: u32,
+    #[serde(deserialize_with="str_to_val")]
+    pub fulltrack: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Rank {
+    #[serde(deserialize_with="str_to_val")]
+    pub rank: u32,
+}
