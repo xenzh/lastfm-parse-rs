@@ -16,11 +16,11 @@ pub mod methods;
 
 // ----------------------------------------------------------------
 
-pub use lastfm_type::{LastfmType, from_json};
+pub use lastfm_type::{LastfmType, from_json_str, from_json_slice};
 pub use error::Result;
 
 // ----------------------------------------------------------------
 
-// Deserializetion tests
-// They query lastfm's REST API and parse json responses into objects.
-// Run 'cargo test -- --nocapture' to dump deserialized objects to stdout.
+// To run deserialization tests:
+// 1. Set your lastfm API key in \tests\common\mod.rs LASTFM_API_KEY.
+// 2. Run 'cargo test -- --nocapture' to dump raw json and deserialized objects to stdout.

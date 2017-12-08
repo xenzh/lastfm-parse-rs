@@ -1,7 +1,7 @@
 What's left to cover from API side:
 
 Client, auth and related methods:
-    * auth.getMobileSession
+    * auth.getMobileSession + others
     * album.addtags
     * album.removetag
     * artist.addtags
@@ -11,11 +11,7 @@ Client, auth and related methods:
     * track.unlove
     * track.updateNowPlaying
 
-Structs
-    * charts
-
 Refactoring:
-    * name data types in a consistent manner
     * add "not found" kind of tests
     * remove Option<> from where it's not needed - Url, str_to_val
     * organize response data types so that they are intuitive to import (maybe add lastfm::user etc mods with reexports from lastfm::structs:: ..?)

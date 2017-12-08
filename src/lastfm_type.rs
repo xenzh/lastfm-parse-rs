@@ -27,22 +27,34 @@ where
     type Outer: Deserialize<'de> + Debug + Into<Self>;
 }
 
-// Note: this can't be an associated method b/c result's lifetime should be taken
-// from json string, not the type it's called from.
-// Or, rather, it can be done but will look really awkward.
-pub fn from_json<'de, Lt: LastfmType<'de>>(json: &'de str) -> Result<Lt> {
-    let res: Result<Lt::Outer> = serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
-    if res.is_err() {
-        let err_res: Result<ApiError> =
-            serde_json::from_str(&json).map_err(|e| Error::Deserialize(e));
+// ----------------------------------------------------------------
 
-        return match err_res {
-            Ok(api_err) => Err(Error::Api(api_err)),
-            Err(_) => Err(res.unwrap_err()),
-        };
-    }
-    Ok(res.unwrap().into())
+macro_rules! from_json_impl {
+    ($defn:path, $src:expr, $dst:ty) => {{
+        let res: Result<$dst> = $defn($src).map_err(|e| Error::Deserialize(e));
+        if res.is_err() {
+            let err_res: Result<ApiError> =
+                $defn($src).map_err(|e| Error::Deserialize(e));
+
+            return match err_res {
+                Ok(api_err) => Err(Error::Api(api_err)),
+                Err(_) => Err(res.unwrap_err()),
+            };
+        }
+        Ok(res.unwrap().into())
+    }}
 }
+
+
+pub fn from_json_str<'de, Lt: LastfmType<'de>>(json: &'de str) -> Result<Lt> {
+    from_json_impl!(serde_json::from_str, &json, Lt::Outer)
+}
+
+pub fn from_json_slice<'de, Lt:LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> {
+    from_json_impl!(serde_json::from_slice, &json, Lt::Outer)
+}
+
+// ----------------------------------------------------------------
 
 /// Temporary solution: a trait for request parameter type that makes
 /// this type to know how to add itself to an url.
@@ -65,11 +77,10 @@ where
     pub params: T,
 }
 
-impl<'rq, T> Into<Url> for Request<'rq, T>
+impl<'rq, T> Request<'rq, T>
 where
-    T: RequestParams + Debug,
-{
-    fn into(self) -> Url {
+    T: RequestParams + Debug {
+    pub fn as_url(&self) -> Url {
         let mut url =
             Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");
         {
@@ -80,6 +91,15 @@ where
         }
         self.params.append_to(&mut url);
         url
+    }
+}
+
+impl<'rq, T> Into<Url> for Request<'rq, T>
+where
+    T: RequestParams + Debug,
+{
+    fn into(self) -> Url {
+        (&self).as_url()
     }
 }
 

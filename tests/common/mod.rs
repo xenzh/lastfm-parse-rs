@@ -13,7 +13,9 @@ use self::hyper::{Client, Uri, Chunk};
 use self::tokio_core::reactor::Core;
 
 use self::url::Url;
-use self::lastfm::from_json;
+use self::lastfm::from_json_str;
+
+static LASTFM_API_KEY: &str = "INSERT_YOUR_API_KEY_HERE";
 
 // ----------------------------------------------------------------
 
@@ -21,8 +23,7 @@ pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
     #[test]
     fn $name() {
         let base_url = "http://ws.audioscrobbler.com/2.0/";
-        let api_key  = "143f59fafebb6ba4bbfafc6af666e1d6";
-        let rq = $lastfm_type::request(base_url, api_key, $($param_val),*);
+        let rq = $lastfm_type::request(base_url, LASTFM_API_KEY, $($param_val),*);
 
         let url: Url = Into::into(rq);
         let uri: Uri = url.into_string().parse().unwrap();
@@ -45,7 +46,7 @@ pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
                 
                 println!("\nRaw: {}\n", unescaped);
 
-                let data: $lastfm_type = from_json(&unescaped).map_err(
+                let data: $lastfm_type = from_json_str(&unescaped).map_err(
                     |e| IoError::new(IoErrorKind::Other, e),
                 )?;
 

@@ -207,6 +207,7 @@ pub struct Stats<'dt> {
     pub listeners: Option<u32>,
     #[serde(deserialize_with="str_to_option")]
     pub playcount: Option<u32>,
+    #[serde(default)]
     #[serde(deserialize_with="str_to_option")]
     pub userplaycount: Option<u32>,
 }
