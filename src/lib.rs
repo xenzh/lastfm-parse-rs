@@ -72,5 +72,5 @@ pub mod user;
 
 // ----------------------------------------------------------------
 
-pub use lastfm_type::{LastfmType, from_json_str, from_json_slice};
+pub use lastfm_type::{LastfmType, Request, from_json_str, from_json_slice};
 pub use error::Result;
