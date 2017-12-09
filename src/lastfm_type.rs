@@ -2,13 +2,13 @@ use std::marker::Sized;
 use std::convert::Into;
 use std::fmt::Debug;
 
-use url::Url;
 use serde::de::Deserialize;
 use serde_json;
 
 use error::{Error, Result};
 use structs::api_error::ApiError;
-use methods::Method;
+
+pub use request::{Request, RequestParams};
 
 // ----------------------------------------------------------------
 
@@ -65,55 +65,6 @@ pub fn from_json_slice<'de, Lt: LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> 
 
 // ----------------------------------------------------------------
 
-/// (Maybe) Temporary solution: a trait for request parameter type that makes
-/// this type to know how to add itself to an url.
-pub trait RequestParams {
-    fn append_to(&self, url: &mut Url);
-}
-
-/// Request information associated with a method and lastfm data type.
-/// Can be converted to a Url. No POST request support yet.
-#[derive(Debug)]
-pub struct Request<'rq, T>
-where
-    T: RequestParams + Debug,
-{
-    pub base_url: &'rq str,
-    pub api_key: &'rq str,
-    pub method: Method,
-    pub params: T,
-}
-
-impl<'rq, T> Request<'rq, T>
-where
-    T: RequestParams + Debug,
-{
-    /// Converts Request object to an Url, appends request parameters (GET only)
-    pub fn as_url(&self) -> Url {
-        let mut url =
-            Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");
-        {
-            let mut query_pairs = url.query_pairs_mut();
-            query_pairs.append_pair("api_key", self.api_key);
-            query_pairs.append_pair("format", "json");
-            query_pairs.append_pair("method", self.method.api_name());
-        }
-        self.params.append_to(&mut url);
-        url
-    }
-}
-
-impl<'rq, T> Into<Url> for Request<'rq, T>
-where
-    T: RequestParams + Debug,
-{
-    fn into(self) -> Url {
-        (&self).as_url()
-    }
-}
-
-// ----------------------------------------------------------------
-
 /// This macro is used to define top-level requestable Lastfm data structure.
 /// For given Deserialize + Debug struct specifies
 /// a wrapper (see LastfmType trait), conversions
@@ -121,7 +72,7 @@ where
 /// Following should be included in order to use this macro:
 /// ```
 /// use std::convert::Into;
-/// use lastfm_type::{LastfmType, Request, RequestParams};
+/// use lastfm_type::{LastfmType, Request};
 /// ```
 #[macro_export]
 macro_rules! lastfm_t {

@@ -44,6 +44,8 @@ extern crate serde_derive;
 /// Tools for defining common Lastfm data structures and corresponding requests
 #[macro_use]
 pub mod lastfm_type;
+/// Tools for constructing API requests
+pub mod request;
 
 /// Serde-based API data structures
 pub mod structs;
@@ -72,5 +74,6 @@ pub mod user;
 
 // ----------------------------------------------------------------
 
-pub use lastfm_type::{LastfmType, Request, from_json_str, from_json_slice};
+pub use lastfm_type::{LastfmType, from_json_str, from_json_slice};
+pub use request::{Request, RequestParams};
 pub use error::Result;
