@@ -14,7 +14,7 @@ pub enum Params<'pr> {
         user: &'pr str,
         limit: Option<u32>,
         page: Option<u32>,
-    }
+    },
 }
 
 impl<'pr> RequestParams for Params<'pr> {
@@ -29,7 +29,7 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
+            }
         }
     }
 }
@@ -41,13 +41,13 @@ pub struct Artist<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
     url: Url<'dt>,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub tagcount: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub streamable: u32,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -64,9 +64,5 @@ lastfm_t!(
     LibraryGetArtists,
     Params,
     GetArtists,
-    [
-        user: &'rq str,
-        limit: Option<u32>,
-        page: Option<u32>
-    ]
+    [user: &'rq str, limit: Option<u32>, page: Option<u32>]
 );

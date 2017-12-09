@@ -4,13 +4,17 @@ use url::Url as StdUrl;
 
 use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{Url, Image, SearchQuery, str_to_option};
+use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 
 // ----------------------------------------------------------------
 
 #[derive(Debug)]
 pub enum Params<'pr> {
-    AddTags { artist: &'pr str, track: &'pr str, tags: &'pr str }, // auth
+    AddTags {
+        artist: &'pr str,
+        track: &'pr str,
+        tags: &'pr str,
+    }, // auth
     GetCorrection { artist: &'pr str, track: &'pr str },
     GetInfo {
         artist: &'pr str,
@@ -39,23 +43,26 @@ pub enum Params<'pr> {
         mbid: Option<&'pr str>,
         autocorrect: Option<u32>,
     },
-    Love { // auth
+    Love {
+        // auth
         artist: &'pr str,
         track: &'pr str,
     },
-    RemoveTag { // auth
+    RemoveTag {
+        // auth
         artist: &'pr str,
         track: &'pr str,
-        tag: &'pr str,  
+        tag: &'pr str,
     },
     Scrobble, // auth, also has batch form
     Search {
         artist: &'pr str,
         track: &'pr str,
         limit: Option<u32>,
-        page: Option<u32>,  
+        page: Option<u32>,
     },
-    Unlove { // auth
+    Unlove {
+        // auth
         artist: &'pr str,
         track: &'pr str,
     },
@@ -66,16 +73,26 @@ impl<'pr> RequestParams for Params<'pr> {
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
-            Params::AddTags { artist, track, tags } => {
+            Params::AddTags {
+                artist,
+                track,
+                tags,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 query.append_pair("tags", tags);
-            },
+            }
             Params::GetCorrection { artist, track } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
-            },
-            Params::GetInfo { artist, track, mbid, autocorrect, username } => {
+            }
+            Params::GetInfo {
+                artist,
+                track,
+                mbid,
+                autocorrect,
+                username,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 if let Some(mbid) = mbid {
@@ -87,8 +104,14 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(username) = username {
                     query.append_pair("username", username);
                 }
-            },
-            Params::GetSimilar { artist, track, mbid, autocorrect, limit } => {
+            }
+            Params::GetSimilar {
+                artist,
+                track,
+                mbid,
+                autocorrect,
+                limit,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 if let Some(mbid) = mbid {
@@ -100,8 +123,14 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(limit) = limit {
                     query.append_pair("limit", &limit.to_string());
                 }
-            },
-            Params::GetTags { artist, track, mbid, autocorrect, user } => {
+            }
+            Params::GetTags {
+                artist,
+                track,
+                mbid,
+                autocorrect,
+                user,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 if let Some(mbid) = mbid {
@@ -113,8 +142,13 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(user) = user {
                     query.append_pair("user", user);
                 }
-            },
-            Params::GetTopTags { artist, track, mbid, autocorrect } => {
+            }
+            Params::GetTopTags {
+                artist,
+                track,
+                mbid,
+                autocorrect,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 if let Some(mbid) = mbid {
@@ -123,18 +157,23 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(autocorrect) = autocorrect {
                     query.append_pair("autocorrect", &autocorrect.to_string());
                 }
-            },
+            }
             Params::Love { artist, track } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
-            },
+            }
             Params::RemoveTag { artist, track, tag } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 query.append_pair("tag", tag);
-            },
-            Params::Scrobble => {},
-            Params::Search { artist, track, limit, page } => {
+            }
+            Params::Scrobble => {}
+            Params::Search {
+                artist,
+                track,
+                limit,
+                page,
+            } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
                 if let Some(limit) = limit {
@@ -143,12 +182,12 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
+            }
             Params::Unlove { artist, track } => {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
-            },
-            Params::UpdateNowPlaying => {},
+            }
+            Params::UpdateNowPlaying => {}
         }
     }
 }
@@ -159,14 +198,14 @@ impl<'pr> RequestParams for Params<'pr> {
 pub struct Artist<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
-    pub artist: Option<Artist<'dt>>,
+    pub url: Url<'dt>,
+    pub artist: Artist<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -189,7 +228,7 @@ lastfm_t!(
     TrackGetCorrection,
     Params,
     GetCorrection,
-    [ artist: &'rq str, track: &'rq str ]
+    [artist: &'rq str, track: &'rq str]
 );
 
 // ----------------------------------------------------------------
@@ -199,14 +238,14 @@ pub struct Album<'dt> {
     pub artist: &'dt str,
     pub title: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub url: Url<'dt>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Tag1<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -219,20 +258,23 @@ pub struct Tags<'dt> {
 pub struct GetInfo<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
-    pub duration: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub listeners: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub duration: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub listeners: u32,
+    #[serde(default)]
+    #[serde(deserialize_with = "str_to_option")]
     pub playcount: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(default)]
+    #[serde(deserialize_with = "str_to_option")]
     pub userplaycount: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(default)]
+    #[serde(deserialize_with = "str_to_option")]
     pub userloved: Option<u32>,
     pub artist: Artist<'dt>,
-    pub album: Option<Album<'dt>>,
-    pub toptags: Option<Tags<'dt>>,
+    pub album: Album<'dt>,
+    pub toptags: Tags<'dt>,
 }
 
 lastfm_t!(
@@ -257,17 +299,15 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Similar<'dt> {
     pub name: &'dt str,
-    #[serde(deserialize_with="str_to_option")]
-    pub playcount: Option<u32>,
     pub mbid: Option<&'dt str>,
-    #[serde(rename="match")]
-    #[serde(deserialize_with="str_to_option")]
-    pub trackmatch: Option<f32>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
-    pub duration: Option<u32>,
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_option")]
+    pub playcount: Option<u32>,
+    #[serde(rename = "match")]
+    pub trackmatch: f32,
+    pub duration: u32,
     pub artist: Artist<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -319,8 +359,8 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Tag2<'dt> {
     pub name: &'dt str,
-    pub count: Option<u32>,
-    pub url: Option<Url<'dt>>,
+    pub count: u32,
+    pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -351,10 +391,10 @@ lastfm_t!(
 pub struct Track2<'dt> {
     pub name: &'dt str,
     pub artist: &'dt str,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
-    pub listeners: Option<u32>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub listeners: u32,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]

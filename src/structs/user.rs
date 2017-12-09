@@ -1,5 +1,4 @@
 use std::convert::Into;
-use std::marker::PhantomData;
 
 use url::Url as StdUrl;
 
@@ -102,10 +101,7 @@ pub enum Params<'pr> {
         limit: Option<u32>,
         page: Option<u32>,
     },
-    GetTopTags {
-        user: &'pr str,
-        limit: Option<u32>
-    },
+    GetTopTags { user: &'pr str, limit: Option<u32> },
     GetTopTracks {
         user: &'pr str,
         period: Option<Period>,
@@ -134,7 +130,13 @@ impl<'pr> RequestParams for Params<'pr> {
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
-            Params::GetArtistTracks { user, artist, start, end, page } => {
+            Params::GetArtistTracks {
+                user,
+                artist,
+                start,
+                end,
+                page,
+            } => {
                 query.append_pair("user", user);
                 query.append_pair("artist", artist);
                 if let Some(start) = start {
@@ -146,8 +148,13 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetFriends { user, recenttracks, limit, page } => {
+            }
+            Params::GetFriends {
+                user,
+                recenttracks,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 if let Some(recenttracks) = recenttracks {
                     query.append_pair("recenttracks", &(recenttracks as u32).to_string());
@@ -158,10 +165,10 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
+            }
             Params::GetInfo { user } => {
                 query.append_pair("user", user);
-            },
+            }
             Params::GetLovedTracks { user, limit, page } => {
                 query.append_pair("user", user);
                 if let Some(limit) = limit {
@@ -170,8 +177,14 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetPersonalTags { user, tag, taggingtype, limit, page } => {
+            }
+            Params::GetPersonalTags {
+                user,
+                tag,
+                taggingtype,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 query.append_pair("tag", tag);
                 query.append_pair("taggingtype", taggingtype.to_str());
@@ -181,8 +194,15 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetRecentTracks { user, extended, from, to, limit, page } => {
+            }
+            Params::GetRecentTracks {
+                user,
+                extended,
+                from,
+                to,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 if let Some(extended) = extended {
                     query.append_pair("extended", &(extended as u32).to_string());
@@ -199,8 +219,13 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetTopAlbums { user, period, limit, page } => {
+            }
+            Params::GetTopAlbums {
+                user,
+                period,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 if let Some(period) = period {
                     query.append_pair("period", period.to_str());
@@ -211,8 +236,13 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetTopArtists { user, period, limit, page } => {
+            }
+            Params::GetTopArtists {
+                user,
+                period,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 if let Some(period) = period {
                     query.append_pair("period", period.to_str());
@@ -223,14 +253,19 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
+            }
             Params::GetTopTags { user, limit } => {
                 query.append_pair("user", user);
                 if let Some(limit) = limit {
                     query.append_pair("limit", &limit.to_string());
                 }
-            },
-            Params::GetTopTracks { user, period, limit, page } => {
+            }
+            Params::GetTopTracks {
+                user,
+                period,
+                limit,
+                page,
+            } => {
                 query.append_pair("user", user);
                 if let Some(period) = period {
                     query.append_pair("period", period.to_str());
@@ -241,7 +276,7 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
+            }
             Params::GetWeeklyAlbumChart { user, from, to } => {
                 query.append_pair("user", user);
                 if let Some(from) = from {
@@ -250,7 +285,7 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(to) = to {
                     query.append_pair("to", &to.to_string());
                 }
-            },
+            }
             Params::GetWeeklyArtistChart { user, from, to } => {
                 query.append_pair("user", user);
                 if let Some(from) = from {
@@ -259,10 +294,10 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(to) = to {
                     query.append_pair("to", &to.to_string());
                 }
-            },
+            }
             Params::GetWeeklyChartList { user } => {
                 query.append_pair("user", user);
-            },
+            }
             Params::GetWeeklyTrackChart { user, from, to } => {
                 query.append_pair("user", user);
                 if let Some(from) = from {
@@ -271,7 +306,7 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(to) = to {
                     query.append_pair("to", &to.to_string());
                 }
-            },
+            }
         }
     }
 }
@@ -280,17 +315,15 @@ impl<'pr> RequestParams for Params<'pr> {
 
 #[derive(Deserialize, Debug)]
 pub struct Date1<'dt> {
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(deserialize_with = "str_to_option")]
     pub uts: Option<UnixTimestamp>,
-    #[serde(rename="#text")]
+    #[serde(rename = "#text")]
     pub text: &'dt str,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct NowPlaying<'dt> {
-    #[serde(skip)]
-    phantom: PhantomData<& 'dt ()>,
-    #[serde(deserialize_with="str_to_val")]
+pub struct NowPlaying {
+    #[serde(deserialize_with = "str_to_val")]
     pub nowplaying: bool,
 }
 
@@ -298,17 +331,18 @@ pub struct NowPlaying<'dt> {
 pub struct Track1<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    // #[serde(deserialize_with="str_to_option")]
-    // pub loved: Option<u32>,
-    pub artist: Option<Id1<'dt>>,
-    pub album: Option<Id1<'dt>>,
-    pub url: Option<Url<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
-    pub date: Option<Date1<'dt>>,
-    #[serde(rename="@attr")]
-    pub now: Option<NowPlaying<'dt>>,
+    #[serde(default)]
+    #[serde(deserialize_with = "str_to_option")]
+    pub loved: Option<u32>,
+    pub artist: Id1<'dt>,
+    pub album: Id1<'dt>,
+    pub image: Vec<Image<'dt>>,
+    pub date: Date1<'dt>,
+    #[serde(rename = "@attr")]
+    pub now: Option<NowPlaying>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -338,25 +372,25 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub enum Gender {
-    #[serde(rename="m")]
+    #[serde(rename = "m")]
     Male,
-    #[serde(rename="f")]
+    #[serde(rename = "f")]
     Female,
-    #[serde(rename="n")]
+    #[serde(rename = "n")]
     NotSpecified,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Date2<'dt> {
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub unixtime: UnixTimestamp,
-    #[serde(rename="#text")]
+    #[serde(rename = "#text")]
     pub text: &'dt str,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Date3<'dt> {
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(deserialize_with = "str_to_option")]
     pub uts: Option<UnixTimestamp>,
     pub date: &'dt str,
 }
@@ -364,35 +398,35 @@ pub struct Date3<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct Track2<'dt> {
     pub name: &'dt str,
-    pub artist: Option<Id2<'dt>>,
-    pub album: Option<Id2<'dt>>,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(rename="@attr")]
-    pub date: Option<Date3<'dt>>,
+    pub url: Url<'dt>,
+    pub artist: Id2<'dt>,
+    pub album: Id2<'dt>,
+    #[serde(rename = "@attr")]
+    pub date: Date3<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct User<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
     pub country: &'dt str,
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(deserialize_with = "str_to_option")]
     pub age: Option<u32>,
     pub gender: Gender,
-    #[serde(deserialize_with="str_to_option")]
-    pub playcount: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub playlists: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub bootstrap: Option<u32>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playcount: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playlists: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub bootstrap: u32,
     pub registered: Date2<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
     pub recenttrack: Option<Track2<'dt>>,
 
     // Service always returns FIXME in fields below
     pub subscriber: Option<&'dt str>,
-    #[serde(rename="type")]
+    #[serde(rename = "type")]
     pub u_type: Option<&'dt str>,
     pub scrobblesource: Option<&'dt str>,
 }
@@ -422,36 +456,34 @@ lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Date4<'dt> {
-    #[serde(skip)]
-    phantom: PhantomData<&'dt ()>,
-    #[serde(deserialize_with="str_to_val")]
+pub struct Date4 {
+    #[serde(deserialize_with = "str_to_val")]
     pub unixtime: UnixTimestamp,
-    #[serde(rename="#text")]
+    #[serde(rename = "#text")]
     pub text: UnixTimestamp,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
     pub country: &'dt str,
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(deserialize_with = "str_to_option")]
     pub age: Option<u32>,
     pub gender: Gender,
-    #[serde(deserialize_with="str_to_option")]
-    pub playcount: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub playlists: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub bootstrap: Option<u32>,
-    pub registered: Date4<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playcount: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playlists: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub bootstrap: u32,
+    pub registered: Date4,
+    pub image: Vec<Image<'dt>>,
     pub recenttrack: Option<Track2<'dt>>,
 
     // Service always returns FIXME in fields below
     pub subscriber: Option<&'dt str>,
-    #[serde(rename="type")]
+    #[serde(rename = "type")]
     pub u_type: Option<&'dt str>,
     pub scrobblesource: Option<&'dt str>,
 }
@@ -464,7 +496,7 @@ lastfm_t!(
     UserGetInfo,
     Params,
     GetInfo,
-    [ user: &'rq str ]
+    [user: &'rq str]
 );
 
 // ----------------------------------------------------------------
@@ -473,11 +505,11 @@ lastfm_t!(
 pub struct Track3<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
     pub date: Date1<'dt>,
-    pub artist: Option<Id2<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
-    pub streamable: Option<Streamable>,
+    pub artist: Id2<'dt>,
+    pub image: Vec<Image<'dt>>,
+    pub streamable: Streamable,
 }
 
 #[derive(Deserialize, Debug)]
@@ -494,11 +526,7 @@ lastfm_t!(
     UserGetLovedTracks,
     Params,
     GetLovedTracks,
-    [
-        user: &'rq str,
-        limit: Option<u32>,
-        page: Option<u32>
-    ]
+    [user: &'rq str, limit: Option<u32>, page: Option<u32>]
 );
 
 // ----------------------------------------------------------------
@@ -507,10 +535,10 @@ lastfm_t!(
 pub struct Artist1<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -523,10 +551,10 @@ pub struct ArtistTaggings<'dt> {
 pub struct Track4<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    pub streamable: Option<Streamable>,
+    pub url: Url<'dt>,
+    pub streamable: Streamable,
     pub artist: Id2<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 
     // Service always returns FIXME in fields below
     pub duration: Option<&'dt str>,
@@ -542,7 +570,7 @@ pub struct TrackTaggings<'dt> {
 pub struct Album1<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
     pub artist: Id2<'dt>,
 }
 
@@ -585,17 +613,17 @@ lastfm_t!(
 pub struct Track5<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub loved: Option<u32>,
-    pub artist: Option<Id2<'dt>>,
-    pub album: Option<Id1<'dt>>,
-    pub url: Option<Url<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub loved: u32,
+    pub artist: Id2<'dt>,
+    pub album: Id1<'dt>,
+    pub image: Vec<Image<'dt>>,
     pub date: Option<Date1<'dt>>,
-    #[serde(rename="@attr")]
-    pub now: Option<NowPlaying<'dt>>,
+    #[serde(rename = "@attr")]
+    pub now: Option<NowPlaying>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -627,14 +655,14 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Album2<'dt> {
     pub name: &'dt str,
-    #[serde(deserialize_with="str_to_option")]
-    pub playcount: Option<u32>,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playcount: u32,
     pub artist: Id2<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    pub image: Vec<Image<'dt>>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -665,14 +693,14 @@ lastfm_t!(
 pub struct Artist2<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
-    pub playcount: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub playcount: u32,
+    #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    pub image: Option<Vec<Image<'dt>>>,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    pub image: Vec<Image<'dt>>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -702,9 +730,9 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Tag<'dt> {
     pub name: &'dt str,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub count: u32,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -721,10 +749,7 @@ lastfm_t!(
     UserGetTopTags,
     Params,
     GetTopTags,
-    [
-        user: &'rq str,
-        limit: Option<u32>
-    ]
+    [user: &'rq str, limit: Option<u32>]
 );
 
 // ----------------------------------------------------------------
@@ -733,16 +758,16 @@ lastfm_t!(
 pub struct Track6<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<&'dt str>,
-    #[serde(deserialize_with="str_to_val")]
+    pub url: &'dt str,
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    #[serde(deserialize_with="str_to_option")]
-    pub duration: Option<u32>,
-    pub streamable: Option<Streamable>,
-    pub artist: Option<Id2<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub duration: u32,
+    pub streamable: Streamable,
+    pub artist: Id2<'dt>,
+    pub image: Vec<Image<'dt>>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -773,12 +798,12 @@ lastfm_t!(
 pub struct Album3<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_option")]
     pub playcount: Option<u32>,
     pub artist: Id1<'dt>,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -808,11 +833,11 @@ lastfm_t!(
 pub struct Artist3<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_val")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -842,12 +867,12 @@ lastfm_t!(
 pub struct Track7<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_val")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
     pub artist: Id1<'dt>,
-    #[serde(rename="@attr")]
-    pub rank: Option<Rank>,
+    #[serde(rename = "@attr")]
+    pub rank: Rank,
 }
 
 #[derive(Deserialize, Debug)]
@@ -875,8 +900,8 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Chart<'dt> {
-    #[serde(rename="#text")]
-    pub name: Option<&'dt str>,
+    #[serde(rename = "#text")]
+    pub name: &'dt str,
     pub from: &'dt str,
     pub to: &'dt str,
 }
@@ -897,5 +922,3 @@ lastfm_t!(
     GetWeeklyChartList,
     [user: &'rq str]
 );
-
-// ----------------------------------------------------------------

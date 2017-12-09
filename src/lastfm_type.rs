@@ -50,7 +50,7 @@ pub fn from_json_str<'de, Lt: LastfmType<'de>>(json: &'de str) -> Result<Lt> {
     from_json_impl!(serde_json::from_str, &json, Lt::Outer)
 }
 
-pub fn from_json_slice<'de, Lt:LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> {
+pub fn from_json_slice<'de, Lt: LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> {
     from_json_impl!(serde_json::from_slice, &json, Lt::Outer)
 }
 
@@ -79,7 +79,8 @@ where
 
 impl<'rq, T> Request<'rq, T>
 where
-    T: RequestParams + Debug {
+    T: RequestParams + Debug,
+{
     pub fn as_url(&self) -> Url {
         let mut url =
             Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");

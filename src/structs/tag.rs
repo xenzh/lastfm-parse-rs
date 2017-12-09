@@ -5,7 +5,7 @@ use url::Url as StdUrl;
 
 use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{Url, Image, str_to_option};
+use super::common::{Url, Image, str_to_option, str_to_val};
 
 // ----------------------------------------------------------------
 
@@ -88,8 +88,8 @@ pub struct Wiki<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
     pub name: &'dt str,
-    pub total: Option<u32>,
-    pub reach: Option<u32>,
+    pub total: u32,
+    pub reach: u32,
     #[serde(borrow)]
     pub wiki: Option<Wiki<'dt>>,
 }
@@ -110,7 +110,7 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Similar<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
     pub streamable: Option<u32>,
 }
 
@@ -137,19 +137,17 @@ lastfm_t!(
 pub struct Artist1<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Album<'dt> {
     name: &'dt str,
+    mbid: Option<&'dt str>,
+    url: Url<'dt>,
     playcount: Option<u32>,
-    mbid: Option<String>,
-    url: Option<Url<'dt>>,
-    #[serde(borrow)]
-    artist: Option<Artist1<'dt>>,
-    #[serde(borrow)]
-    image: Option<Vec<Image<'dt>>>,
+    artist: Artist1<'dt>,
+    image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -174,11 +172,11 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Artist2<'dt> {
     pub name: &'dt str,
-    pub url: Option<Url<'dt>>,
+    pub url: Url<'dt>,
+    #[serde(default)]
     #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    #[serde(borrow)]
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -203,8 +201,8 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Tag<'dt> {
     pub name: &'dt str,
-    pub count: Option<u32>,
-    pub url: Option<Url<'dt>>,
+    pub count: u32,
+    pub reach: u32,
 }
 
 #[derive(Deserialize, Debug)]
@@ -229,14 +227,12 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
     pub name: &'dt str,
-    #[serde(deserialize_with="str_to_option")]
-    pub duration: Option<u32>,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(borrow)]
-    pub artist: Option<Artist1<'dt>>,
-    #[serde(borrow)]
-    pub image: Option<Vec<Image<'dt>>>,
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub duration: u32,
+    pub artist: Artist1<'dt>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -260,10 +256,10 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct WeeklyChartItem {
-    #[serde(deserialize_with="str_to_option")]
-    pub from: Option<u32>,
-    #[serde(deserialize_with="str_to_option")]
-    pub to: Option<u32>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub from: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub to: u32,
 }
 
 #[derive(Deserialize, Debug)]

@@ -9,17 +9,6 @@ use serde_json as json;
 
 // ----------------------------------------------------------------
 
-#[derive(Deserialize, Debug)]
-pub struct Url<'dt>(&'dt str);
-
-impl<'de> Into<StdUrl> for Url<'de> {
-    fn into(self) -> StdUrl {
-        StdUrl::parse(self.0).unwrap()
-    }
-}
-
-// ----------------------------------------------------------------
-
 // https://github.com/serde-rs/json/issues/373
 pub fn str_to_option<'de, T, D>(deserializer: D) -> StdResult<Option<T>, D::Error>
 where
@@ -43,6 +32,17 @@ where
 {
     let s = String::deserialize(deserializer)?;
     T::from_str(&s).map_err(SerdeError::custom)
+}
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
+pub struct Url<'dt>(&'dt str);
+
+impl<'de> Into<StdUrl> for Url<'de> {
+    fn into(self) -> StdUrl {
+        StdUrl::parse(self.0).unwrap()
+    }
 }
 
 // ----------------------------------------------------------------
@@ -85,7 +85,7 @@ pub struct SearchQuery<'dt> {
     #[serde(borrow)]
     pub search_terms: Option<&'dt str>,
     #[serde(rename = "startPage")]
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(deserialize_with = "str_to_option")]
     pub start_page: Option<u32>,
 }
 
@@ -93,7 +93,7 @@ pub struct SearchQuery<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Id1<'dt> {
-    #[serde(rename="#text")]
+    #[serde(rename = "#text")]
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
 }
@@ -102,23 +102,24 @@ pub struct Id1<'dt> {
 pub struct Id2<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub url: Url<'dt>,
+    #[serde(default)]
+    pub image: Vec<Image<'dt>>,
 }
 
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
 pub struct Streamable {
-    #[serde(rename="#text")]
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(rename = "#text")]
+    #[serde(deserialize_with = "str_to_val")]
     pub streamable: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub fulltrack: u32,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Rank {
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub rank: u32,
 }

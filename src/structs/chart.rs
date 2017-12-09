@@ -11,9 +11,18 @@ use super::common::{Url, Image, Id2, Streamable, str_to_option, str_to_val};
 #[derive(Debug)]
 pub enum Params<'dt> {
     Phantom(&'dt ()),
-    GetTopArtists { limit: Option<u32>, page: Option<u32> },
-    GetTopTags { limit: Option<u32>, page: Option<u32> },
-    GetTopTracks { limit: Option<u32>, page: Option<u32> },
+    GetTopArtists {
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
+    GetTopTags {
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
+    GetTopTracks {
+        limit: Option<u32>,
+        page: Option<u32>,
+    },
 }
 
 impl<'pr> RequestParams for Params<'pr> {
@@ -44,7 +53,7 @@ impl<'pr> RequestParams for Params<'pr> {
                     query.append_pair("page", &page.to_string());
                 }
             }
-            Params::Phantom(_) => {},
+            Params::Phantom(_) => {}
         }
     }
 }
@@ -55,14 +64,15 @@ impl<'pr> RequestParams for Params<'pr> {
 pub struct Artist<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_val")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub listeners: u32,
-    #[serde(deserialize_with="str_to_option")]
+    #[serde(default)]
+    #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -79,7 +89,7 @@ lastfm_t!(
     ChartGetTopArtists,
     Params,
     GetTopArtists,
-    [ limit: Option<u32>, page: Option<u32> ]
+    [limit: Option<u32>, page: Option<u32>]
 );
 
 // ----------------------------------------------------------------
@@ -88,12 +98,12 @@ lastfm_t!(
 pub struct Tag<'dt> {
     pub name: &'dt str,
     pub url: Url<'dt>,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub reach: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub taggings: u32,
-    #[serde(deserialize_with="str_to_val")]
-    pub streamable: u32,
+    #[serde(deserialize_with = "str_to_val")]
+    pub streamable: u32, 
     // wiki omitted for now: service always returns {}.
 }
 
@@ -120,16 +130,16 @@ lastfm_t!(
 pub struct Track<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
-    pub url: Option<Url<'dt>>,
-    #[serde(deserialize_with="str_to_option")]
-    pub duration: Option<u32>,
-    #[serde(deserialize_with="str_to_val")]
+    pub url: Url<'dt>,
+    #[serde(deserialize_with = "str_to_val")]
+    pub duration: u32,
+    #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub listeners: u32,
     pub streamable: Streamable,
     pub artist: Id2<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -146,5 +156,5 @@ lastfm_t!(
     ChartGetTopTracks,
     Params,
     GetTopTracks,
-    [ limit: Option<u32>, page: Option<u32> ]
+    [limit: Option<u32>, page: Option<u32>]
 );

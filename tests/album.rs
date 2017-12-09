@@ -9,7 +9,14 @@ use lastfm::album::GetInfo;
 test_fn!(
     test_album_getinfo,
     GetInfo,
-    ["hannah fury", "subterfuge", None, Some(1), None, Some("xenzh")]
+    [
+        "hannah fury",
+        "subterfuge",
+        None,
+        Some(1),
+        None,
+        Some("xenzh"),
+    ]
 );
 
 use lastfm::album::GetTags;

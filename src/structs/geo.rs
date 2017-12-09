@@ -14,13 +14,13 @@ pub enum Params<'pr> {
     GetTopArtists {
         country: &'pr str,
         limit: Option<u32>,
-        page: Option<u32>
+        page: Option<u32>,
     },
     GetTopTracks {
         country: &'pr str,
         location: Option<&'pr str>,
         limit: Option<u32>,
-        page: Option<u32>
+        page: Option<u32>,
     },
 }
 
@@ -28,7 +28,11 @@ impl<'pr> RequestParams for Params<'pr> {
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
-            Params::GetTopArtists { country, limit, page } => {
+            Params::GetTopArtists {
+                country,
+                limit,
+                page,
+            } => {
                 query.append_pair("country", country);
                 if let Some(limit) = limit {
                     query.append_pair("limit", &limit.to_string());
@@ -36,8 +40,13 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::GetTopTracks { country, location, limit, page } => {
+            }
+            Params::GetTopTracks {
+                country,
+                location,
+                limit,
+                page,
+            } => {
                 query.append_pair("country", country);
                 if let Some(location) = location {
                     query.append_pair("location", location);
@@ -48,8 +57,8 @@ impl<'pr> RequestParams for Params<'pr> {
                 if let Some(page) = page {
                     query.append_pair("page", &page.to_string());
                 }
-            },
-            Params::Phantom(_) => {},
+            }
+            Params::Phantom(_) => {}
         }
     }
 }
@@ -61,9 +70,9 @@ pub struct Artist<'dt> {
     pub name: &'dt str,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
-    #[serde(deserialize_with="str_to_val")]
+    #[serde(deserialize_with = "str_to_val")]
     pub streamable: u32,
-    pub image: Option<Vec<Image<'dt>>>,
+    pub image: Vec<Image<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -80,11 +89,7 @@ lastfm_t!(
     GeoGetTopArtists,
     Params,
     GetTopArtists,
-    [
-        country: &'rq str,
-        limit: Option<u32>,
-        page: Option<u32>
-    ]
+    [country: &'rq str, limit: Option<u32>, page: Option<u32>]
 );
 
 // ----------------------------------------------------------------
@@ -96,8 +101,8 @@ pub struct Track<'dt> {
     pub url: Url<'dt>,
     pub streamable: Option<Streamable>,
     pub artist: Id2<'dt>,
-    pub image: Option<Vec<Image<'dt>>>,
-    #[serde(rename="@attr")]
+    pub image: Vec<Image<'dt>>,
+    #[serde(rename = "@attr")]
     pub rank: Option<Rank>,
 }
 
