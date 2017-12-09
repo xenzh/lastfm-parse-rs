@@ -4,7 +4,7 @@ use std::result::Result as StdResult;
 
 use serde_json::error::Error as SerdeError;
 
-use structs::api_error::ApiError;
+pub use structs::api_error::ApiError;
 
 
 #[derive(Debug)]

@@ -9,20 +9,20 @@ use lastfm::structs::tag::GetInfo;
 test_fn!(test_tag_getinfo, GetInfo, ["ethno"]);
 
 //17.11.2017 -- always returns an empty list
-use lastfm::structs::tag::GetSimilar;
+use lastfm::tag::GetSimilar;
 test_fn!(test_tag_getsimilar, GetSimilar, ["low rock"]);
 
-use lastfm::structs::tag::GetTopAlbums;
+use lastfm::tag::GetTopAlbums;
 test_fn!(test_tag_gettopalbums, GetTopAlbums, ["chamber pop", Some(2), None]);
 
-use lastfm::structs::tag::GetTopArtists;
+use lastfm::tag::GetTopArtists;
 test_fn!(test_tag_gettopartists, GetTopArtists, ["death metal", Some(2), Some(3)]);
 
-use lastfm::structs::tag::GetTopTags;
+use lastfm::tag::GetTopTags;
 test_fn!(test_tag_gettoptags, GetTopTags, []);
 
-use lastfm::structs::tag::GetTopTracks;
+use lastfm::tag::GetTopTracks;
 test_fn!(test_tag_gettoptracks, GetTopTracks, ["cardiowave", Some(2), None]);
 
-use lastfm::structs::tag::GetWeeklyChartList;
+use lastfm::tag::GetWeeklyChartList;
 test_fn!(test_tag_getweeklychartlist, GetWeeklyChartList, ["dark folk"]);

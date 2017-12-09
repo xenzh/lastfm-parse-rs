@@ -5,5 +5,5 @@ extern crate lastfm_parse_rs as lastfm;
 mod common;
 use common::test_fn;
 
-use lastfm::structs::library::GetArtists;
+use lastfm::library::GetArtists;
 test_fn!(test_library_getartists, GetArtists, ["xenzh", Some(3), Some(6)]);

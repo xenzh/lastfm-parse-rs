@@ -181,11 +181,11 @@ lastfm_t!(
 
 // ----------------------------------------------------------------
 
-pub type GetUserTags<'dt> = Tags<'dt>;
+pub type GetTags<'dt> = Tags<'dt>;
 
 lastfm_t!(
     tags,
-    GetUserTags,
+    GetTags,
     _UserTags,
     Method,
     AlbumGetTags,

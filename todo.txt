@@ -12,6 +12,4 @@ Client, auth and related methods:
     * track.updateNowPlaying
 
 Refactoring:
-    * add "not found" kind of tests
-    * remove Option<> from where it's not needed - Url, str_to_val
-    * organize response data types so that they are intuitive to import (maybe add lastfm::user etc mods with reexports from lastfm::structs:: ..?)
+    * remove Option<> from where it's not needed - Url, str_to_val + #[serde(default)]

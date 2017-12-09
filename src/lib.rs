@@ -12,7 +12,18 @@ pub mod lastfm_type;
 
 pub mod structs;
 pub mod error;
+
+
 pub mod methods;
+
+pub mod album;
+pub mod artist;
+pub mod chart;
+pub mod geo;
+pub mod library;
+pub mod tag;
+pub mod track;
+pub mod user;
 
 // ----------------------------------------------------------------
 
