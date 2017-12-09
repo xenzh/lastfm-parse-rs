@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Method` enum in crate `lastfm_parse_rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Method">
+
+    <title>lastfm_parse_rs::methods::Method - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Enum Method</p><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.AlbumAddTags">AlbumAddTags</a><a href="#variant.AlbumGetInfo">AlbumGetInfo</a><a href="#variant.AlbumGetTags">AlbumGetTags</a><a href="#variant.AlbumGetTopTags">AlbumGetTopTags</a><a href="#variant.AlbumRemoveTag">AlbumRemoveTag</a><a href="#variant.AlbumSearch">AlbumSearch</a><a href="#variant.ArtistAddTags">ArtistAddTags</a><a href="#variant.ArtistGetCorrection">ArtistGetCorrection</a><a href="#variant.ArtistGetInfo">ArtistGetInfo</a><a href="#variant.ArtistGetSimilar">ArtistGetSimilar</a><a href="#variant.ArtistGetTags">ArtistGetTags</a><a href="#variant.ArtistGetTopAlbums">ArtistGetTopAlbums</a><a href="#variant.ArtistGetTopTags">ArtistGetTopTags</a><a href="#variant.ArtistGetTopTracks">ArtistGetTopTracks</a><a href="#variant.ArtistRemoveTag">ArtistRemoveTag</a><a href="#variant.ArtistSearch">ArtistSearch</a><a href="#variant.AuthGetMobileSession">AuthGetMobileSession</a><a href="#variant.AuthGetSession">AuthGetSession</a><a href="#variant.AuthGetToken">AuthGetToken</a><a href="#variant.ChartGetTopArtists">ChartGetTopArtists</a><a href="#variant.ChartGetTopTags">ChartGetTopTags</a><a href="#variant.ChartGetTopTracks">ChartGetTopTracks</a><a href="#variant.GeoGetTopArtists">GeoGetTopArtists</a><a href="#variant.GeoGetTopTracks">GeoGetTopTracks</a><a href="#variant.LibraryGetArtists">LibraryGetArtists</a><a href="#variant.TagGetInfo">TagGetInfo</a><a href="#variant.TagGetSimilar">TagGetSimilar</a><a href="#variant.TagGetTopAlbums">TagGetTopAlbums</a><a href="#variant.TagGetTopArtists">TagGetTopArtists</a><a href="#variant.TagGetTopTags">TagGetTopTags</a><a href="#variant.TagGetTopTracks">TagGetTopTracks</a><a href="#variant.TagGetWeeklyChartList">TagGetWeeklyChartList</a><a href="#variant.TrackAddTags">TrackAddTags</a><a href="#variant.TrackGetCorrection">TrackGetCorrection</a><a href="#variant.TrackGetInfo">TrackGetInfo</a><a href="#variant.TrackGetSimilar">TrackGetSimilar</a><a href="#variant.TrackGetTags">TrackGetTags</a><a href="#variant.TrackGetTopTags">TrackGetTopTags</a><a href="#variant.TrackLove">TrackLove</a><a href="#variant.TrackRemoveTag">TrackRemoveTag</a><a href="#variant.TrackScrobble">TrackScrobble</a><a href="#variant.TrackSearch">TrackSearch</a><a href="#variant.TrackUnlove">TrackUnlove</a><a href="#variant.TrackUpdateNowPlaying">TrackUpdateNowPlaying</a><a href="#variant.UserGetArtistTracks">UserGetArtistTracks</a><a href="#variant.UserGetFriends">UserGetFriends</a><a href="#variant.UserGetInfo">UserGetInfo</a><a href="#variant.UserGetLovedTracks">UserGetLovedTracks</a><a href="#variant.UserGetPersonalTags">UserGetPersonalTags</a><a href="#variant.UserGetRecentTracks">UserGetRecentTracks</a><a href="#variant.UserGetTopAlbums">UserGetTopAlbums</a><a href="#variant.UserGetTopArtists">UserGetTopArtists</a><a href="#variant.UserGetTopTags">UserGetTopTags</a><a href="#variant.UserGetTopTracks">UserGetTopTracks</a><a href="#variant.UserGetWeeklyAlbumChart">UserGetWeeklyAlbumChart</a><a href="#variant.UserGetWeeklyArtistChart">UserGetWeeklyArtistChart</a><a href="#variant.UserGetWeeklyChartList">UserGetWeeklyChartList</a><a href="#variant.UserGetWeeklyTrackChart">UserGetWeeklyTrackChart</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.api_name">api_name</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a></div></div><p class='location'><a href='../index.html'>lastfm_parse_rs</a>::<wbr><a href='index.html'>methods</a></p><script>window.sidebarCurrent = {name: 'Method', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../index.html'>lastfm_parse_rs</a>::<wbr><a href='index.html'>methods</a>::<wbr><a class="enum" href=''>Method</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lastfm_parse_rs/methods.rs.html#3-70' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Method {
+    AlbumAddTags,
+    AlbumGetInfo,
+    AlbumGetTags,
+    AlbumGetTopTags,
+    AlbumRemoveTag,
+    AlbumSearch,
+    ArtistAddTags,
+    ArtistGetCorrection,
+    ArtistGetInfo,
+    ArtistGetSimilar,
+    ArtistGetTags,
+    ArtistGetTopAlbums,
+    ArtistGetTopTags,
+    ArtistGetTopTracks,
+    ArtistRemoveTag,
+    ArtistSearch,
+    AuthGetMobileSession,
+    AuthGetSession,
+    AuthGetToken,
+    ChartGetTopArtists,
+    ChartGetTopTags,
+    ChartGetTopTracks,
+    GeoGetTopArtists,
+    GeoGetTopTracks,
+    LibraryGetArtists,
+    TagGetInfo,
+    TagGetSimilar,
+    TagGetTopAlbums,
+    TagGetTopArtists,
+    TagGetTopTags,
+    TagGetTopTracks,
+    TagGetWeeklyChartList,
+    TrackAddTags,
+    TrackGetCorrection,
+    TrackGetInfo,
+    TrackGetSimilar,
+    TrackGetTags,
+    TrackGetTopTags,
+    TrackLove,
+    TrackRemoveTag,
+    TrackScrobble,
+    TrackSearch,
+    TrackUnlove,
+    TrackUpdateNowPlaying,
+    UserGetArtistTracks,
+    UserGetFriends,
+    UserGetInfo,
+    UserGetLovedTracks,
+    UserGetPersonalTags,
+    UserGetRecentTracks,
+    UserGetTopAlbums,
+    UserGetTopArtists,
+    UserGetTopTags,
+    UserGetTopTracks,
+    UserGetWeeklyAlbumChart,
+    UserGetWeeklyArtistChart,
+    UserGetWeeklyChartList,
+    UserGetWeeklyTrackChart,
+}</pre><div class='docblock'><p>Contains all Lastfm API methods</p>
+</div><h2 id='variants' class='variants small-section-header'>
+                   Variants<a href='#variants' class='anchor'></a></h2>
+<span id="variant.AlbumAddTags" class="variant small-section-header"><a href="#variant.AlbumAddTags" class="anchor field"></a><span id='AlbumAddTags.v' class='invisible'><code>AlbumAddTags</code></span></span><span id="variant.AlbumGetInfo" class="variant small-section-header"><a href="#variant.AlbumGetInfo" class="anchor field"></a><span id='AlbumGetInfo.v' class='invisible'><code>AlbumGetInfo</code></span></span><span id="variant.AlbumGetTags" class="variant small-section-header"><a href="#variant.AlbumGetTags" class="anchor field"></a><span id='AlbumGetTags.v' class='invisible'><code>AlbumGetTags</code></span></span><span id="variant.AlbumGetTopTags" class="variant small-section-header"><a href="#variant.AlbumGetTopTags" class="anchor field"></a><span id='AlbumGetTopTags.v' class='invisible'><code>AlbumGetTopTags</code></span></span><span id="variant.AlbumRemoveTag" class="variant small-section-header"><a href="#variant.AlbumRemoveTag" class="anchor field"></a><span id='AlbumRemoveTag.v' class='invisible'><code>AlbumRemoveTag</code></span></span><span id="variant.AlbumSearch" class="variant small-section-header"><a href="#variant.AlbumSearch" class="anchor field"></a><span id='AlbumSearch.v' class='invisible'><code>AlbumSearch</code></span></span><span id="variant.ArtistAddTags" class="variant small-section-header"><a href="#variant.ArtistAddTags" class="anchor field"></a><span id='ArtistAddTags.v' class='invisible'><code>ArtistAddTags</code></span></span><span id="variant.ArtistGetCorrection" class="variant small-section-header"><a href="#variant.ArtistGetCorrection" class="anchor field"></a><span id='ArtistGetCorrection.v' class='invisible'><code>ArtistGetCorrection</code></span></span><span id="variant.ArtistGetInfo" class="variant small-section-header"><a href="#variant.ArtistGetInfo" class="anchor field"></a><span id='ArtistGetInfo.v' class='invisible'><code>ArtistGetInfo</code></span></span><span id="variant.ArtistGetSimilar" class="variant small-section-header"><a href="#variant.ArtistGetSimilar" class="anchor field"></a><span id='ArtistGetSimilar.v' class='invisible'><code>ArtistGetSimilar</code></span></span><span id="variant.ArtistGetTags" class="variant small-section-header"><a href="#variant.ArtistGetTags" class="anchor field"></a><span id='ArtistGetTags.v' class='invisible'><code>ArtistGetTags</code></span></span><span id="variant.ArtistGetTopAlbums" class="variant small-section-header"><a href="#variant.ArtistGetTopAlbums" class="anchor field"></a><span id='ArtistGetTopAlbums.v' class='invisible'><code>ArtistGetTopAlbums</code></span></span><span id="variant.ArtistGetTopTags" class="variant small-section-header"><a href="#variant.ArtistGetTopTags" class="anchor field"></a><span id='ArtistGetTopTags.v' class='invisible'><code>ArtistGetTopTags</code></span></span><span id="variant.ArtistGetTopTracks" class="variant small-section-header"><a href="#variant.ArtistGetTopTracks" class="anchor field"></a><span id='ArtistGetTopTracks.v' class='invisible'><code>ArtistGetTopTracks</code></span></span><span id="variant.ArtistRemoveTag" class="variant small-section-header"><a href="#variant.ArtistRemoveTag" class="anchor field"></a><span id='ArtistRemoveTag.v' class='invisible'><code>ArtistRemoveTag</code></span></span><span id="variant.ArtistSearch" class="variant small-section-header"><a href="#variant.ArtistSearch" class="anchor field"></a><span id='ArtistSearch.v' class='invisible'><code>ArtistSearch</code></span></span><span id="variant.AuthGetMobileSession" class="variant small-section-header"><a href="#variant.AuthGetMobileSession" class="anchor field"></a><span id='AuthGetMobileSession.v' class='invisible'><code>AuthGetMobileSession</code></span></span><span id="variant.AuthGetSession" class="variant small-section-header"><a href="#variant.AuthGetSession" class="anchor field"></a><span id='AuthGetSession.v' class='invisible'><code>AuthGetSession</code></span></span><span id="variant.AuthGetToken" class="variant small-section-header"><a href="#variant.AuthGetToken" class="anchor field"></a><span id='AuthGetToken.v' class='invisible'><code>AuthGetToken</code></span></span><span id="variant.ChartGetTopArtists" class="variant small-section-header"><a href="#variant.ChartGetTopArtists" class="anchor field"></a><span id='ChartGetTopArtists.v' class='invisible'><code>ChartGetTopArtists</code></span></span><span id="variant.ChartGetTopTags" class="variant small-section-header"><a href="#variant.ChartGetTopTags" class="anchor field"></a><span id='ChartGetTopTags.v' class='invisible'><code>ChartGetTopTags</code></span></span><span id="variant.ChartGetTopTracks" class="variant small-section-header"><a href="#variant.ChartGetTopTracks" class="anchor field"></a><span id='ChartGetTopTracks.v' class='invisible'><code>ChartGetTopTracks</code></span></span><span id="variant.GeoGetTopArtists" class="variant small-section-header"><a href="#variant.GeoGetTopArtists" class="anchor field"></a><span id='GeoGetTopArtists.v' class='invisible'><code>GeoGetTopArtists</code></span></span><span id="variant.GeoGetTopTracks" class="variant small-section-header"><a href="#variant.GeoGetTopTracks" class="anchor field"></a><span id='GeoGetTopTracks.v' class='invisible'><code>GeoGetTopTracks</code></span></span><span id="variant.LibraryGetArtists" class="variant small-section-header"><a href="#variant.LibraryGetArtists" class="anchor field"></a><span id='LibraryGetArtists.v' class='invisible'><code>LibraryGetArtists</code></span></span><span id="variant.TagGetInfo" class="variant small-section-header"><a href="#variant.TagGetInfo" class="anchor field"></a><span id='TagGetInfo.v' class='invisible'><code>TagGetInfo</code></span></span><span id="variant.TagGetSimilar" class="variant small-section-header"><a href="#variant.TagGetSimilar" class="anchor field"></a><span id='TagGetSimilar.v' class='invisible'><code>TagGetSimilar</code></span></span><span id="variant.TagGetTopAlbums" class="variant small-section-header"><a href="#variant.TagGetTopAlbums" class="anchor field"></a><span id='TagGetTopAlbums.v' class='invisible'><code>TagGetTopAlbums</code></span></span><span id="variant.TagGetTopArtists" class="variant small-section-header"><a href="#variant.TagGetTopArtists" class="anchor field"></a><span id='TagGetTopArtists.v' class='invisible'><code>TagGetTopArtists</code></span></span><span id="variant.TagGetTopTags" class="variant small-section-header"><a href="#variant.TagGetTopTags" class="anchor field"></a><span id='TagGetTopTags.v' class='invisible'><code>TagGetTopTags</code></span></span><span id="variant.TagGetTopTracks" class="variant small-section-header"><a href="#variant.TagGetTopTracks" class="anchor field"></a><span id='TagGetTopTracks.v' class='invisible'><code>TagGetTopTracks</code></span></span><span id="variant.TagGetWeeklyChartList" class="variant small-section-header"><a href="#variant.TagGetWeeklyChartList" class="anchor field"></a><span id='TagGetWeeklyChartList.v' class='invisible'><code>TagGetWeeklyChartList</code></span></span><span id="variant.TrackAddTags" class="variant small-section-header"><a href="#variant.TrackAddTags" class="anchor field"></a><span id='TrackAddTags.v' class='invisible'><code>TrackAddTags</code></span></span><span id="variant.TrackGetCorrection" class="variant small-section-header"><a href="#variant.TrackGetCorrection" class="anchor field"></a><span id='TrackGetCorrection.v' class='invisible'><code>TrackGetCorrection</code></span></span><span id="variant.TrackGetInfo" class="variant small-section-header"><a href="#variant.TrackGetInfo" class="anchor field"></a><span id='TrackGetInfo.v' class='invisible'><code>TrackGetInfo</code></span></span><span id="variant.TrackGetSimilar" class="variant small-section-header"><a href="#variant.TrackGetSimilar" class="anchor field"></a><span id='TrackGetSimilar.v' class='invisible'><code>TrackGetSimilar</code></span></span><span id="variant.TrackGetTags" class="variant small-section-header"><a href="#variant.TrackGetTags" class="anchor field"></a><span id='TrackGetTags.v' class='invisible'><code>TrackGetTags</code></span></span><span id="variant.TrackGetTopTags" class="variant small-section-header"><a href="#variant.TrackGetTopTags" class="anchor field"></a><span id='TrackGetTopTags.v' class='invisible'><code>TrackGetTopTags</code></span></span><span id="variant.TrackLove" class="variant small-section-header"><a href="#variant.TrackLove" class="anchor field"></a><span id='TrackLove.v' class='invisible'><code>TrackLove</code></span></span><span id="variant.TrackRemoveTag" class="variant small-section-header"><a href="#variant.TrackRemoveTag" class="anchor field"></a><span id='TrackRemoveTag.v' class='invisible'><code>TrackRemoveTag</code></span></span><span id="variant.TrackScrobble" class="variant small-section-header"><a href="#variant.TrackScrobble" class="anchor field"></a><span id='TrackScrobble.v' class='invisible'><code>TrackScrobble</code></span></span><span id="variant.TrackSearch" class="variant small-section-header"><a href="#variant.TrackSearch" class="anchor field"></a><span id='TrackSearch.v' class='invisible'><code>TrackSearch</code></span></span><span id="variant.TrackUnlove" class="variant small-section-header"><a href="#variant.TrackUnlove" class="anchor field"></a><span id='TrackUnlove.v' class='invisible'><code>TrackUnlove</code></span></span><span id="variant.TrackUpdateNowPlaying" class="variant small-section-header"><a href="#variant.TrackUpdateNowPlaying" class="anchor field"></a><span id='TrackUpdateNowPlaying.v' class='invisible'><code>TrackUpdateNowPlaying</code></span></span><span id="variant.UserGetArtistTracks" class="variant small-section-header"><a href="#variant.UserGetArtistTracks" class="anchor field"></a><span id='UserGetArtistTracks.v' class='invisible'><code>UserGetArtistTracks</code></span></span><span id="variant.UserGetFriends" class="variant small-section-header"><a href="#variant.UserGetFriends" class="anchor field"></a><span id='UserGetFriends.v' class='invisible'><code>UserGetFriends</code></span></span><span id="variant.UserGetInfo" class="variant small-section-header"><a href="#variant.UserGetInfo" class="anchor field"></a><span id='UserGetInfo.v' class='invisible'><code>UserGetInfo</code></span></span><span id="variant.UserGetLovedTracks" class="variant small-section-header"><a href="#variant.UserGetLovedTracks" class="anchor field"></a><span id='UserGetLovedTracks.v' class='invisible'><code>UserGetLovedTracks</code></span></span><span id="variant.UserGetPersonalTags" class="variant small-section-header"><a href="#variant.UserGetPersonalTags" class="anchor field"></a><span id='UserGetPersonalTags.v' class='invisible'><code>UserGetPersonalTags</code></span></span><span id="variant.UserGetRecentTracks" class="variant small-section-header"><a href="#variant.UserGetRecentTracks" class="anchor field"></a><span id='UserGetRecentTracks.v' class='invisible'><code>UserGetRecentTracks</code></span></span><span id="variant.UserGetTopAlbums" class="variant small-section-header"><a href="#variant.UserGetTopAlbums" class="anchor field"></a><span id='UserGetTopAlbums.v' class='invisible'><code>UserGetTopAlbums</code></span></span><span id="variant.UserGetTopArtists" class="variant small-section-header"><a href="#variant.UserGetTopArtists" class="anchor field"></a><span id='UserGetTopArtists.v' class='invisible'><code>UserGetTopArtists</code></span></span><span id="variant.UserGetTopTags" class="variant small-section-header"><a href="#variant.UserGetTopTags" class="anchor field"></a><span id='UserGetTopTags.v' class='invisible'><code>UserGetTopTags</code></span></span><span id="variant.UserGetTopTracks" class="variant small-section-header"><a href="#variant.UserGetTopTracks" class="anchor field"></a><span id='UserGetTopTracks.v' class='invisible'><code>UserGetTopTracks</code></span></span><span id="variant.UserGetWeeklyAlbumChart" class="variant small-section-header"><a href="#variant.UserGetWeeklyAlbumChart" class="anchor field"></a><span id='UserGetWeeklyAlbumChart.v' class='invisible'><code>UserGetWeeklyAlbumChart</code></span></span><span id="variant.UserGetWeeklyArtistChart" class="variant small-section-header"><a href="#variant.UserGetWeeklyArtistChart" class="anchor field"></a><span id='UserGetWeeklyArtistChart.v' class='invisible'><code>UserGetWeeklyArtistChart</code></span></span><span id="variant.UserGetWeeklyChartList" class="variant small-section-header"><a href="#variant.UserGetWeeklyChartList" class="anchor field"></a><span id='UserGetWeeklyChartList.v' class='invisible'><code>UserGetWeeklyChartList</code></span></span><span id="variant.UserGetWeeklyTrackChart" class="variant small-section-header"><a href="#variant.UserGetWeeklyTrackChart" class="anchor field"></a><span id='UserGetWeeklyTrackChart.v' class='invisible'><code>UserGetWeeklyTrackChart</code></span></span>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl <a class="enum" href="../../lastfm_parse_rs/methods/enum.Method.html" title="enum lastfm_parse_rs::methods::Method">Method</a></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/methods.rs.html#72-144' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.api_name' class="method"><span id='api_name.v' class='invisible'><code>pub fn <a href='#method.api_name' class='fnname'>api_name</a>(&amp;self) -&gt; &amp;'static <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/methods.rs.html#74-143' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Returns method&#39;s string representation</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../lastfm_parse_rs/methods/enum.Method.html" title="enum lastfm_parse_rs::methods::Method">Method</a></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/methods.rs.html#2' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/methods.rs.html#2' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lastfm_parse_rs";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

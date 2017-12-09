@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["ApiErrorKind","Lastfm API error codes Source: https://www.last.fm/api/errorcodes"]],"struct":[["ApiError",""]]});

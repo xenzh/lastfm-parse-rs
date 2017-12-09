@@ -2,6 +2,8 @@ use std::error::Error as StdError;
 use std::fmt::{Display, Formatter, Result as FmtResult};
 use serde::de::{Deserialize, Deserializer, Visitor};
 
+/// Lastfm API error codes
+/// Source: https://www.last.fm/api/errorcodes
 #[derive(Debug, PartialEq)]
 pub enum ApiErrorKind {
     InvalidService,
@@ -34,6 +36,7 @@ pub enum ApiErrorKind {
 }
 
 impl ApiErrorKind {
+    /// Constructs error kind variant from numerical code
     fn from_u64(value: u64) -> ApiErrorKind {
         match value {
             02 => ApiErrorKind::InvalidService,
@@ -66,6 +69,7 @@ impl ApiErrorKind {
         }
     }
 
+    /// Returns error code description
     pub fn description(&self) -> &'static str {
         match *self {
             ApiErrorKind::InvalidService => "This service does not exist",

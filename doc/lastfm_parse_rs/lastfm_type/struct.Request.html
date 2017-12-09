@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Request` struct in crate `lastfm_parse_rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Request">
+
+    <title>lastfm_parse_rs::lastfm_type::Request - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct Request</p><div class="block items"><a class="sidebar-title" href="#fields">Fields</a><div class="sidebar-links"><a href="#structfield.base_url">base_url</a><a href="#structfield.api_key">api_key</a><a href="#structfield.method">method</a><a href="#structfield.params">params</a></div><a class="sidebar-title" href="#methods">Methods</a><div class="sidebar-links"><a href="#method.as_url">as_url</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-Into%3CUrl%3E">Into&lt;Url&gt;</a></div></div><p class='location'><a href='../index.html'>lastfm_parse_rs</a>::<wbr><a href='index.html'>lastfm_type</a></p><script>window.sidebarCurrent = {name: 'Request', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>lastfm_parse_rs</a>::<wbr><a href='index.html'>lastfm_type</a>::<wbr><a class="struct" href=''>Request</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#77-85' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Request&lt;'rq, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html" title="trait lastfm_parse_rs::lastfm_type::RequestParams">RequestParams</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,&nbsp;</span> {
+    pub base_url: &amp;'rq <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+    pub api_key: &amp;'rq <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+    pub method: <a class="enum" href="../../lastfm_parse_rs/methods/enum.Method.html" title="enum lastfm_parse_rs::methods::Method">Method</a>,
+    pub params: T,
+}</pre><div class='docblock'><p>Request information associated with a method and lastfm data type.
+Can be converted to a Url. No POST request support yet.</p>
+</div><h2 id='fields' class='fields small-section-header'>
+                       Fields<a href='#fields' class='anchor'></a></h2><span id="structfield.base_url" class="structfield small-section-header">
+                           <a href="#structfield.base_url" class="anchor field"></a>
+                           <span id="base_url.v" class='invisible'>
+                           <code>base_url: &amp;'rq <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code>
+                           </span></span><span id="structfield.api_key" class="structfield small-section-header">
+                           <a href="#structfield.api_key" class="anchor field"></a>
+                           <span id="api_key.v" class='invisible'>
+                           <code>api_key: &amp;'rq <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code>
+                           </span></span><span id="structfield.method" class="structfield small-section-header">
+                           <a href="#structfield.method" class="anchor field"></a>
+                           <span id="method.v" class='invisible'>
+                           <code>method: <a class="enum" href="../../lastfm_parse_rs/methods/enum.Method.html" title="enum lastfm_parse_rs::methods::Method">Method</a></code>
+                           </span></span><span id="structfield.params" class="structfield small-section-header">
+                           <a href="#structfield.params" class="anchor field"></a>
+                           <span id="params.v" class='invisible'>
+                           <code>params: T</code>
+                           </span></span>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;'rq, T&gt; <a class="struct" href="../../lastfm_parse_rs/lastfm_type/struct.Request.html" title="struct lastfm_parse_rs::lastfm_type::Request">Request</a>&lt;'rq, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html" title="trait lastfm_parse_rs::lastfm_type::RequestParams">RequestParams</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,&nbsp;</span></code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#87-104' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.as_url' class="method"><span id='as_url.v' class='invisible'><code>pub fn <a href='#method.as_url' class='fnname'>as_url</a>(&amp;self) -&gt; <a class="struct" href="https://docs.rs/url/1.6.0/url/struct.Url.html" title="struct url::Url">Url</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#92-103' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Converts Request object to an Url, appends request parameters (GET only)</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;'rq, T:&nbsp;<a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="struct" href="../../lastfm_parse_rs/lastfm_type/struct.Request.html" title="struct lastfm_parse_rs::lastfm_type::Request">Request</a>&lt;'rq, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html" title="trait lastfm_parse_rs::lastfm_type::RequestParams">RequestParams</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,&nbsp;</span></code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#76' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#76' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 id='impl-Into%3CUrl%3E' class='impl'><span class='in-band'><code>impl&lt;'rq, T&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.Into.html" title="trait core::convert::Into">Into</a>&lt;<a class="struct" href="https://docs.rs/url/1.6.0/url/struct.Url.html" title="struct url::Url">Url</a>&gt; for <a class="struct" href="../../lastfm_parse_rs/lastfm_type/struct.Request.html" title="struct lastfm_parse_rs::lastfm_type::Request">Request</a>&lt;'rq, T&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;T: <a class="trait" href="../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html" title="trait lastfm_parse_rs::lastfm_type::RequestParams">RequestParams</a> + <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a>,&nbsp;</span></code><a href='#impl-Into%3CUrl%3E' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#106-113' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.into' class="method"><span id='into.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.Into.html#tymethod.into' class='fnname'>into</a>(self) -&gt; <a class="struct" href="https://docs.rs/url/1.6.0/url/struct.Url.html" title="struct url::Url">Url</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/lastfm_parse_rs/lastfm_type.rs.html#110-112' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "lastfm_parse_rs";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

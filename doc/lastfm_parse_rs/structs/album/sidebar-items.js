@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Params",""]],"struct":[["Album",""],["GetInfo",""],["GetTopTags",""],["Search",""],["SearchData",""],["Tag1",""],["Tag2",""],["Tags",""],["Track",""],["Tracks",""],["_Info",""],["_Search",""],["_TopTags",""],["_UserTags",""]],"type":[["GetTags",""]]});

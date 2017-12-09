@@ -45,27 +45,34 @@ macro_rules! from_json_impl {
     }}
 }
 
-
+/// Parses given data type from json string slice (zero-copy)
+/// Beware that it will fail in case source contains escape sequences,
+/// as serde is currently unable to decode them inplace.
+/// Current solution is to unescape input manually beforehand.
+/// See https://github.com/serde-rs/json/issues/318 and tests/common/mod.rs for more details.
 pub fn from_json_str<'de, Lt: LastfmType<'de>>(json: &'de str) -> Result<Lt> {
     from_json_impl!(serde_json::from_str, &json, Lt::Outer)
 }
 
+/// Parses given data type from json byte slice (zero-copy)
+/// Beware that it will fail in case source contains escape sequences,
+/// as serde is currently unable to decode them inplace.
+/// Current solution is to unescape input manually beforehand.
+/// See https://github.com/serde-rs/json/issues/318 and tests/common/mod.rs for more details.
 pub fn from_json_slice<'de, Lt: LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> {
     from_json_impl!(serde_json::from_slice, &json, Lt::Outer)
 }
 
 // ----------------------------------------------------------------
 
-/// Temporary solution: a trait for request parameter type that makes
+/// (Maybe) Temporary solution: a trait for request parameter type that makes
 /// this type to know how to add itself to an url.
-/// Better solution would be to make every patameters type to implement IntoIterator
-/// providing ability to iterate over request pairs.
 pub trait RequestParams {
     fn append_to(&self, url: &mut Url);
 }
 
 /// Request information associated with a method and lastfm data type.
-/// Can be converted to a Url
+/// Can be converted to a Url. No POST request support yet.
 #[derive(Debug)]
 pub struct Request<'rq, T>
 where
@@ -81,6 +88,7 @@ impl<'rq, T> Request<'rq, T>
 where
     T: RequestParams + Debug,
 {
+    /// Converts Request object to an Url, appends request parameters (GET only)
     pub fn as_url(&self) -> Url {
         let mut url =
             Url::parse(self.base_url).expect("Base url is incorrect. How did this even happen?");
@@ -106,12 +114,15 @@ where
 
 // ----------------------------------------------------------------
 
-// For given Deserialize + Debug struct specifies:
-//   * wrapper (see LastfmType trait) and conversions
-//   * impl with fn request(&self) -> Request<RequestParameters>
-// Following should be included in order to use this macro:
-//   use std::convert::Into;
-//   use utils::{LastfmType, Request};
+/// This macro is used to define top-level requestable Lastfm data structure.
+/// For given Deserialize + Debug struct specifies
+/// a wrapper (see LastfmType trait), conversions
+/// and request() function with API method agruments.
+/// Following should be included in order to use this macro:
+/// ```
+/// use std::convert::Into;
+/// use lastfm_type::{LastfmType, Request, RequestParams};
+/// ```
 #[macro_export]
 macro_rules! lastfm_t {
     (
@@ -151,9 +162,11 @@ macro_rules! lastfm_t {
 
 // ----------------------------------------------------------------
 
-// Generates lastfm_t wrapper over opensearch object
-// Following should be included in order to use this macro:
-//   use common::SearchQuery;
+/// Generates lastfm_t wrapper over an opensearch object
+/// Following should be included in order to use this macro:
+/// ```
+/// use common::SearchQuery;
+/// ```
 #[macro_export]
 macro_rules! opensearch_t {
     (

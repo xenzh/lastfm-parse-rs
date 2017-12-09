@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Error","Error type for Last.fm API requests As of now, it can be either serde or API fail. Serde fails usually mean that the problem is in the library."]],"type":[["Result",""]]});

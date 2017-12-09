@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Params` enum in crate `lastfm_parse_rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Params">
+
+    <title>lastfm_parse_rs::structs::user::Params - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc enum">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Enum Params</p><div class="block items"><a class="sidebar-title" href="#variants">Variants</a><div class="sidebar-links"><a href="#variant.GetArtistTracks">GetArtistTracks</a><a href="#variant.GetFriends">GetFriends</a><a href="#variant.GetInfo">GetInfo</a><a href="#variant.GetLovedTracks">GetLovedTracks</a><a href="#variant.GetPersonalTags">GetPersonalTags</a><a href="#variant.GetRecentTracks">GetRecentTracks</a><a href="#variant.GetTopAlbums">GetTopAlbums</a><a href="#variant.GetTopArtists">GetTopArtists</a><a href="#variant.GetTopTags">GetTopTags</a><a href="#variant.GetTopTracks">GetTopTracks</a><a href="#variant.GetWeeklyAlbumChart">GetWeeklyAlbumChart</a><a href="#variant.GetWeeklyArtistChart">GetWeeklyArtistChart</a><a href="#variant.GetWeeklyChartList">GetWeeklyChartList</a><a href="#variant.GetWeeklyTrackChart">GetWeeklyTrackChart</a></div><a class="sidebar-title" href="#implementations">Trait Implementations</a><div class="sidebar-links"><a href="#impl-Debug">Debug</a><a href="#impl-RequestParams">RequestParams</a></div></div><p class='location'><a href='../../index.html'>lastfm_parse_rs</a>::<wbr><a href='../index.html'>structs</a>::<wbr><a href='index.html'>user</a></p><script>window.sidebarCurrent = {name: 'Params', ty: 'enum', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Enum <a href='../../index.html'>lastfm_parse_rs</a>::<wbr><a href='../index.html'>structs</a>::<wbr><a href='index.html'>user</a>::<wbr><a class="enum" href=''>Params</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../../src/lastfm_parse_rs/structs/user.rs.html#57-127' title='goto source code'>[src]</a></span></h1>
+<pre class='rust enum'>pub enum Params&lt;'pr&gt; {
+    GetArtistTracks {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        artist: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        start: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;,
+        end: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetFriends {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        recenttracks: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetInfo {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+    },
+    GetLovedTracks {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetPersonalTags {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        tag: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        taggingtype: <a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.TaggingType.html" title="enum lastfm_parse_rs::structs::user::TaggingType">TaggingType</a>,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetRecentTracks {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        extended: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;,
+        from: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;,
+        to: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetTopAlbums {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        period: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetTopArtists {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        period: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetTopTags {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetTopTracks {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        period: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;,
+        limit: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+        page: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;,
+    },
+    GetWeeklyAlbumChart {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        from: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+        to: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+    },
+    GetWeeklyArtistChart {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        from: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+        to: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+    },
+    GetWeeklyChartList {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+    },
+    GetWeeklyTrackChart {
+        user: &amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a>,
+        from: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+        to: <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;,
+    },
+}</pre><h2 id='variants' class='variants small-section-header'>
+                   Variants<a href='#variants' class='anchor'></a></h2>
+<span id="variant.GetArtistTracks" class="variant small-section-header"><a href="#variant.GetArtistTracks" class="anchor field"></a><span id='GetArtistTracks.v' class='invisible'><code>GetArtistTracks</code></span></span><span class='docblock autohide sub-variant' id='variant.GetArtistTracks.fields'><h3 class='fields'>Fields of <code>GetArtistTracks</code></h3>
+
+                           <table><tr><td id='variant.GetArtistTracks.field.user'><span id='GetArtistTracks.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetArtistTracks.field.artist'><span id='GetArtistTracks.v.artist.v' class='invisible'><code>artist:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetArtistTracks.field.start'><span id='GetArtistTracks.v.start.v' class='invisible'><code>start:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetArtistTracks.field.end'><span id='GetArtistTracks.v.end.v' class='invisible'><code>end:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetArtistTracks.field.page'><span id='GetArtistTracks.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetFriends" class="variant small-section-header"><a href="#variant.GetFriends" class="anchor field"></a><span id='GetFriends.v' class='invisible'><code>GetFriends</code></span></span><span class='docblock autohide sub-variant' id='variant.GetFriends.fields'><h3 class='fields'>Fields of <code>GetFriends</code></h3>
+
+                           <table><tr><td id='variant.GetFriends.field.user'><span id='GetFriends.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetFriends.field.recenttracks'><span id='GetFriends.v.recenttracks.v' class='invisible'><code>recenttracks:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetFriends.field.limit'><span id='GetFriends.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetFriends.field.page'><span id='GetFriends.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetInfo" class="variant small-section-header"><a href="#variant.GetInfo" class="anchor field"></a><span id='GetInfo.v' class='invisible'><code>GetInfo</code></span></span><span class='docblock autohide sub-variant' id='variant.GetInfo.fields'><h3 class='fields'>Fields of <code>GetInfo</code></h3>
+
+                           <table><tr><td id='variant.GetInfo.field.user'><span id='GetInfo.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr></table></span><span id="variant.GetLovedTracks" class="variant small-section-header"><a href="#variant.GetLovedTracks" class="anchor field"></a><span id='GetLovedTracks.v' class='invisible'><code>GetLovedTracks</code></span></span><span class='docblock autohide sub-variant' id='variant.GetLovedTracks.fields'><h3 class='fields'>Fields of <code>GetLovedTracks</code></h3>
+
+                           <table><tr><td id='variant.GetLovedTracks.field.user'><span id='GetLovedTracks.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetLovedTracks.field.limit'><span id='GetLovedTracks.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetLovedTracks.field.page'><span id='GetLovedTracks.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetPersonalTags" class="variant small-section-header"><a href="#variant.GetPersonalTags" class="anchor field"></a><span id='GetPersonalTags.v' class='invisible'><code>GetPersonalTags</code></span></span><span class='docblock autohide sub-variant' id='variant.GetPersonalTags.fields'><h3 class='fields'>Fields of <code>GetPersonalTags</code></h3>
+
+                           <table><tr><td id='variant.GetPersonalTags.field.user'><span id='GetPersonalTags.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetPersonalTags.field.tag'><span id='GetPersonalTags.v.tag.v' class='invisible'><code>tag:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetPersonalTags.field.taggingtype'><span id='GetPersonalTags.v.taggingtype.v' class='invisible'><code>taggingtype:&nbsp;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.TaggingType.html" title="enum lastfm_parse_rs::structs::user::TaggingType">TaggingType</a></code></span></td><td></td></tr><tr><td id='variant.GetPersonalTags.field.limit'><span id='GetPersonalTags.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetPersonalTags.field.page'><span id='GetPersonalTags.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetRecentTracks" class="variant small-section-header"><a href="#variant.GetRecentTracks" class="anchor field"></a><span id='GetRecentTracks.v' class='invisible'><code>GetRecentTracks</code></span></span><span class='docblock autohide sub-variant' id='variant.GetRecentTracks.fields'><h3 class='fields'>Fields of <code>GetRecentTracks</code></h3>
+
+                           <table><tr><td id='variant.GetRecentTracks.field.user'><span id='GetRecentTracks.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetRecentTracks.field.extended'><span id='GetRecentTracks.v.extended.v' class='invisible'><code>extended:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.bool.html">bool</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetRecentTracks.field.from'><span id='GetRecentTracks.v.from.v' class='invisible'><code>from:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetRecentTracks.field.to'><span id='GetRecentTracks.v.to.v' class='invisible'><code>to:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.UnixTimestamp.html" title="type lastfm_parse_rs::structs::user::UnixTimestamp">UnixTimestamp</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetRecentTracks.field.limit'><span id='GetRecentTracks.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetRecentTracks.field.page'><span id='GetRecentTracks.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetTopAlbums" class="variant small-section-header"><a href="#variant.GetTopAlbums" class="anchor field"></a><span id='GetTopAlbums.v' class='invisible'><code>GetTopAlbums</code></span></span><span class='docblock autohide sub-variant' id='variant.GetTopAlbums.fields'><h3 class='fields'>Fields of <code>GetTopAlbums</code></h3>
+
+                           <table><tr><td id='variant.GetTopAlbums.field.user'><span id='GetTopAlbums.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetTopAlbums.field.period'><span id='GetTopAlbums.v.period.v' class='invisible'><code>period:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopAlbums.field.limit'><span id='GetTopAlbums.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopAlbums.field.page'><span id='GetTopAlbums.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetTopArtists" class="variant small-section-header"><a href="#variant.GetTopArtists" class="anchor field"></a><span id='GetTopArtists.v' class='invisible'><code>GetTopArtists</code></span></span><span class='docblock autohide sub-variant' id='variant.GetTopArtists.fields'><h3 class='fields'>Fields of <code>GetTopArtists</code></h3>
+
+                           <table><tr><td id='variant.GetTopArtists.field.user'><span id='GetTopArtists.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetTopArtists.field.period'><span id='GetTopArtists.v.period.v' class='invisible'><code>period:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopArtists.field.limit'><span id='GetTopArtists.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopArtists.field.page'><span id='GetTopArtists.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetTopTags" class="variant small-section-header"><a href="#variant.GetTopTags" class="anchor field"></a><span id='GetTopTags.v' class='invisible'><code>GetTopTags</code></span></span><span class='docblock autohide sub-variant' id='variant.GetTopTags.fields'><h3 class='fields'>Fields of <code>GetTopTags</code></h3>
+
+                           <table><tr><td id='variant.GetTopTags.field.user'><span id='GetTopTags.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetTopTags.field.limit'><span id='GetTopTags.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetTopTracks" class="variant small-section-header"><a href="#variant.GetTopTracks" class="anchor field"></a><span id='GetTopTracks.v' class='invisible'><code>GetTopTracks</code></span></span><span class='docblock autohide sub-variant' id='variant.GetTopTracks.fields'><h3 class='fields'>Fields of <code>GetTopTracks</code></h3>
+
+                           <table><tr><td id='variant.GetTopTracks.field.user'><span id='GetTopTracks.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetTopTracks.field.period'><span id='GetTopTracks.v.period.v' class='invisible'><code>period:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Period.html" title="enum lastfm_parse_rs::structs::user::Period">Period</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopTracks.field.limit'><span id='GetTopTracks.v.limit.v' class='invisible'><code>limit:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetTopTracks.field.page'><span id='GetTopTracks.v.page.v' class='invisible'><code>page:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u32.html">u32</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetWeeklyAlbumChart" class="variant small-section-header"><a href="#variant.GetWeeklyAlbumChart" class="anchor field"></a><span id='GetWeeklyAlbumChart.v' class='invisible'><code>GetWeeklyAlbumChart</code></span></span><span class='docblock autohide sub-variant' id='variant.GetWeeklyAlbumChart.fields'><h3 class='fields'>Fields of <code>GetWeeklyAlbumChart</code></h3>
+
+                           <table><tr><td id='variant.GetWeeklyAlbumChart.field.user'><span id='GetWeeklyAlbumChart.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetWeeklyAlbumChart.field.from'><span id='GetWeeklyAlbumChart.v.from.v' class='invisible'><code>from:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetWeeklyAlbumChart.field.to'><span id='GetWeeklyAlbumChart.v.to.v' class='invisible'><code>to:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetWeeklyArtistChart" class="variant small-section-header"><a href="#variant.GetWeeklyArtistChart" class="anchor field"></a><span id='GetWeeklyArtistChart.v' class='invisible'><code>GetWeeklyArtistChart</code></span></span><span class='docblock autohide sub-variant' id='variant.GetWeeklyArtistChart.fields'><h3 class='fields'>Fields of <code>GetWeeklyArtistChart</code></h3>
+
+                           <table><tr><td id='variant.GetWeeklyArtistChart.field.user'><span id='GetWeeklyArtistChart.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetWeeklyArtistChart.field.from'><span id='GetWeeklyArtistChart.v.from.v' class='invisible'><code>from:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetWeeklyArtistChart.field.to'><span id='GetWeeklyArtistChart.v.to.v' class='invisible'><code>to:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr></table></span><span id="variant.GetWeeklyChartList" class="variant small-section-header"><a href="#variant.GetWeeklyChartList" class="anchor field"></a><span id='GetWeeklyChartList.v' class='invisible'><code>GetWeeklyChartList</code></span></span><span class='docblock autohide sub-variant' id='variant.GetWeeklyChartList.fields'><h3 class='fields'>Fields of <code>GetWeeklyChartList</code></h3>
+
+                           <table><tr><td id='variant.GetWeeklyChartList.field.user'><span id='GetWeeklyChartList.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr></table></span><span id="variant.GetWeeklyTrackChart" class="variant small-section-header"><a href="#variant.GetWeeklyTrackChart" class="anchor field"></a><span id='GetWeeklyTrackChart.v' class='invisible'><code>GetWeeklyTrackChart</code></span></span><span class='docblock autohide sub-variant' id='variant.GetWeeklyTrackChart.fields'><h3 class='fields'>Fields of <code>GetWeeklyTrackChart</code></h3>
+
+                           <table><tr><td id='variant.GetWeeklyTrackChart.field.user'><span id='GetWeeklyTrackChart.v.user.v' class='invisible'><code>user:&nbsp;&amp;'pr <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.str.html">str</a></code></span></td><td></td></tr><tr><td id='variant.GetWeeklyTrackChart.field.from'><span id='GetWeeklyTrackChart.v.from.v' class='invisible'><code>from:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr><tr><td id='variant.GetWeeklyTrackChart.field.to'><span id='GetWeeklyTrackChart.v.to.v' class='invisible'><code>to:&nbsp;<a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="type" href="../../../lastfm_parse_rs/structs/user/type.ChartDate.html" title="type lastfm_parse_rs::structs::user::ChartDate">ChartDate</a>&gt;</code></span></td><td></td></tr></table></span>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Debug' class='impl'><span class='in-band'><code>impl&lt;'pr&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html" title="trait core::fmt::Debug">Debug</a> for <a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Params.html" title="enum lastfm_parse_rs::structs::user::Params">Params</a>&lt;'pr&gt;</code><a href='#impl-Debug' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lastfm_parse_rs/structs/user.rs.html#56' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class="method"><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class="struct" href="https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html" title="struct core::fmt::Formatter">Formatter</a>) -&gt; <a class="type" href="https://doc.rust-lang.org/nightly/core/fmt/type.Result.html" title="type core::fmt::Result">Result</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lastfm_parse_rs/structs/user.rs.html#56' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter. <a href="https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt">Read more</a></p>
+</div></div><h3 id='impl-RequestParams' class='impl'><span class='in-band'><code>impl&lt;'pr&gt; <a class="trait" href="../../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html" title="trait lastfm_parse_rs::lastfm_type::RequestParams">RequestParams</a> for <a class="enum" href="../../../lastfm_parse_rs/structs/user/enum.Params.html" title="enum lastfm_parse_rs::structs::user::Params">Params</a>&lt;'pr&gt;</code><a href='#impl-RequestParams' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lastfm_parse_rs/structs/user.rs.html#129-312' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.append_to' class="method"><span id='append_to.v' class='invisible'><code>fn <a href='../../../lastfm_parse_rs/lastfm_type/trait.RequestParams.html#tymethod.append_to' class='fnname'>append_to</a>(&amp;self, url: &amp;mut <a class="struct" href="https://docs.rs/url/1.6.0/url/struct.Url.html" title="struct url::Url">StdUrl</a>)</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../../src/lastfm_parse_rs/structs/user.rs.html#130-311' title='goto source code'>[src]</a></span></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>↑</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>↓</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>↹</dt>
+                    <dd>Switch tab</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt style="width:31px;">+ / -</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../";
+        window.currentCrate = "lastfm_parse_rs";
+    </script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
+</body>
+</html>

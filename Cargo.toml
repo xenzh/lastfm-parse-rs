@@ -2,7 +2,13 @@
 name = "lastfm-parse-rs"
 version = "0.2.0"
 description = "Collection of serde-based data types for Lastfm API"
+repository = "https://github.com/xenzh/lastfm-parse-rs"
+license = "MIT"
 authors = ["xenzh <xenzh0@gmail.com>"]
+exclude = [
+    "docs/*",
+    "tests/*"
+]
 
 [dependencies]
 serde = "1.*"

@@ -1,3 +1,4 @@
+/// Contains all Lastfm API methods
 #[derive(Debug)]
 pub enum Method {
     AlbumAddTags,
@@ -69,6 +70,7 @@ pub enum Method {
 }
 
 impl Method {
+    /// Returns method's string representation
     pub fn api_name(&self) -> &'static str {
         match *self {
             Method::AlbumAddTags => "album.addtags",
