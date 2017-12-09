@@ -9,8 +9,10 @@
 Include following lines to your Cargo.toml in order to use this library:
 ```toml
 [dependencies]
-lastfm-parse-rs = "0.2"
+lastfm-parse-rs = { git = "https://github.com/xenzh/lastfm-parse-rs" }
 ```
+Unfortinately it's not on [crates.io](https://crates.io/) yet since I rely on forked [async-http-client](https://github.com/xenzh/async-http-client) crate for the tests, and the fork is not merged back yet.
+
 Library exposes a bunch of data types through `tag`, `track`, `user` etc modules and a couple of parser functions like `from_json_str()`. In addition, each of said types has associated `request()` function returning an object that can be used to form an API request for the type.
 
 For convenience types are named after corresponding API methods: for instance, `artist.gettopalbums` method is represented by `lastfm_parse_rs::artist::GetTopAlbums` data structure.
