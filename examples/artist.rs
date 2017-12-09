@@ -9,7 +9,7 @@ use async_http_client::HttpRequest;
 
 fn main() {
     let base_url = "http://ws.audioscrobbler.com/2.0/";
-    let api_key = "143f59fafebb6ba4bbfafc6af666e1d6";
+    let api_key = "INSERT_YOUR_API_KEY_HERE";
     let get_info = GetInfo::request(base_url, api_key, "iamthemorning", None, Some(1), None, None);
     let req = HttpRequest::get(get_info.as_url().as_str()).unwrap();
 

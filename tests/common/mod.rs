@@ -1,20 +1,19 @@
 extern crate url;
-extern crate futures;
-extern crate tokio_core;
-extern crate hyper;
 extern crate serde_json;
+extern crate async_http_client;
 
 extern crate lastfm_parse_rs as lastfm;
 
-use std::io::{Error as IoError, ErrorKind as IoErrorKind};
-
-use self::futures::{Future, Stream};
-use self::hyper::{Client, Uri, Chunk};
-use self::tokio_core::reactor::Core;
 
 use self::url::Url;
+
+use self::async_http_client::prelude::*;
+use self::async_http_client::HttpRequest;
+
 use self::lastfm::from_json_str;
 
+
+static LASTFM_BASE_URL: &str = "http://ws.audioscrobbler.com/2.0/";
 static LASTFM_API_KEY: &str = "INSERT_YOUR_API_KEY_HERE";
 
 // ----------------------------------------------------------------
@@ -22,39 +21,34 @@ static LASTFM_API_KEY: &str = "INSERT_YOUR_API_KEY_HERE";
 pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
     #[test]
     fn $name() {
-        let base_url = "http://ws.audioscrobbler.com/2.0/";
-        let rq = $lastfm_type::request(base_url, LASTFM_API_KEY, $($param_val),*);
-
+        let rq = $lastfm_type::request(LASTFM_BASE_URL, LASTFM_API_KEY, $($param_val),*);
         let url: Url = Into::into(rq);
-        let uri: Uri = url.into_string().parse().unwrap();
 
-        let mut core = Core::new().unwrap();
-        let client = Client::new(&core.handle());
+        println!("\nUrl: {}\n", url);
 
-        println!("\nUrl: {}\n", uri);
+        let req = HttpRequest::get(url).unwrap();
+        let addr = req.addr().unwrap();
+        
+        let mut core = Core::new().unwrap(); 
+        let handle = core.handle();
 
-        let work = client.get(uri).and_then(|res| {
-            res.body().concat2().and_then(move |body: Chunk| {
-                // temporary measure:
-                // as of now serde doesnt support inplace escape sequences decoding
-                // (see https://github.com/serde-rs/json/issues/318)
-                // so we copying/replacing them manually
-                let unescaped = String::from_utf8_lossy(&body).into_owned().replace(
-                    "\\\"",
-                    "'",
-                );
-                
-                println!("\nRaw: {}\n", unescaped);
+        let (res, _) = core.run(TcpStream::connect(&addr, &handle).and_then(|conn| {
+            req.send(conn)
+        })).unwrap();
 
-                let data: $lastfm_type = from_json_str(&unescaped).map_err(
-                    |e| IoError::new(IoErrorKind::Other, e),
-                )?;
+        let res = res.unwrap();
 
-                println!("\nDeserialized {}:\n{:?}", stringify!($lastfm_type), data);
-                Ok(())
-            })
-        });
+        //temporary measure:
+        // as of now serde doesnt support inplace escape sequence decoding
+        // (see https://github.com/serde-rs/json/issues/318)
+        // so we copying/replacing them manually
+        let unescaped = String::from_utf8_lossy(res.get_body()).into_owned().replace(
+            "\\\"",
+            "'",
+        );
+        println!("\nRaw: {}\n", unescaped);
 
-        core.run(work).unwrap();
+        let data: $lastfm_type = from_json_str(&unescaped).unwrap();
+        println!("\nDeserialized {}:\n{:?}", stringify!($lastfm_type), data);
     }
 }
