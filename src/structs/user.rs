@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, Id1, Id2, Streamable, Rank, str_to_option, str_to_val};
 
@@ -127,6 +126,25 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::GetArtistTracks { .. } => "user.getartisttracks",
+            Params::GetFriends { .. } => "user.getfriends",
+            Params::GetInfo { .. } => "user.getinfo",
+            Params::GetLovedTracks { .. } => "user.getlovedtracks",
+            Params::GetPersonalTags { .. } => "user.getpersonaltags",
+            Params::GetRecentTracks { .. } => "user.getrecenttracks",
+            Params::GetTopAlbums { .. } => "user.gettopalbums",
+            Params::GetTopArtists { .. } => "user.gettopartists",
+            Params::GetTopTags { .. } => "user.gettoptags",
+            Params::GetTopTracks { .. } => "user.gettoptracks",
+            Params::GetWeeklyAlbumChart { .. } => "user.getweeklyalbumchart",
+            Params::GetWeeklyArtistChart { .. } => "user.getweeklyartistchart",
+            Params::GetWeeklyChartList { .. } => "user.getweeklychartlist",
+            Params::GetWeeklyTrackChart { .. } => "user.getweeklytrackchart",
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -355,8 +373,6 @@ lastfm_t!(
     artisttracks,
     GetArtistTracks,
     _ArtistTracks,
-    Method,
-    UserGetArtistTracks,
     Params,
     GetArtistTracks,
     [
@@ -441,8 +457,6 @@ lastfm_t!(
     friends,
     GetFriends,
     _Friends,
-    Method,
-    UserGetFriends,
     Params,
     GetFriends,
     [
@@ -492,8 +506,6 @@ lastfm_t!(
     user,
     GetInfo,
     _Info,
-    Method,
-    UserGetInfo,
     Params,
     GetInfo,
     [user: &'rq str]
@@ -522,8 +534,6 @@ lastfm_t!(
     lovedtracks,
     GetLovedTracks,
     _LovedTracks,
-    Method,
-    UserGetLovedTracks,
     Params,
     GetLovedTracks,
     [user: &'rq str, limit: Option<u32>, page: Option<u32>]
@@ -594,8 +604,6 @@ lastfm_t!(
     taggings,
     GetTaggings,
     _Taggings,
-    Method,
-    UserGetPersonalTags,
     Params,
     GetPersonalTags,
     [
@@ -636,8 +644,6 @@ lastfm_t!(
     recenttracks,
     GetRecentTracks,
     _RecentTracks,
-    Method,
-    UserGetRecentTracks,
     Params,
     GetRecentTracks,
     [
@@ -675,8 +681,6 @@ lastfm_t!(
     topalbums,
     GetTopAlbums,
     _GetTopAlbums,
-    Method,
-    UserGetTopAlbums,
     Params,
     GetTopAlbums,
     [
@@ -713,8 +717,6 @@ lastfm_t!(
     topartists,
     GetTopArtists,
     _GetTopArtists,
-    Method,
-    UserGetTopArtists,
     Params,
     GetTopArtists,
     [
@@ -745,8 +747,6 @@ lastfm_t!(
     toptags,
     GetTopTags,
     _GetTopTags,
-    Method,
-    UserGetTopTags,
     Params,
     GetTopTags,
     [user: &'rq str, limit: Option<u32>]
@@ -780,8 +780,6 @@ lastfm_t!(
     toptracks,
     GetTopTracks,
     _GetTopTracks,
-    Method,
-    UserGetTopTracks,
     Params,
     GetTopTracks,
     [
@@ -816,8 +814,6 @@ lastfm_t!(
     weeklyalbumchart,
     GetWeeklyAlbumChart,
     _GetWeeklyAlbumChart,
-    Method,
-    UserGetWeeklyAlbumChart,
     Params,
     GetWeeklyAlbumChart,
     [
@@ -850,8 +846,6 @@ lastfm_t!(
     weeklyartistchart,
     GetWeeklyArtistChart,
     _GetWeeklyArtistChart,
-    Method,
-    UserGetWeeklyArtistChart,
     Params,
     GetWeeklyArtistChart,
     [
@@ -885,8 +879,6 @@ lastfm_t!(
     weeklytrackchart,
     GetWeeklyTrackChart,
     _GetWeeklyTrackChart,
-    Method,
-    UserGetWeeklyTrackChart,
     Params,
     GetWeeklyTrackChart,
     [
@@ -916,8 +908,6 @@ lastfm_t!(
     weeklychartlist,
     GetWeeklyChartList,
     _GetWeeklyChartList,
-    Method,
-    UserGetWeeklyChartList,
     Params,
     GetWeeklyChartList,
     [user: &'rq str]

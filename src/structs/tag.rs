@@ -3,7 +3,6 @@ use std::marker::PhantomData;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, str_to_option, str_to_val};
 
@@ -33,6 +32,18 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::GetInfo { .. } => "tag.getinfo",
+            Params::GetSimilar { .. } => "tag.getsimilar",
+            Params::GetTopAlbums { .. } => "tag.gettopalbums",
+            Params::GetTopArtists { .. } => "tag.gettopartists",
+            Params::GetTopTags { .. } => "tag.gettoptags",
+            Params::GetTopTracks { .. } => "tag.gettoptracks",
+            Params::GetWeeklyChartList { .. } => "tag.getweeklychartlist",
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -98,8 +109,6 @@ lastfm_t!(
     tag,
     GetInfo,
     _Info,
-    Method,
-    TagGetInfo,
     Params,
     GetInfo,
     [tag: &'rq str]
@@ -124,8 +133,6 @@ lastfm_t!(
     similartags,
     GetSimilar,
     _SimilarList,
-    Method,
-    TagGetSimilar,
     Params,
     GetSimilar,
     [tag: &'rq str]
@@ -160,8 +167,6 @@ lastfm_t!(
     albums,
     GetTopAlbums,
     _TopAlbums,
-    Method,
-    TagGetTopAlbums,
     Params,
     GetTopAlbums,
     [tag: &'rq str, limit: Option<u32>, page: Option<u32>]
@@ -189,8 +194,6 @@ lastfm_t!(
     topartists,
     GetTopArtists,
     _TopArtists,
-    Method,
-    TagGetTopArtists,
     Params,
     GetTopArtists,
     [tag: &'rq str, limit: Option<u32>, page: Option<u32>]
@@ -215,8 +218,6 @@ lastfm_t!(
     toptags,
     GetTopTags,
     _TopTags,
-    Method,
-    TagGetTopTags,
     Params,
     GetTopTags,
     []
@@ -245,8 +246,6 @@ lastfm_t!(
     tracks,
     GetTopTracks,
     _TopTracks,
-    Method,
-    TagGetTopTracks,
     Params,
     GetTopTracks,
     [tag: &'rq str, limit: Option<u32>, page: Option<u32>]
@@ -273,8 +272,6 @@ lastfm_t!(
     weeklychartlist,
     GetWeeklyChartList,
     _WeeklyChartList,
-    Method,
-    TagGetWeeklyChartList,
     Params,
     GetWeeklyChartList,
     [tag: &'rq str]

@@ -1,12 +1,12 @@
 use std::fmt::Debug;
 
 use url::Url;
-use methods::Method;
 
 // ----------------------------------------------------------------
 
 /// A trait for request parameter type that makes this type appendable to an url.
 pub trait RequestParams {
+    fn method(&self) -> &str;
     fn append_to(&self, url: &mut Url);
 }
 
@@ -19,7 +19,6 @@ where
 {
     pub base_url: &'rq str,
     pub api_key: &'rq str,
-    pub method: Method,
     pub params: T,
 }
 
@@ -28,8 +27,8 @@ where
     T: RequestParams + Debug,
 {
     /// Constructs new Request from given method and parameters
-    pub fn new(base_url: &'rq str, api_key: &'rq str, method: Method, params: T) -> Request<'rq, T> {
-        Request { base_url, api_key, method, params }
+    pub fn new(base_url: &'rq str, api_key: &'rq str, params: T) -> Request<'rq, T> {
+        Request { base_url, api_key, params }
     }
 
     /// Converts Request object to an Url, appends request parameters (GET only)
@@ -40,7 +39,7 @@ where
             let mut query_pairs = url.query_pairs_mut();
             query_pairs.append_pair("api_key", self.api_key);
             query_pairs.append_pair("format", "json");
-            query_pairs.append_pair("method", self.method.api_name());
+            query_pairs.append_pair("method", self.params.method());
         }
         self.params.append_to(&mut url);
         url

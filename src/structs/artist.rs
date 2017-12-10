@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 
@@ -59,6 +58,21 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::AddTags { .. } => "artist.addtags",
+            Params::GetCorrection { .. } => "artist.getcorrection",
+            Params::GetInfo { .. } => "artist.getinfo",
+            Params::GetSimilar { .. } => "artist.getsimilar",
+            Params::GetTags { .. } => "artist.gettags",
+            Params::GetTopAlbums { .. } => "artist.gettopalbums",
+            Params::GetTopTags { .. } => "artist.gettoptags",
+            Params::GetTopTracks { .. } => "artist.gettoptracks",
+            Params::RemoveTag { .. } => "artist.removetag",
+            Params::Search { .. } => "artist.search",
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -225,8 +239,6 @@ lastfm_t!(
     corrections,
     GetCorrections,
     _Corrections,
-    Method,
-    ArtistGetCorrection,
     Params,
     GetCorrection,
     [artist: &'rq str]
@@ -316,8 +328,6 @@ lastfm_t!(
     artist,
     GetInfo,
     _Info,
-    Method,
-    ArtistGetInfo,
     Params,
     GetInfo,
     [
@@ -355,8 +365,6 @@ lastfm_t!(
     similarartists,
     GetSimilar,
     _SimilarList,
-    Method,
-    ArtistGetSimilar,
     Params,
     GetSimilar,
     [
@@ -375,8 +383,6 @@ lastfm_t!(
     tags,
     GetTags,
     _UserTags,
-    Method,
-    ArtistGetTags,
     Params,
     GetTags,
     [
@@ -409,8 +415,6 @@ lastfm_t!(
     topalbums,
     GetTopAlbums,
     _TopAlbums,
-    Method,
-    ArtistGetTopAlbums,
     Params,
     GetTopAlbums,
     [
@@ -441,8 +445,6 @@ lastfm_t!(
     toptags,
     GetTopTags,
     _TopTags,
-    Method,
-    ArtistGetTopTags,
     Params,
     GetTopTags,
     [
@@ -487,8 +489,6 @@ lastfm_t!(
     toptracks,
     GetTopTracks,
     _TopTracks,
-    Method,
-    ArtistGetTopTracks,
     Params,
     GetTopTracks,
     [
@@ -527,8 +527,6 @@ opensearch_t!(
     _Search,
     artistmatches,
     SearchData,
-    Method,
-    ArtistSearch,
     Params,
     Search,
     [artist: &'rq str, limit: Option<u32>, page: Option<u32>]

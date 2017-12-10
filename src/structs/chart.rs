@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, Id2, Streamable, str_to_option, str_to_val};
 
@@ -26,6 +25,15 @@ pub enum Params<'dt> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::GetTopArtists { .. } => "chart.gettopartists",
+            Params::GetTopTags { .. } => "chart.gettoptags",
+            Params::GetTopTracks { .. } => "chart.gettoptracks",
+            Params::Phantom(_) => panic!("this is a dummy item"),
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -53,7 +61,7 @@ impl<'pr> RequestParams for Params<'pr> {
                     query.append_pair("page", &page.to_string());
                 }
             }
-            Params::Phantom(_) => {}
+            Params::Phantom(_) => panic!("this is a dummy item"),
         }
     }
 }
@@ -85,8 +93,6 @@ lastfm_t!(
     artists,
     GetTopArtists,
     _TopArtists,
-    Method,
-    ChartGetTopArtists,
     Params,
     GetTopArtists,
     [limit: Option<u32>, page: Option<u32>]
@@ -117,8 +123,6 @@ lastfm_t!(
     tags,
     GetTopTags,
     _TopTags,
-    Method,
-    ChartGetTopTags,
     Params,
     GetTopTags,
     [limit: Option<u32>, page: Option<u32>]
@@ -152,8 +156,6 @@ lastfm_t!(
     tracks,
     GetTopTracks,
     _TopTracks,
-    Method,
-    ChartGetTopTracks,
     Params,
     GetTopTracks,
     [limit: Option<u32>, page: Option<u32>]

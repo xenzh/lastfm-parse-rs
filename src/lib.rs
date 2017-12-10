@@ -52,9 +52,6 @@ pub mod structs;
 /// Common error type for serde/API fails
 pub mod error;
 
-/// Listing of all Lastfm API methods along with their text representation.
-pub mod methods;
-
 /// Album data structures
 pub mod album;
 /// Artist data structures

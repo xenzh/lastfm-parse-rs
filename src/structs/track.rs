@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 
@@ -70,6 +69,23 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::AddTags { .. } => "track.addtags",
+            Params::GetCorrection { .. } => "track.getcorrection",
+            Params::GetInfo { .. } => "track.getinfo",
+            Params::GetSimilar { .. } => "track.getsimilar",
+            Params::GetTags { .. } => "track.gettags",
+            Params::GetTopTags { .. } => "track.gettoptags",
+            Params::Love { .. } => "track.love",
+            Params::RemoveTag { .. } => "track.removetags",
+            Params::Scrobble { .. } => "track.scrobble",
+            Params::Search { .. } => "track.search",
+            Params::Unlove { .. } => "track.unlove",
+            Params::UpdateNowPlaying { .. } => "track.updatenowplaying",
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -224,8 +240,6 @@ lastfm_t!(
     corrections,
     GetCorrections,
     _Correction,
-    Method,
-    TrackGetCorrection,
     Params,
     GetCorrection,
     [artist: &'rq str, track: &'rq str]
@@ -281,8 +295,6 @@ lastfm_t!(
     track,
     GetInfo,
     _Info,
-    Method,
-    TrackGetInfo,
     Params,
     GetInfo,
     [
@@ -320,8 +332,6 @@ lastfm_t!(
     similartracks,
     GetSimilar,
     _SimilarList,
-    Method,
-    TrackGetSimilar,
     Params,
     GetSimilar,
     [
@@ -341,8 +351,6 @@ lastfm_t!(
     tags,
     GetTags,
     _UserTags,
-    Method,
-    TrackGetTags,
     Params,
     GetTags,
     [
@@ -373,8 +381,6 @@ lastfm_t!(
     toptags,
     GetTopTags,
     _TopTags,
-    Method,
-    TrackGetTopTags,
     Params,
     GetTopTags,
     [
@@ -409,8 +415,6 @@ opensearch_t!(
     _Search,
     trackmatches,
     SearchData,
-    Method,
-    TrackSearch,
     Params,
     Search,
     [

@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, Id2, Streamable, Rank, str_to_val};
 
@@ -25,6 +24,14 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::GetTopArtists { .. } => "geo.gettopartists",
+            Params::GetTopTracks { .. } => "geo.gettoptracks",
+            Params::Phantom(_) => panic!("this is a dummy item")
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -58,7 +65,7 @@ impl<'pr> RequestParams for Params<'pr> {
                     query.append_pair("page", &page.to_string());
                 }
             }
-            Params::Phantom(_) => {}
+            Params::Phantom(_) => panic!("this is a dummy item")
         }
     }
 }
@@ -85,8 +92,6 @@ lastfm_t!(
     topartists,
     GetTopArtists,
     _TopArtists,
-    Method,
-    GeoGetTopArtists,
     Params,
     GetTopArtists,
     [country: &'rq str, limit: Option<u32>, page: Option<u32>]
@@ -116,8 +121,6 @@ lastfm_t!(
     tracks,
     GetTopTracks,
     _TopTracks,
-    Method,
-    GeoGetTopTracks,
     Params,
     GetTopTracks,
     [

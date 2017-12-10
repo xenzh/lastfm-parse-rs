@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 
@@ -50,6 +49,17 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::AddTags { .. } => "album.addtags",
+            Params::GetInfo { .. } => "album.getinfo",
+            Params::GetTags { .. } => "album.gettags",
+            Params::GetTopTags { .. } => "album.gettoptags",
+            Params::RemoveTag { .. } => "album.removetag",
+            Params::Search { .. } => "album.search",
+        } 
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
@@ -188,8 +198,6 @@ lastfm_t!(
     album,
     GetInfo,
     _Info,
-    Method,
-    AlbumGetInfo,
     Params,
     GetInfo,
     [
@@ -210,8 +218,6 @@ lastfm_t!(
     tags,
     GetTags,
     _UserTags,
-    Method,
-    AlbumGetTags,
     Params,
     GetTags,
     [
@@ -244,8 +250,6 @@ lastfm_t!(
     toptags,
     GetTopTags,
     _TopTags,
-    Method,
-    AlbumGetTopTags,
     Params,
     GetTopTags,
     [
@@ -282,8 +286,6 @@ opensearch_t!(
     _Search,
     albummatches,
     SearchData,
-    Method,
-    AlbumSearch,
     Params,
     Search,
     [album: &'rq str, limit: Option<u32>, page: Option<u32>]

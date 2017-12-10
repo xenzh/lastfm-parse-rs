@@ -78,7 +78,6 @@ pub fn from_json_slice<'de, Lt: LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> 
 macro_rules! lastfm_t {
     (
         $name:ident, $data_t:ident, $wrapper_name:ident,
-        $method_t:ident, $method_variant:ident,
         $params_t:ident, $params_variant:ident,
         [$($param_key:ident: $param_t:ty),*]
     ) => {
@@ -103,7 +102,6 @@ macro_rules! lastfm_t {
                 Request {
                     base_url: base_url,
                     api_key: api_key,
-                    method: $method_t::$method_variant,
                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
                 }
             }
@@ -123,7 +121,6 @@ macro_rules! opensearch_t {
     (
         $name:ident, $data_name:ident, $wrapper_name:ident,
         $result:ident, $result_t:ident,
-        $method_t:ident, $method_variant:ident,
         $params_t:ident, $params_variant:ident,
         [$($param_key:ident: $param_t:ty),*]
     ) => {
@@ -149,8 +146,6 @@ macro_rules! opensearch_t {
             $name,
             $data_name,
             $wrapper_name,
-            $method_t,
-            $method_variant,
             $params_t,
             $params_variant,
             [ $($param_key: $param_t),* ]

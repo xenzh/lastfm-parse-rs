@@ -2,7 +2,6 @@ use std::convert::Into;
 
 use url::Url as StdUrl;
 
-use methods::Method;
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{Url, Image, str_to_val};
 
@@ -18,8 +17,15 @@ pub enum Params<'pr> {
 }
 
 impl<'pr> RequestParams for Params<'pr> {
+    fn method(&self) -> &str {
+        match *self {
+            Params::GetArtists { .. } => "library.getartists"
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
+        
         match *self {
             Params::GetArtists { user, limit, page } => {
                 query.append_pair("user", user);
@@ -60,8 +66,6 @@ lastfm_t!(
     artists,
     GetArtists,
     _Artists,
-    Method,
-    LibraryGetArtists,
     Params,
     GetArtists,
     [user: &'rq str, limit: Option<u32>, page: Option<u32>]
