@@ -28,13 +28,7 @@ impl<'pr> RequestParams for Params<'pr> {
         
         match *self {
             Params::GetArtists { user, limit, page } => {
-                query.append_pair("user", user);
-                if let Some(limit) = limit {
-                    query.append_pair("limit", &limit.to_string());
-                }
-                if let Some(page) = page {
-                    query.append_pair("page", &page.to_string());
-                }
+                params!(query, [user: user], [limit: cv!(limit), page: cv!(page)]);
             }
         }
     }

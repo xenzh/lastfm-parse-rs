@@ -68,9 +68,7 @@ impl<'pr> RequestParams for Params<'pr> {
                 album,
                 tags,
             } => {
-                query.append_pair("artist", artist);
-                query.append_pair("album", album);
-                query.append_pair("tags", tags);
+                params!(query, [artist: artist, album: album, tags: tags], []);
             }
             Params::GetInfo {
                 artist,
@@ -80,20 +78,11 @@ impl<'pr> RequestParams for Params<'pr> {
                 lang,
                 username,
             } => {
-                query.append_pair("artist", artist);
-                query.append_pair("album", album);
-                if let Some(mbid) = mbid {
-                    query.append_pair("mbid", mbid);
-                }
-                if let Some(autocorrect) = autocorrect {
-                    query.append_pair("autocorrect", &autocorrect.to_string());
-                }
-                if let Some(lang) = lang {
-                    query.append_pair("lang", lang);
-                }
-                if let Some(username) = username {
-                    query.append_pair("username", username);
-                }
+                params!(
+                    query,
+                    [artist: artist, album: album],
+                    [mbid: mbid, autocorrect: cv!(autocorrect), lang: lang, username: username]
+                );
             }
             Params::GetTags {
                 artist,

@@ -6,4 +6,4 @@ mod common;
 use common::test_fn;
 
 use lastfm::library::GetArtists;
-test_fn!(test_library_getartists, GetArtists, ["xenzh", Some(3), Some(6)]);
+test_fn!(test_library_getartists, GetArtists, ["xenzh", Some(3), None]);

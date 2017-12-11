@@ -54,3 +54,22 @@ where
         (&self).as_url()
     }
 }
+
+// ----------------------------------------------------------------
+
+#[macro_export]
+macro_rules! cv {
+    ($what:ident) => { &$what.to_string() }
+}
+
+#[macro_export]
+macro_rules! params {
+    (
+        $to:ident,
+        [$($rqn:ident: $rqe:expr),*],
+        [$($opn:ident: $ope:expr),*]
+    ) => {
+        $( $to.append_pair(stringify!($rqn), $rqe); )*
+        $( if let Some($opn) = $opn { $to.append_pair(stringify!($opn), $ope); }; )*
+    }
+}

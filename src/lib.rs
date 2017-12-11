@@ -45,6 +45,7 @@ extern crate serde_derive;
 #[macro_use]
 pub mod lastfm_type;
 /// Tools for constructing API requests
+#[macro_use]
 pub mod request;
 
 /// Serde-based API data structures
