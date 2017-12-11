@@ -52,25 +52,99 @@ pub mod structs;
 /// Common error type for serde/API fails
 pub mod error;
 
-/// Album data structures
-pub mod album;
-/// Artist data structures
-pub mod artist;
-/// Chart data structures
-pub mod chart;
-/// Geo data structures
-pub mod geo;
-/// Library data structures
-pub mod library;
-/// Tag data structures
-pub mod tag;
-/// Track data structures
-pub mod track;
-/// User data structures
-pub mod user;
-
 // ----------------------------------------------------------------
 
 pub use lastfm_type::{LastfmType, from_json_str, from_json_slice};
 pub use request::{Request, RequestParams};
 pub use error::Result;
+
+// ----------------------------------------------------------------
+
+/// Album data structures
+pub mod album {
+    pub use structs::album::Params;
+
+    pub use structs::album::GetInfo;
+    pub use structs::album::GetTags;
+    pub use structs::album::GetTopTags;
+    pub use structs::album::Search;
+}
+
+/// Artist data structures
+pub mod artist {
+    pub use structs::artist::Params;
+
+    pub use structs::artist::GetCorrections;
+    pub use structs::artist::GetInfo;
+    pub use structs::artist::GetSimilar;
+    pub use structs::artist::GetTags;
+    pub use structs::artist::GetTopAlbums;
+    pub use structs::artist::GetTopTags;
+    pub use structs::artist::GetTopTracks;
+    pub use structs::artist::Search;
+}
+
+/// Chart data structures
+pub mod chart {
+    pub use structs::chart::Params;
+
+    pub use structs::chart::GetTopArtists;
+    pub use structs::chart::GetTopTags;
+    pub use structs::chart::GetTopTracks;
+}
+/// Geo data structures
+pub mod geo {
+    pub use structs::geo::Params;
+
+    pub use structs::geo::GetTopArtists;
+    pub use structs::geo::GetTopTracks;
+}
+
+/// Library data structures
+pub mod library {
+    pub use structs::library::Params;
+
+    pub use structs::library::GetArtists;
+}
+/// Tag data structures
+pub mod tag {
+    pub use structs::tag::Params;
+
+    pub use structs::tag::GetInfo;
+    pub use structs::tag::GetSimilar;
+    pub use structs::tag::GetTopAlbums;
+    pub use structs::tag::GetTopArtists;
+    pub use structs::tag::GetTopTags;
+    pub use structs::tag::GetTopTracks;
+    pub use structs::tag::GetWeeklyChartList;
+}
+/// Track data structures
+pub mod track {
+    pub use structs::track::Params;
+
+    pub use structs::track::GetCorrections;
+    pub use structs::track::GetInfo;
+    pub use structs::track::GetSimilar;
+    pub use structs::track::GetTags;
+    pub use structs::track::GetTopTags;
+    pub use structs::track::Search;
+}
+/// User data structures
+pub mod user {
+    pub use structs::user::Params;
+
+    pub use structs::user::GetArtistTracks;
+    pub use structs::user::GetFriends;
+    pub use structs::user::GetInfo;
+    pub use structs::user::GetLovedTracks;
+    pub use structs::user::GetTaggings;
+    pub use structs::user::GetRecentTracks;
+    pub use structs::user::GetTopAlbums;
+    pub use structs::user::GetTopArtists;
+    pub use structs::user::GetTopTags;
+    pub use structs::user::GetTopTracks;
+    pub use structs::user::GetWeeklyAlbumChart;
+    pub use structs::user::GetWeeklyArtistChart;
+    pub use structs::user::GetWeeklyTrackChart;
+    pub use structs::user::GetWeeklyChartList;
+}
