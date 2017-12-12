@@ -145,6 +145,10 @@ impl<'pr> RequestParams for Params<'pr> {
         }
     }
 
+    fn is_write(&self) -> bool {
+        false
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {

@@ -5,6 +5,8 @@ extern crate async_http_client;
 extern crate lastfm_parse_rs as lastfm;
 
 
+use std::convert::TryFrom;
+
 use self::url::Url;
 
 use self::async_http_client::prelude::*;
@@ -21,8 +23,8 @@ static LASTFM_API_KEY: &str = "INSERT_YOUR_API_KEY_HERE";
 pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
     #[test]
     fn $name() {
-        let rq = $lastfm_type::request(LASTFM_BASE_URL, LASTFM_API_KEY, $($param_val),*);
-        let url: Url = Into::into(rq);
+        let rq = $lastfm_type::request(LASTFM_BASE_URL, LASTFM_API_KEY, None, $($param_val),*);
+        let url: Url = TryFrom::try_from(rq).unwrap();
 
         println!("\nUrl: {}\n", url);
 

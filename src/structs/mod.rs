@@ -1,6 +1,7 @@
 pub mod album;
 pub mod api_error;
 pub mod artist;
+pub mod auth;
 pub mod chart;
 pub mod geo;
 pub mod library;

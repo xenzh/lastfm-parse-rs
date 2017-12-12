@@ -10,7 +10,6 @@ use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 #[derive(Debug)]
 pub enum Params<'pr> {
     AddTags {
-        // auth
         artist: &'pr str,
         album: &'pr str,
         tags: &'pr str,
@@ -58,6 +57,14 @@ impl<'pr> RequestParams for Params<'pr> {
             Params::RemoveTag { .. } => "album.removetag",
             Params::Search { .. } => "album.search",
         } 
+    }
+
+    fn is_write(&self) -> bool {
+        match *self {
+            Params::AddTags { .. } => true,
+            Params::RemoveTag { .. } => true,
+            _ => false,
+        }
     }
 
     fn append_to(&self, url: &mut StdUrl) {

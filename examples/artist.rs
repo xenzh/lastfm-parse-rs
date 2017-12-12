@@ -1,5 +1,8 @@
+extern crate url;
 extern crate async_http_client;
 extern crate lastfm_parse_rs;
+
+use url::Url;
 
 use lastfm_parse_rs::from_json_slice;
 use lastfm_parse_rs::structs::artist::GetInfo;
@@ -7,21 +10,25 @@ use lastfm_parse_rs::structs::artist::GetInfo;
 use async_http_client::prelude::*;
 use async_http_client::HttpRequest;
 
+
 fn main() {
     let base_url = "http://ws.audioscrobbler.com/2.0/";
     let api_key = "INSERT_YOUR_API_KEY_HERE";
     let get_info = GetInfo::request(
         base_url,
         api_key,
+        None,
         "iamthemorning",
         None,
         Some(1),
         None,
         None,
     );
-    let req = HttpRequest::get(get_info.as_url()).unwrap();
 
-    println!("\nUrl: {}\n", get_info.as_url().as_str());
+    let url: Url = get_info.get_url().unwrap();
+    println!("\nUrl: {}\n", url.as_str());
+    
+    let req = HttpRequest::get(url).unwrap();
 
     let mut core = Core::new().unwrap();
     let addr = req.addr().unwrap();

@@ -32,9 +32,12 @@
 //!
 //! 2. Run `cargo run --example <example name>`
 
+#![feature(try_from)]
+
 extern crate serde;
 extern crate serde_json;
 extern crate url;
+extern crate md5;
 
 #[macro_use]
 extern crate serde_derive;
@@ -83,6 +86,15 @@ pub mod artist {
     pub use structs::artist::GetTopTags;
     pub use structs::artist::GetTopTracks;
     pub use structs::artist::Search;
+}
+
+/// Auth data structures
+pub mod auth {
+    pub use structs::auth::Params;
+
+    pub use structs::auth::GetMobileSession;
+    pub use structs::auth::GetSession;
+    pub use structs::auth::GetToken;
 }
 
 /// Chart data structures

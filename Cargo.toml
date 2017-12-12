@@ -18,6 +18,7 @@ serde = "1.*"
 serde_derive = "1.*"
 serde_json = "1.*"
 url = "1.*"
+md5 = "0.3"
 
 [dev-dependencies]
 async-http-client = { git = "https://github.com/xenzh/async-http-client" }

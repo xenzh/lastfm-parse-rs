@@ -73,6 +73,14 @@ impl<'pr> RequestParams for Params<'pr> {
         }
     }
 
+    fn is_write(&self) -> bool {
+        match *self {
+            Params::AddTags { .. } => true,
+            Params::RemoveTag { .. } => true,
+            _ => false,
+        }
+    }
+
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {

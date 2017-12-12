@@ -98,10 +98,44 @@ macro_rules! lastfm_t {
         }
 
         impl<'dt> $data_t<'dt> {
-            pub fn request<'rq>(base_url: &'rq str, api_key: &'rq str, $($param_key: $param_t,)*) -> Request<'rq, $params_t<'rq>> {
+            pub fn request<'rq>(
+                base_url: &'rq str,
+                api_key: &'rq str,
+                secret: Option<&'rq str>,
+                $($param_key: $param_t,)*
+            ) -> Request<'rq, $params_t<'rq>> {
                 Request {
                     base_url: base_url,
                     api_key: api_key,
+                    secret: secret,
+                    params: $params_t::$params_variant { $($param_key: $param_key,)* },
+                }
+            }
+        }
+    }
+}
+
+#[macro_export]
+macro_rules! unwrapped_lastfm_t {
+    (
+        $data_t:ident, $params_t:ident, $params_variant:ident,
+        [$($param_key:ident: $param_t:ty),*]
+    ) => {
+        impl<'dt> LastfmType<'dt> for $data_t<'dt> {
+            type Outer = Self;
+        }
+
+        impl<'dt> $data_t<'dt> {
+            pub fn request<'rq>(
+                base_url: &'rq str,
+                api_key: &'rq str,
+                secret: Option<&'rq str>,
+                $($param_key: $param_t,)*
+            ) -> Request<'rq, $params_t<'rq>> {
+                Request {
+                    base_url: base_url,
+                    api_key: api_key,
+                    secret: secret,
                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
                 }
             }
