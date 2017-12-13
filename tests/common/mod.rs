@@ -23,7 +23,7 @@ static LASTFM_API_KEY: &str = "INSERT_YOUR_API_KEY_HERE";
 pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
     #[test]
     fn $name() {
-        let rq = $lastfm_type::request(LASTFM_BASE_URL, LASTFM_API_KEY, None, $($param_val),*);
+        let rq = $lastfm_type::request(LASTFM_BASE_URL, LASTFM_API_KEY, None, None, $($param_val),*);
         let url: Url = TryFrom::try_from(rq).unwrap();
 
         println!("\nUrl: {}\n", url);

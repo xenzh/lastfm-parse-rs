@@ -9,15 +9,22 @@ use md5::compute as md5;
 
 /// Describes API method requests
 pub trait RequestParams {
-    /// Returns method name
+
+    /// Returns API method name
     fn method(&self) -> &str;
-    /// If `true`, it means that this method is "write" (see https://www.last.fm/api/rest).
-    /// It means it has to be signed and all parameters should be transferred via POST.
-    fn is_write(&self) -> bool;
+
     /// Appends method parameters to given url.
     /// Please note that common and special parameters like method name, api key, session key and signature
     /// are appended automatically somewhere else
     fn append_to(&self, url: &mut Url);
+
+    /// Most `write` (see https://www.last.fm/api/rest) API methods (except auth) need to be signed.
+    /// This function indicates whether given method is one of these.
+    fn needs_signature(&self) -> bool;
+
+    /// All `write` (see https://www.last.fm/api/rest) API methods require user to be authenticated.
+    /// For them session key has to be additionally provided in request body.
+    fn needs_session_key(&self) -> bool;
 }
 
 /// Request information associated with a method and lastfm data type.
@@ -30,6 +37,7 @@ where
     pub base_url: &'rq str,
     pub api_key: &'rq str,
     pub secret: Option<&'rq str>,
+    pub session: Option<&'rq str>,
     pub params: T,
 }
 
@@ -38,39 +46,56 @@ where
     T: RequestParams + Debug,
 {
     /// Constructs new Request from given method and parameters
-    pub fn new(base_url: &'rq str, api_key: &'rq str, secret: Option<&'rq str>, params: T) -> Request<'rq, T> {
-        Request { base_url, api_key, secret, params }
+    pub fn new(
+        base_url: &'rq str,
+        api_key: &'rq str,
+        secret: Option<&'rq str>,
+        session: Option<&'rq str>,
+        params: T
+    ) -> Request<'rq, T> {
+        Request { base_url, api_key, secret, session, params }
     }
 
-    /// Converts Request object to an Url.
-    /// Automatically determines whether to sign it ("write" methods).
+    /// Converts Request object to an Url and appends method parameters to the query.
+    /// * Appends a session key for `write` API methods.
+    /// * Signs `write` and `auth` API methods.
     pub fn get_url(&self) -> Result<Url> {
-        if self.params.is_write() {
-            self.get_write_url()
-        } else {
-            self.get_read_url()
+        let mut url = self.make_url()?;
+
+        if self.params.needs_session_key() {
+            url = self.append_session_key(url)?;
         }
+        if self.params.needs_signature() {
+            url = self.sign_url(url)?;
+        }
+
+        Ok(url)
     }
 
-    /// Converts Request object to an Url, appends request parameters ("read" methods, GET)
-    pub fn get_read_url(&self) -> Result<Url> {
-        let mut url = Url::parse(self.base_url).map_err(|e| Error::new(ErrorKind::InvalidInput, e))?;
+    fn make_url(&self) -> Result<Url> {
+        let mut url = Url::parse(self.base_url)
+            .map_err(|e| Error::new(ErrorKind::InvalidInput, e))?;
         {
-            let mut query_pairs = url.query_pairs_mut();
-            query_pairs.append_pair("api_key", self.api_key);
-            query_pairs.append_pair("format", "json");
-            query_pairs.append_pair("method", self.params.method());
+            let mut query = url.query_pairs_mut();
+            query.append_pair("api_key", self.api_key);
+            query.append_pair("format", "json");
+            query.append_pair("method", self.params.method());
         }
         self.params.append_to(&mut url);
         Ok(url)
     }
 
-    /// Converts request object to a url, appends request parameters.
-    /// Also "signs" the call by adding api_sig argument as described in
-    /// https://www.last.fm/api/mobileauth#4 ("write" methods, POST)
-    pub fn get_write_url(&self) -> Result<Url> {
-        let mut base = self.get_read_url()?;
+    fn append_session_key(&self, mut base: Url) -> Result<Url> {
+        let sk = self.session.ok_or(
+            Error::new(ErrorKind::InvalidInput, "Missing session key"))?;
+        {
+            let mut query = base.query_pairs_mut();
+            query.append_pair("sk", sk);
+        }
+        Ok(base)
+    }
 
+    fn sign_url(&self, mut base: Url) -> Result<Url> {
         let mut signature = {
             let mut pairs = base.query_pairs()
                 .filter(|&(ref name, _)| name != "format" && name != "callback")
@@ -86,7 +111,7 @@ where
         };
         signature.push_str(self.secret.ok_or(
             Error::new(ErrorKind::InvalidInput,
-                "No secret specified but write url requested")
+                "All methods that need signature also need secret")
         )?);
 
         let digest = format!("{:x}", md5(signature));

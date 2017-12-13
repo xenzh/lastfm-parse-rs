@@ -102,12 +102,14 @@ macro_rules! lastfm_t {
                 base_url: &'rq str,
                 api_key: &'rq str,
                 secret: Option<&'rq str>,
+                session: Option<&'rq str>,
                 $($param_key: $param_t,)*
             ) -> Request<'rq, $params_t<'rq>> {
                 Request {
                     base_url: base_url,
                     api_key: api_key,
                     secret: secret,
+                    session: session,
                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
                 }
             }
@@ -130,12 +132,14 @@ macro_rules! unwrapped_lastfm_t {
                 base_url: &'rq str,
                 api_key: &'rq str,
                 secret: Option<&'rq str>,
+                session: Option<&'rq str>,
                 $($param_key: $param_t,)*
             ) -> Request<'rq, $params_t<'rq>> {
                 Request {
                     base_url: base_url,
                     api_key: api_key,
                     secret: secret,
+                    session: session,
                     params: $params_t::$params_variant { $($param_key: $param_key,)* },
                 }
             }

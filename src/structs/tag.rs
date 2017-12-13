@@ -44,7 +44,11 @@ impl<'pr> RequestParams for Params<'pr> {
         }
     }
 
-    fn is_write(&self) -> bool {
+    fn needs_signature(&self) -> bool {
+        false
+    }
+
+    fn needs_session_key(&self) -> bool {
         false
     }
 

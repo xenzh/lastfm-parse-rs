@@ -59,12 +59,16 @@ impl<'pr> RequestParams for Params<'pr> {
         } 
     }
 
-    fn is_write(&self) -> bool {
+    fn needs_signature(&self) -> bool {
         match *self {
             Params::AddTags { .. } => true,
             Params::RemoveTag { .. } => true,
             _ => false,
         }
+    }
+
+    fn needs_session_key(&self) -> bool {
+        self.needs_signature()
     }
 
     fn append_to(&self, url: &mut StdUrl) {

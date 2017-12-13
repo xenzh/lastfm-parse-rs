@@ -23,8 +23,12 @@ impl<'pr> RequestParams for Params<'pr> {
         }
     }
 
-    fn is_write(&self) -> bool {
+    fn needs_signature(&self) -> bool {
         true
+    }
+
+    fn needs_session_key(&self) -> bool {
+        false
     }
 
     fn append_to(&self, url: &mut StdUrl) {
