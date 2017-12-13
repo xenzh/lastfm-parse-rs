@@ -72,6 +72,7 @@ pub mod album {
     pub use structs::album::GetInfo;
     pub use structs::album::GetTags;
     pub use structs::album::GetTopTags;
+    pub use structs::album::RemoveTag;
     pub use structs::album::Search;
 }
 
@@ -79,6 +80,7 @@ pub mod album {
 pub mod artist {
     pub use structs::artist::Params;
 
+    pub use structs::artist::AddTags;
     pub use structs::artist::GetCorrections;
     pub use structs::artist::GetInfo;
     pub use structs::artist::GetSimilar;
@@ -86,6 +88,7 @@ pub mod artist {
     pub use structs::artist::GetTopAlbums;
     pub use structs::artist::GetTopTags;
     pub use structs::artist::GetTopTracks;
+    pub use structs::artist::RemoveTag;
     pub use structs::artist::Search;
 }
 
@@ -106,6 +109,7 @@ pub mod chart {
     pub use structs::chart::GetTopTags;
     pub use structs::chart::GetTopTracks;
 }
+
 /// Geo data structures
 pub mod geo {
     pub use structs::geo::Params;
@@ -120,6 +124,7 @@ pub mod library {
 
     pub use structs::library::GetArtists;
 }
+
 /// Tag data structures
 pub mod tag {
     pub use structs::tag::Params;
@@ -132,17 +137,24 @@ pub mod tag {
     pub use structs::tag::GetTopTracks;
     pub use structs::tag::GetWeeklyChartList;
 }
+
 /// Track data structures
 pub mod track {
     pub use structs::track::Params;
 
+    pub use structs::track::AddTags;
     pub use structs::track::GetCorrections;
     pub use structs::track::GetInfo;
     pub use structs::track::GetSimilar;
     pub use structs::track::GetTags;
     pub use structs::track::GetTopTags;
+    pub use structs::track::Love;
+    pub use structs::track::RemoveTag;
     pub use structs::track::Search;
+    pub use structs::track::Unlove;
+    pub use structs::track::UpdateNowPlaying;
 }
+
 /// User data structures
 pub mod user {
     pub use structs::user::Params;

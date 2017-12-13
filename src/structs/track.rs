@@ -1,4 +1,7 @@
+#![allow(non_snake_case)]
+
 use std::convert::Into;
+use std::marker::PhantomData;
 
 use url::Url as StdUrl;
 
@@ -13,7 +16,7 @@ pub enum Params<'pr> {
         artist: &'pr str,
         track: &'pr str,
         tags: &'pr str,
-    }, // auth
+    },
     GetCorrection { artist: &'pr str, track: &'pr str },
     GetInfo {
         artist: &'pr str,
@@ -43,12 +46,10 @@ pub enum Params<'pr> {
         autocorrect: Option<u32>,
     },
     Love {
-        // auth
         artist: &'pr str,
         track: &'pr str,
     },
     RemoveTag {
-        // auth
         artist: &'pr str,
         track: &'pr str,
         tag: &'pr str,
@@ -61,11 +62,19 @@ pub enum Params<'pr> {
         page: Option<u32>,
     },
     Unlove {
-        // auth
         artist: &'pr str,
         track: &'pr str,
     },
-    UpdateNowPlaying, // auth
+    UpdateNowPlaying {
+        artist: &'pr str,
+        track: &'pr str,
+        album: Option<&'pr str>,
+        trackNumber: Option<u32>,
+        context: Option<&'pr str>,
+        mbid: Option<&'pr str>,
+        duration: Option<u32>,
+        albumArtist: Option<&'pr str>,
+    },
 }
 
 impl<'pr> RequestParams for Params<'pr> {
@@ -219,10 +228,47 @@ impl<'pr> RequestParams for Params<'pr> {
                 query.append_pair("artist", artist);
                 query.append_pair("track", track);
             }
-            Params::UpdateNowPlaying => {}
+            Params::UpdateNowPlaying {
+                artist,
+                track,
+                album,
+                trackNumber,
+                context,
+                mbid,
+                duration,
+                albumArtist,
+            } => {
+                params!(query,
+                    [
+                        artist: artist,
+                        track: track
+                    ],
+                    [
+                        album: album,
+                        trackNumber: cv!(trackNumber),
+                        context: context,
+                        mbid: mbid,
+                        duration: cv!(duration),
+                        albumArtist: albumArtist
+                    ]
+                );
+            }
         }
     }
 }
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    AddTags,
+    Params,
+    AddTags,
+    [
+        artist: &'rq str,
+        track: &'rq str,
+        tags: &'rq str
+    ]
+);
 
 // ----------------------------------------------------------------
 
@@ -409,6 +455,31 @@ lastfm_t!(
 
 // ----------------------------------------------------------------
 
+empty_lastfm_t!(
+    Love,
+    Params,
+    Love,
+    [
+        artist: &'rq str,
+        track: &'rq str
+    ]
+);
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    RemoveTag,
+    Params,
+    RemoveTag,
+    [
+        artist: &'rq str,
+        track: &'rq str,
+        tag: &'rq str
+    ]
+);
+
+// ----------------------------------------------------------------
+
 #[derive(Deserialize, Debug)]
 pub struct Track2<'dt> {
     pub name: &'dt str,
@@ -438,5 +509,43 @@ opensearch_t!(
         track: &'rq str,
         limit: Option<u32>,
         page: Option<u32>
+    ]
+);
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    Unlove,
+    Params,
+    Unlove,
+    [
+        artist: &'rq str,
+        track: &'rq str
+    ]
+);
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
+pub struct UpdateNowPlaying<'dt> {
+    pub track: &'dt str,
+    pub fail_this: &'dt str,
+}
+
+lastfm_t!(
+    nowplaying,
+    UpdateNowPlaying,
+    _UpdateNowPlaying,
+    Params,
+    UpdateNowPlaying,
+    [
+        artist: &'rq str,
+        track: &'rq str,
+        album: Option<&'rq str>,
+        trackNumber: Option<u32>,
+        context: Option<&'rq str>,
+        mbid: Option<&'rq str>,
+        duration: Option<u32>,
+        albumArtist: Option<&'rq str>
     ]
 );

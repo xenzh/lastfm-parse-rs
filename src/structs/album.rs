@@ -150,13 +150,7 @@ impl<'pr> RequestParams for Params<'pr> {
 
 // ----------------------------------------------------------------
 
-#[derive(Deserialize, Debug)]
-pub struct AddTags<'dt> {
-    #[serde(skip)]
-    phantom: PhantomData<&'dt ()>,
-}
-
-unwrapped_lastfm_t!(
+empty_lastfm_t!(
     AddTags,
     Params,
     AddTags,
@@ -277,6 +271,19 @@ lastfm_t!(
         album: &'rq str,
         mbid: Option<&'rq str>,
         autocorrect: Option<u32>
+    ]
+);
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    RemoveTag,
+    Params,
+    RemoveTag,
+    [
+        artist: &'rq str,
+        album: &'rq str,
+        tag: &'rq str
     ]
 );
 

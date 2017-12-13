@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::marker::PhantomData;
 
 use url::Url as StdUrl;
 
@@ -9,7 +10,7 @@ use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
 
 #[derive(Debug)]
 pub enum Params<'pr> {
-    AddTags { artist: &'pr str, tags: &'pr str }, // auth
+    AddTags { artist: &'pr str, tags: &'pr str },
     GetCorrection { artist: &'pr str },
     GetInfo {
         artist: &'pr str,
@@ -225,6 +226,18 @@ impl<'pr> RequestParams for Params<'pr> {
         }
     }
 }
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    AddTags,
+    Params,
+    AddTags,
+    [
+        artist: &'rq str,
+        tags: &'rq str
+    ]
+);
 
 // ----------------------------------------------------------------
 
@@ -509,6 +522,18 @@ lastfm_t!(
         autocorrect: Option<u32>,
         limit: Option<u32>,
         page: Option<u32>
+    ]
+);
+
+// ----------------------------------------------------------------
+
+empty_lastfm_t!(
+    RemoveTag,
+    Params,
+    RemoveTag,
+    [
+        artist: &'rq str,
+        tag: &'rq str
     ]
 );
 

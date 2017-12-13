@@ -147,6 +147,25 @@ macro_rules! unwrapped_lastfm_t {
     }
 }
 
+#[macro_export]
+macro_rules! empty_lastfm_t {
+    (
+        $data_t:ident, $params_t:ident, $params_variant:ident,
+        [$($param_key:ident: $param_t:ty),*]
+    ) => {
+        #[derive(Deserialize, Debug)]
+        pub struct $data_t<'dt> {
+            #[serde(skip)]
+            phantom: PhantomData<&'dt ()>,
+        }
+
+        unwrapped_lastfm_t!(
+            $data_t, $params_t, $params_variant,
+            [$($param_key: $param_t),*]
+        );
+    }
+}
+
 // ----------------------------------------------------------------
 
 /// Generates lastfm_t wrapper over an opensearch object
