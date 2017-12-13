@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::marker::PhantomData;
 
 use url::Url as StdUrl;
 
@@ -151,7 +152,8 @@ impl<'pr> RequestParams for Params<'pr> {
 
 #[derive(Deserialize, Debug)]
 pub struct AddTags<'dt> {
-    pub status: &'dt str,
+    #[serde(skip)]
+    phantom: PhantomData<&'dt ()>,
 }
 
 unwrapped_lastfm_t!(
