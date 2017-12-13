@@ -142,6 +142,8 @@ pub mod tag {
 pub mod track {
     pub use structs::track::Params;
 
+    pub use structs::track::{ScrobbleTrack, ScrobbleBatch};
+
     pub use structs::track::AddTags;
     pub use structs::track::GetCorrections;
     pub use structs::track::GetInfo;
@@ -150,6 +152,7 @@ pub mod track {
     pub use structs::track::GetTopTags;
     pub use structs::track::Love;
     pub use structs::track::RemoveTag;
+    pub use structs::track::Scrobble;
     pub use structs::track::Search;
     pub use structs::track::Unlove;
     pub use structs::track::UpdateNowPlaying;

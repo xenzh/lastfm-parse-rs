@@ -3,7 +3,7 @@ use std::convert::Into;
 use url::Url as StdUrl;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{Url, Image, Id1, Id2, Streamable, Rank, str_to_option, str_to_val};
+use super::common::{UnixTimestamp, Url, Image, Id1, Id2, Streamable, Rank, str_to_option, str_to_val};
 
 // ----------------------------------------------------------------
 
@@ -24,7 +24,6 @@ impl TaggingType {
     }
 }
 
-pub type UnixTimestamp = i64;
 pub type ChartDate = i64;
 
 #[derive(Debug, Clone, Copy)]

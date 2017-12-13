@@ -3,10 +3,92 @@
 use std::convert::Into;
 use std::marker::PhantomData;
 
-use url::Url as StdUrl;
+use url::{Url as StdUrl,UrlQuery};
+use url::form_urlencoded::Serializer;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{Url, Image, SearchQuery, str_to_option, str_to_val};
+use super::common::{UnixTimestamp, Url, Image, SearchQuery, str_to_option, str_to_val};
+
+// ----------------------------------------------------------------
+
+#[derive(Debug)]
+pub struct ScrobbleTrack {
+    pub artist: String,
+    pub track: String,
+    pub timestamp_utc: UnixTimestamp,
+    pub album: Option<String>,
+    pub track_number: Option<u32>,
+    pub duration: Option<u32>,
+
+    pub mbid: Option<String>,
+    pub album_artist: Option<String>,
+    pub chosen_by_user: Option<bool>,
+    // skip: context,streamid
+}
+
+impl ScrobbleTrack {
+    pub fn new(artist: String, track: String, timestamp_utc: UnixTimestamp) -> ScrobbleTrack {
+        ScrobbleTrack {
+            artist: artist,
+            track: track,
+            timestamp_utc: timestamp_utc,
+            album: None,
+            track_number: None,
+            duration: None,
+            mbid: None,
+            album_artist: None,
+            chosen_by_user: Some(true),
+        }
+    }
+
+    pub fn info(
+        mut self,
+        album: Option<String>,
+        track_number: Option<u32>,
+        duration: Option<u32>
+    ) -> ScrobbleTrack
+    {
+        self.album = album;
+        self.track_number = track_number;
+        self.duration = duration;
+        self
+    }
+
+    pub fn info2(
+        mut self,
+        mbid: Option<String>,
+        album_artist: Option<String>,
+        chosen_by_user: Option<bool>,
+    ) -> ScrobbleTrack
+    {
+        self.mbid = mbid;
+        self.album_artist = album_artist;
+        self.chosen_by_user = chosen_by_user;
+        self
+    }
+
+    fn append_to(&self, query: &mut Serializer<UrlQuery>, i: usize) {
+        let key = |k, i| format!("{}[{}]", k, i);
+
+        query.append_pair(&key("artist", i), &self.artist);
+        query.append_pair(&key("track", i), &self.track);
+        query.append_pair(&key("timestamp", i), &self.timestamp_utc.to_string());
+
+        if let Some(ref alb) = self.album { query.append_pair(&key("album", i), &alb); }
+        if let Some(ref tn) = self.track_number { query.append_pair(&key("trackNumber", i), &tn.to_string()); }
+        if let Some(ref dr) = self.duration { query.append_pair(&key("duration", i), &dr.to_string()); }
+        if let Some(ref mbid) = self.mbid { query.append_pair(&key("mbid", i), &mbid); }
+        if let Some(ref alar) = self.album_artist { query.append_pair(&key("albumArtist", i), &alar); }
+
+        if let Some(chosen) = self.chosen_by_user {
+            query.append_pair(
+                &key("chosenByUser", i),
+                &(if chosen { 1 } else { 0 }).to_string());
+        }
+    }
+}
+
+pub type ScrobbleBatch = Vec<ScrobbleTrack>;
 
 // ----------------------------------------------------------------
 
@@ -54,7 +136,7 @@ pub enum Params<'pr> {
         track: &'pr str,
         tag: &'pr str,
     },
-    Scrobble, // auth, also has batch form
+    Scrobble { batch: &'pr ScrobbleBatch },
     Search {
         artist: &'pr str,
         track: &'pr str,
@@ -208,7 +290,11 @@ impl<'pr> RequestParams for Params<'pr> {
                 query.append_pair("track", track);
                 query.append_pair("tag", tag);
             }
-            Params::Scrobble => {}
+            Params::Scrobble { ref batch } => {
+                for (i, v) in batch.iter().enumerate() {
+                    v.append_to(&mut query, i);
+                }
+            }
             Params::Search {
                 artist,
                 track,
@@ -481,6 +567,22 @@ empty_lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct Scrobble<'dt> {
+    pub iwillfail: &'dt str,
+}
+
+lastfm_t!(
+    scrobbles,
+    Scrobble,
+    _Scrobble,
+    Params,
+    Scrobble,
+    [batch: &'rq ScrobbleBatch]
+);
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
 pub struct Track2<'dt> {
     pub name: &'dt str,
     pub artist: &'dt str,
@@ -537,7 +639,7 @@ pub struct NowPlayingItem<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct IgnoredMessage<'dt> {
     #[serde(rename="#text")]
-    pub name: &'dt str,
+    pub reason: &'dt str,
     #[serde(deserialize_with="str_to_val")]
     pub code: u32,
 }

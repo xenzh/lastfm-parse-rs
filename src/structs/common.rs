@@ -9,6 +9,10 @@ use serde_json as json;
 
 // ----------------------------------------------------------------
 
+pub type UnixTimestamp = i64;
+
+// ----------------------------------------------------------------
+
 // https://github.com/serde-rs/json/issues/373
 pub fn str_to_option<'de, T, D>(deserializer: D) -> StdResult<Option<T>, D::Error>
 where
@@ -123,3 +127,4 @@ pub struct Rank {
     #[serde(deserialize_with = "str_to_val")]
     pub rank: u32,
 }
+
