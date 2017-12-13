@@ -150,6 +150,24 @@ impl<'pr> RequestParams for Params<'pr> {
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct AddTags<'dt> {
+    pub status: &'dt str,
+}
+
+unwrapped_lastfm_t!(
+    AddTags,
+    Params,
+    AddTags,
+    [
+        artist: &'rq str,
+        album: &'rq str,
+        tags: &'rq str
+    ]
+);
+
+// ----------------------------------------------------------------
+
+#[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
     pub name: &'dt str,
     pub url: Url<'dt>,

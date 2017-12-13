@@ -68,6 +68,7 @@ pub use error::Result;
 pub mod album {
     pub use structs::album::Params;
 
+    pub use structs::album::AddTags;
     pub use structs::album::GetInfo;
     pub use structs::album::GetTags;
     pub use structs::album::GetTopTags;
