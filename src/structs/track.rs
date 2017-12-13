@@ -527,9 +527,29 @@ empty_lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct NowPlayingItem<'dt> {
+    #[serde(rename="#text")]
+    pub name: &'dt str,
+    #[serde(deserialize_with="str_to_val")]
+    pub corrected: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct IgnoredMessage<'dt> {
+    #[serde(rename="#text")]
+    pub name: &'dt str,
+    #[serde(deserialize_with="str_to_val")]
+    pub code: u32,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct UpdateNowPlaying<'dt> {
-    pub track: &'dt str,
-    pub fail_this: &'dt str,
+    #[serde(borrow)]
+    pub album: NowPlayingItem<'dt>,
+    pub albumArtist: NowPlayingItem<'dt>,
+    pub artist: NowPlayingItem<'dt>,
+    pub ignoredMessage: IgnoredMessage<'dt>,
+    pub track: NowPlayingItem<'dt>
 }
 
 lastfm_t!(
