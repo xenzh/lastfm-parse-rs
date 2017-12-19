@@ -578,7 +578,7 @@ pub struct Field<'dt> {
     #[serde(deserialize_with="str_to_val")]
     pub corrected: u32,
     #[serde(default)]
-    #[serde(rename="text")]
+    #[serde(rename="#text")]
     pub name: &'dt str,
 }
 
