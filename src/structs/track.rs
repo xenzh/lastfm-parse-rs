@@ -7,7 +7,7 @@ use url::{Url as StdUrl,UrlQuery};
 use url::form_urlencoded::Serializer;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{UnixTimestamp, Url, Image, SearchQuery, str_to_option, str_to_val};
+use super::common::{UnixTimestamp, VecOrStruct, Url, Image, SearchQuery, str_to_option, str_to_val};
 
 // ----------------------------------------------------------------
 
@@ -567,8 +567,39 @@ empty_lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct Summary {
+    pub accepted: u32,
+    pub ignored: u32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Field<'dt> {
+    #[serde(deserialize_with="str_to_val")]
+    pub corrected: u32,
+    #[serde(default)]
+    #[serde(rename="text")]
+    pub name: &'dt str,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Report<'dt> {
+    #[serde(borrow)]
+    pub artst: Field<'dt>,
+    pub album_artist: Field<'dt>,
+    pub album: Field<'dt>,
+    pub track: Field<'dt>,
+    #[serde(deserialize_with="str_to_val")]
+    pub timestamp: UnixTimestamp,
+    #[serde(rename="ignoredMessage")]
+    pub ignored_message: IgnoredMessage<'dt>,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Scrobble<'dt> {
-    pub iwillfail: &'dt str,
+    #[serde(rename="@attr")]
+    pub summary: Summary,
+    #[serde(borrow)]
+    pub scrobble: VecOrStruct<'dt, Report<'dt>>,
 }
 
 lastfm_t!(

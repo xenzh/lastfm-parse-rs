@@ -1,10 +1,12 @@
 use std::convert::Into;
 use std::str::FromStr;
 use std::result::Result as StdResult;
-use std::fmt::Display;
+use std::fmt::{Display, Debug, Formatter, Result as FmtResult};
+use std::marker::PhantomData;
 
 use url::Url as StdUrl;
-use serde::de::{Deserialize, Deserializer, Error as SerdeError};
+use serde::de::{Deserialize, Deserializer, Visitor, SeqAccess, MapAccess, Error as SerdeError};
+use serde::de::value::{MapAccessDeserializer, SeqAccessDeserializer};
 use serde_json as json;
 
 // ----------------------------------------------------------------
@@ -28,6 +30,8 @@ where
     Ok(None)
 }
 
+// ----------------------------------------------------------------
+
 pub fn str_to_val<'de, T, D>(deserializer: D) -> StdResult<T, D::Error>
 where
     T: FromStr,
@@ -36,6 +40,66 @@ where
 {
     let s = String::deserialize(deserializer)?;
     T::from_str(&s).map_err(SerdeError::custom)
+}
+
+// ----------------------------------------------------------------
+
+pub trait Underlying<'de> {
+    type Struct: Deserialize<'de>;
+    type Arr: Deserialize<'de>;
+
+    fn from_arr(t: Self::Arr) ->Self;
+    fn from_val(t: Self::Struct) -> Self;
+}
+
+#[derive(Deserialize, Debug)]
+pub struct VecOrStruct<'dt, T: 'dt>(Vec<T>, PhantomData<&'dt T>);
+
+impl<'de, T: Deserialize<'de>> Underlying<'de> for VecOrStruct<'de, T> {
+    type Struct = T;
+    type Arr = Vec<T>;
+
+    fn from_arr(t: Vec<T>) -> VecOrStruct<'de, T> {
+        VecOrStruct(t, PhantomData)
+    }
+
+    fn from_val(t: T) -> VecOrStruct<'de, T> {
+        VecOrStruct(vec!(t), PhantomData)
+    }
+}
+
+pub fn vec_or_struct<'de, T, D>(deserializer: D) -> StdResult<VecOrStruct<'de, T>, D::Error>
+where
+    T: Deserialize<'de> + Debug + Underlying<'de>,
+    D: Deserializer<'de>,
+{
+    struct VecOrStructVisitor<T>(PhantomData<fn() -> T>);
+
+    impl<'de, T> Visitor<'de> for VecOrStructVisitor<T>
+        where T: Deserialize<'de> + Underlying<'de>
+    {
+        type Value = T;
+
+        fn expecting(&self, f: &mut Formatter) -> FmtResult {
+            f.write_str("array or map")
+        }
+
+        fn visit_map<M>(self, map: M) -> StdResult<T, M::Error>
+            where M: MapAccess<'de>
+        {
+            let t = T::Struct::deserialize(MapAccessDeserializer::new(map))?;
+            Ok(T::from_val(t))
+        }
+
+        fn visit_seq<A>(self, seq: A) -> Result<Self::Value, A::Error>
+            where A: SeqAccess<'de>
+        {
+            let t = T::Arr::deserialize(SeqAccessDeserializer::new(seq))?;
+            Ok(T::from_arr(t))
+        }
+    }
+
+    deserializer.deserialize_any(VecOrStructVisitor(PhantomData))
 }
 
 // ----------------------------------------------------------------
