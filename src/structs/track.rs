@@ -586,6 +586,7 @@ pub struct Field<'dt> {
 pub struct Report<'dt> {
     #[serde(borrow)]
     pub artist: Field<'dt>,
+    #[serde(rename="albumArtist")]
     pub album_artist: Field<'dt>,
     pub album: Field<'dt>,
     pub track: Field<'dt>,
