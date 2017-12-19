@@ -585,7 +585,7 @@ pub struct Field<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct Report<'dt> {
     #[serde(borrow)]
-    pub artst: Field<'dt>,
+    pub artist: Field<'dt>,
     pub album_artist: Field<'dt>,
     pub album: Field<'dt>,
     pub track: Field<'dt>,
