@@ -68,7 +68,7 @@ impl<'de, T: Deserialize<'de>> Underlying<'de> for VecOrStruct<'de, T> {
     }
 }
 
-pub fn vec_or_struct<'de, T, D>(deserializer: D) -> StdResult<VecOrStruct<'de, T>, D::Error>
+pub fn vec_or_struct<'de, T, D>(deserializer: D) -> StdResult<T, D::Error>
 where
     T: Deserialize<'de> + Debug + Underlying<'de>,
     D: Deserializer<'de>,

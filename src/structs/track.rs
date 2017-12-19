@@ -7,7 +7,8 @@ use url::{Url as StdUrl,UrlQuery};
 use url::form_urlencoded::Serializer;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
-use super::common::{UnixTimestamp, VecOrStruct, Url, Image, SearchQuery, str_to_option, str_to_val};
+use super::common::{UnixTimestamp, VecOrStruct, Url, Image, SearchQuery};
+use super::common::{str_to_option, str_to_val, vec_or_struct};
 
 // ----------------------------------------------------------------
 
@@ -599,6 +600,7 @@ pub struct Scrobble<'dt> {
     #[serde(rename="@attr")]
     pub summary: Summary,
     #[serde(borrow)]
+    #[serde(deserialize_with="vec_or_struct")]
     pub scrobble: VecOrStruct<'dt, Report<'dt>>,
 }
 
