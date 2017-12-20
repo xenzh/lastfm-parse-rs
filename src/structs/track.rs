@@ -1,6 +1,7 @@
 #![allow(non_snake_case)]
 
-use std::convert::Into;
+use std::convert::{Into, TryFrom};
+use std::io::{Error, ErrorKind};
 use std::marker::PhantomData;
 
 use url::{Url as StdUrl,UrlQuery};
@@ -8,7 +9,7 @@ use url::form_urlencoded::Serializer;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
 use super::common::{UnixTimestamp, VecOrStruct, Url, Image, SearchQuery};
-use super::common::{str_to_option, str_to_val, vec_or_struct};
+use super::common::{str_to_option, str_to_val, vec_or_struct, str_to_variant};
 
 // ----------------------------------------------------------------
 
@@ -671,11 +672,37 @@ pub struct NowPlayingItem<'dt> {
 }
 
 #[derive(Deserialize, Debug)]
+pub enum IgnoredMessageCode {
+    None,
+    FilteredArtist,
+    FilteredTrack,
+    TimestampTooFarInThePast,
+    TimestampTooFarInTheFuture,
+    MaxDailyScrobblesExceeded,
+}
+
+impl TryFrom<u32> for IgnoredMessageCode {
+    type Error = Error;
+
+    fn try_from(value: u32) -> Result<IgnoredMessageCode, Self::Error> {
+        match value {
+            0 => Ok(IgnoredMessageCode::None),
+            1 => Ok(IgnoredMessageCode::FilteredArtist),
+            2 => Ok(IgnoredMessageCode::FilteredTrack),
+            3 => Ok(IgnoredMessageCode::TimestampTooFarInThePast),
+            4 => Ok(IgnoredMessageCode::TimestampTooFarInTheFuture),
+            5 => Ok(IgnoredMessageCode::MaxDailyScrobblesExceeded),
+            _ => Err(Error::new(ErrorKind::InvalidInput, "no matching variant")),
+        }
+    }
+}
+
+#[derive(Deserialize, Debug)]
 pub struct IgnoredMessage<'dt> {
     #[serde(rename="#text")]
     pub reason: &'dt str,
-    #[serde(deserialize_with="str_to_val")]
-    pub code: u32,
+    #[serde(deserialize_with="str_to_variant")]
+    pub code: IgnoredMessageCode,
 }
 
 #[derive(Deserialize, Debug)]

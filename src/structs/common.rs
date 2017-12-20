@@ -1,4 +1,4 @@
-use std::convert::Into;
+use std::convert::{Into, TryFrom};
 use std::str::FromStr;
 use std::result::Result as StdResult;
 use std::fmt::{Display, Debug, Formatter, Result as FmtResult};
@@ -40,6 +40,18 @@ where
 {
     let s = String::deserialize(deserializer)?;
     T::from_str(&s).map_err(SerdeError::custom)
+}
+
+// ----------------------------------------------------------------
+
+pub fn str_to_variant<'de, E, D>(deserializer: D) -> StdResult<E, D::Error>
+where
+    E: TryFrom<u32>,
+    E::Error: Display,
+    D: Deserializer<'de>,
+{
+    let uint: u32 = String::deserialize(deserializer)?.parse().map_err(SerdeError::custom)?;
+    TryFrom::try_from(uint).map_err(SerdeError::custom)
 }
 
 // ----------------------------------------------------------------
