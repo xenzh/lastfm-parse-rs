@@ -13,7 +13,7 @@ use super::common::{str_to_option, str_to_val, vec_or_struct, str_to_variant};
 
 // ----------------------------------------------------------------
 
-#[derive(Debug)]
+#[derive(Debug, Hash)]
 pub struct ScrobbleTrack {
     pub artist: String,
     pub track: String,
