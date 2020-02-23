@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["ImageSize",""],["SearchQueryRole",""]],"fn":[["str_to_option",""],["str_to_val",""]],"struct":[["Id1",""],["Id2",""],["Image",""],["Rank",""],["SearchQuery",""],["Streamable",""],["Url",""]]});
+initSidebarItems({"enum":[["ImageSize",""],["SearchQueryRole",""]],"fn":[["str_to_option",""],["str_to_val",""],["str_to_variant",""],["vec_or_struct",""]],"struct":[["Id1",""],["Id2",""],["Image",""],["Rank",""],["SearchQuery",""],["Streamable",""],["Url",""],["VecOrStruct",""]],"trait":[["Underlying",""]],"type":[["UnixTimestamp",""]]});
