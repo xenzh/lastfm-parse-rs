@@ -11,7 +11,7 @@ Include following lines to your Cargo.toml in order to use this library:
 [dependencies]
 lastfm-parse-rs = { git = "https://github.com/xenzh/lastfm-parse-rs" }
 ```
-Unfortinately it's not on [crates.io](https://crates.io/) yet since I rely on latest master of [async-http-client](https://github.com/matt2xu/async-http-client) crate for the tests which was not published to crates.io yet (And I'm too lazy to swictch to something properly supported).
+Unfortinately it's not on [crates.io](https://crates.io/) yet since I rely on latest master of [async-http-client](https://github.com/matt2xu/async-http-client) crate for the tests which was not published yet (And I'm too lazy to switch to something properly supported).
 
 Library exposes a bunch of data types through `tag`, `track`, `user` etc modules and a couple of parser functions like `from_json_str()`. In addition, each of said types has associated `request()` function returning an object that can be used to form an API request for the type.
 
@@ -48,7 +48,7 @@ fn main() {
 ```
 
 ## Status
-All GET API methods except those that require authentification should be covered. Scrobble API along with the other POST authentication-requiring things should work, too; see [this] (https://github.com/xenzh/first-fm/blob/master/src/client.rs) for bad and incomplete example on how to authenticate.
+All GET API methods except those that require authentification should be covered. Scrobble API along with the other POST authentication-requiring things should work, too; see [this](https://github.com/xenzh/first-fm/blob/master/src/client.rs) for bad and incomplete example on how to authenticate.
 
 I'd expect some bugs here and there since methods were not really tested on all possible argument combinations.
 
