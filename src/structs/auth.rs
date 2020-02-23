@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use url::Url as StdUrl;
 
 use lastfm_type::{LastfmType, Request, RequestParams};
@@ -49,8 +50,8 @@ impl<'pr> RequestParams for Params<'pr> {
 
 #[derive(Deserialize, Debug)]
 pub struct GetMobileSession<'dt> {
-    pub name: &'dt str,
-    pub key: &'dt str,
+    pub name: Cow<'dt, str>,
+    pub key: Cow<'dt, str>,
     pub subscriber: u32,
 }
 
@@ -67,8 +68,8 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct GetSession<'dt> {
-    pub name: &'dt str,
-    pub key: &'dt str,
+    pub name: Cow<'dt, str>,
+    pub key: Cow<'dt, str>,
     pub subscriber: u32,
 }
 
@@ -85,7 +86,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct GetToken<'dt> {
-    pub token: &'dt str,
+    pub token: Cow<'dt, str>,
 }
 
 unwrapped_lastfm_t!(

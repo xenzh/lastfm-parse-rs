@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Request","Request information associated with a method and lastfm data type. Can be converted to a Url. No POST request support yet."]],"trait":[["RequestParams","Describes API method requests"]]});

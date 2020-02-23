@@ -1,6 +1,6 @@
 [package]
 name = "lastfm-parse-rs"
-version = "0.2.0"
+version = "0.2.1"
 description = "Collection of serde-based data types for Lastfm API"
 readme = "README.md"
 documentation = "https://xenzh.github.io/lastfm-parse-rs/"
@@ -21,4 +21,4 @@ url = "1.*"
 md5 = "0.3"
 
 [dev-dependencies]
-async-http-client = { git = "https://github.com/xenzh/async-http-client" }
+async-http-client = { git = "https://github.com/matt2xu/async-http-client" }

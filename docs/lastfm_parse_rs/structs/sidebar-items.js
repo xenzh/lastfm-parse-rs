@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["album",""],["api_error",""],["artist",""],["chart",""],["common",""],["geo",""],["library",""],["tag",""],["track",""],["user",""]]});
+initSidebarItems({"mod":[["album",""],["api_error",""],["artist",""],["auth",""],["chart",""],["common",""],["geo",""],["library",""],["tag",""],["track",""],["user",""]]});

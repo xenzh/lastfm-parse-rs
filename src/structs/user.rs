@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::borrow::Cow;
 
 use url::Url as StdUrl;
 
@@ -53,13 +54,6 @@ impl Period {
 
 #[derive(Debug)]
 pub enum Params<'pr> {
-    GetArtistTracks {
-        user: &'pr str,
-        artist: &'pr str,
-        start: Option<UnixTimestamp>,
-        end: Option<UnixTimestamp>,
-        page: Option<u32>,
-    },
     GetFriends {
         user: &'pr str,
         recenttracks: Option<bool>,
@@ -127,7 +121,6 @@ pub enum Params<'pr> {
 impl<'pr> RequestParams for Params<'pr> {
     fn method(&self) -> &str {
         match *self {
-            Params::GetArtistTracks { .. } => "user.getartisttracks",
             Params::GetFriends { .. } => "user.getfriends",
             Params::GetInfo { .. } => "user.getinfo",
             Params::GetLovedTracks { .. } => "user.getlovedtracks",
@@ -155,25 +148,6 @@ impl<'pr> RequestParams for Params<'pr> {
     fn append_to(&self, url: &mut StdUrl) {
         let mut query = url.query_pairs_mut();
         match *self {
-            Params::GetArtistTracks {
-                user,
-                artist,
-                start,
-                end,
-                page,
-            } => {
-                query.append_pair("user", user);
-                query.append_pair("artist", artist);
-                if let Some(start) = start {
-                    query.append_pair("start", &start.to_string());
-                }
-                if let Some(end) = end {
-                    query.append_pair("end", &end.to_string());
-                }
-                if let Some(page) = page {
-                    query.append_pair("page", &page.to_string());
-                }
-            }
             Params::GetFriends {
                 user,
                 recenttracks,
@@ -339,61 +313,6 @@ impl<'pr> RequestParams for Params<'pr> {
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Date1<'dt> {
-    #[serde(deserialize_with = "str_to_option")]
-    pub uts: Option<UnixTimestamp>,
-    #[serde(rename = "#text")]
-    pub text: &'dt str,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct NowPlaying {
-    #[serde(deserialize_with = "str_to_val")]
-    pub nowplaying: bool,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Track1<'dt> {
-    pub name: &'dt str,
-    pub mbid: Option<&'dt str>,
-    pub url: Url<'dt>,
-    #[serde(deserialize_with = "str_to_option")]
-    pub streamable: Option<u32>,
-    #[serde(default)]
-    #[serde(deserialize_with = "str_to_option")]
-    pub loved: Option<u32>,
-    pub artist: Id1<'dt>,
-    pub album: Id1<'dt>,
-    pub image: Vec<Image<'dt>>,
-    pub date: Date1<'dt>,
-    #[serde(rename = "@attr")]
-    pub now: Option<NowPlaying>,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct GetArtistTracks<'dt> {
-    #[serde(borrow)]
-    pub track: Option<Vec<Track1<'dt>>>,
-}
-
-lastfm_t!(
-    artisttracks,
-    GetArtistTracks,
-    _ArtistTracks,
-    Params,
-    GetArtistTracks,
-    [
-        user: &'rq str,
-        artist: &'rq str,
-        start: Option<UnixTimestamp>,
-        end: Option<UnixTimestamp>,
-        page: Option<u32>
-    ]
-);
-
-// ----------------------------------------------------------------
-
-#[derive(Deserialize, Debug)]
 pub enum Gender {
     #[serde(rename = "m")]
     Male,
@@ -408,19 +327,19 @@ pub struct Date2<'dt> {
     #[serde(deserialize_with = "str_to_val")]
     pub unixtime: UnixTimestamp,
     #[serde(rename = "#text")]
-    pub text: &'dt str,
+    pub text: Cow<'dt, str>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Date3<'dt> {
     #[serde(deserialize_with = "str_to_option")]
     pub uts: Option<UnixTimestamp>,
-    pub date: &'dt str,
+    pub date: Cow<'dt, str>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Track2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub artist: Id2<'dt>,
@@ -431,12 +350,9 @@ pub struct Track2<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct User<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
-    pub country: &'dt str,
-    #[serde(deserialize_with = "str_to_option")]
-    pub age: Option<u32>,
-    pub gender: Gender,
+    pub country: Cow<'dt, str>,
     #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
     #[serde(deserialize_with = "str_to_val")]
@@ -486,9 +402,9 @@ pub struct Date4 {
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
-    pub country: &'dt str,
+    pub country: Cow<'dt, str>,
     #[serde(deserialize_with = "str_to_option")]
     pub age: Option<u32>,
     pub gender: Gender,
@@ -521,8 +437,16 @@ lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct Date1<'dt> {
+    #[serde(deserialize_with = "str_to_option")]
+    pub uts: Option<UnixTimestamp>,
+    #[serde(rename = "#text")]
+    pub text: Cow<'dt, str>,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Track3<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub date: Date1<'dt>,
@@ -550,7 +474,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
@@ -566,7 +490,7 @@ pub struct ArtistTaggings<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Track4<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub streamable: Streamable,
@@ -585,7 +509,7 @@ pub struct TrackTaggings<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Album1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub artist: Id2<'dt>,
@@ -625,8 +549,14 @@ lastfm_t!(
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
+pub struct NowPlaying {
+    #[serde(deserialize_with = "str_to_val")]
+    pub nowplaying: bool,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Track5<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
@@ -667,7 +597,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Album2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -702,7 +632,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -738,7 +668,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Tag<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     #[serde(deserialize_with = "str_to_val")]
     pub count: u32,
     pub url: Url<'dt>,
@@ -763,9 +693,9 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track6<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
-    pub url: &'dt str,
+    pub url: Cow<'dt, str>,
     #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
     #[serde(deserialize_with = "str_to_val")]
@@ -801,7 +731,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Album3<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
@@ -834,7 +764,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist3<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -866,7 +796,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track7<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -900,9 +830,9 @@ lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct Chart<'dt> {
     #[serde(rename = "#text")]
-    pub name: &'dt str,
-    pub from: &'dt str,
-    pub to: &'dt str,
+    pub name: Cow<'dt, str>,
+    pub from: Cow<'dt, str>,
+    pub to: Cow<'dt, str>,
 }
 
 #[derive(Deserialize, Debug)]

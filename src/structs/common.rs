@@ -3,6 +3,7 @@ use std::str::FromStr;
 use std::result::Result as StdResult;
 use std::fmt::{Display, Debug, Formatter, Result as FmtResult};
 use std::marker::PhantomData;
+use std::borrow::Cow;
 
 use url::Url as StdUrl;
 use serde::de::{Deserialize, Deserializer, Visitor, SeqAccess, MapAccess, Error as SerdeError};
@@ -117,11 +118,11 @@ where
 // ----------------------------------------------------------------
 
 #[derive(Deserialize, Debug)]
-pub struct Url<'dt>(&'dt str);
+pub struct Url<'dt>(Cow<'dt, str>);
 
-impl<'de> Into<StdUrl> for Url<'de> {
+impl<'dt> Into<StdUrl> for Url<'dt> {
     fn into(self) -> StdUrl {
-        StdUrl::parse(self.0).unwrap()
+        StdUrl::parse(&self.0).unwrap()
     }
 }
 
@@ -146,7 +147,7 @@ pub enum ImageSize {
 #[derive(Deserialize, Debug)]
 pub struct Image<'dt> {
     #[serde(rename = "#text")]
-    pub text: &'dt str,
+    pub text: Url<'dt>,
     pub size: ImageSize,
 }
 
@@ -174,13 +175,13 @@ pub struct SearchQuery<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct Id1<'dt> {
     #[serde(rename = "#text")]
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Id2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(default)]

@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use url::Url as StdUrl;
@@ -165,7 +166,7 @@ empty_lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
     pub duration: u32, 
@@ -180,7 +181,7 @@ pub struct Tracks<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Tag1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
 }
 
@@ -192,8 +193,8 @@ pub struct Tags<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
-    pub name: &'dt str,
-    pub artist: &'dt str,
+    pub name: Cow<'dt, str>,
+    pub artist: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub image: Vec<Image<'dt>>,
@@ -247,7 +248,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Tag2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     #[serde(default)]
     #[serde(deserialize_with = "str_to_option")]
     pub count: Option<u32>,
@@ -291,9 +292,9 @@ empty_lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Album<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
-    pub artist: &'dt str,
+    pub artist: Cow<'dt, str>,
     pub url: Url<'dt>,
     pub image: Vec<Image<'dt>>,
     #[serde(default)]

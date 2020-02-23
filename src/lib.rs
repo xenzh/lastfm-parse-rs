@@ -32,7 +32,6 @@
 //!
 //! 2. Run `cargo run --example <example name>`
 
-#![feature(try_from)]
 
 extern crate serde;
 extern crate serde_json;
@@ -162,7 +161,6 @@ pub mod track {
 pub mod user {
     pub use structs::user::Params;
 
-    pub use structs::user::GetArtistTracks;
     pub use structs::user::GetFriends;
     pub use structs::user::GetInfo;
     pub use structs::user::GetLovedTracks;

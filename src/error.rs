@@ -19,7 +19,7 @@ impl Display for Error {
     fn fmt(&self, f: &mut Formatter) -> FmtResult {
         match *self {
             Error::Deserialize(ref se) => {
-                write!(f, "Deserialization failed, reason: {}", se.description())
+                write!(f, "Deserialization failed, reason: {}", se.to_string())
             }
             Error::Api(ref ae) => {
                 write!(f, "Lastfm API error\n")?;
@@ -30,14 +30,7 @@ impl Display for Error {
 }
 
 impl StdError for Error {
-    fn description(&self) -> &str {
-        match *self {
-            Error::Deserialize(ref se) => se.description(),
-            Error::Api(ref ae) => ae.description(),
-        }
-    }
-
-    fn cause(&self) -> Option<&StdError> {
+    fn source(&self) -> Option<&(dyn StdError + 'static)> {
         match *self {
             Error::Deserialize(ref se) => Some(se),
             _ => None,

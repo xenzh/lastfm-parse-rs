@@ -1,5 +1,4 @@
 #![feature(decl_macro)]
-#![feature(try_from)]
 
 extern crate lastfm_parse_rs as lastfm;
 
@@ -7,13 +6,6 @@ mod common;
 use common::test_fn;
 use lastfm::structs::user::{TaggingType, Period};
 
-
-use lastfm::user::GetArtistTracks;
-test_fn!(
-    test_user_getartisttracks,
-    GetArtistTracks,
-    ["xenzh", "the haunted", None, None, None]
-);
 
 use lastfm::user::GetFriends;
 test_fn!(

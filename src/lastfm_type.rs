@@ -72,7 +72,6 @@ pub fn from_json_slice<'de, Lt: LastfmType<'de>>(json: &'de [u8]) -> Result<Lt> 
 /// Following should be included in order to use this macro:
 /// ```
 /// use std::convert::Into;
-/// use lastfm_type::{LastfmType, Request};
 /// ```
 #[macro_export]
 macro_rules! lastfm_t {
@@ -169,10 +168,6 @@ macro_rules! empty_lastfm_t {
 // ----------------------------------------------------------------
 
 /// Generates lastfm_t wrapper over an opensearch object
-/// Following should be included in order to use this macro:
-/// ```
-/// use common::SearchQuery;
-/// ```
 #[macro_export]
 macro_rules! opensearch_t {
     (

@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::borrow::Cow;
 
 use url::Url as StdUrl;
 
@@ -82,7 +83,7 @@ impl<'pr> RequestParams for Params<'pr> {
 
 #[derive(Deserialize, Debug)]
 pub struct Artist<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -109,7 +110,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub streamable: Option<Streamable>,

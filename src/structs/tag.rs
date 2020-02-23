@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use url::Url as StdUrl;
@@ -100,13 +101,13 @@ impl<'pr> RequestParams for Params<'pr> {
 
 #[derive(Deserialize, Debug)]
 pub struct Wiki<'dt> {
-    pub summary: &'dt str,
+    pub summary: Cow<'dt, str>,
     pub content: Option<&'dt str>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub total: u32,
     pub reach: u32,
     #[serde(borrow)]
@@ -126,7 +127,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Similar<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
     pub streamable: Option<u32>,
 }
@@ -150,14 +151,14 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Album<'dt> {
-    name: &'dt str,
+    name: Cow<'dt, str>,
     mbid: Option<&'dt str>,
     url: Url<'dt>,
     playcount: Option<u32>,
@@ -184,7 +185,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
     #[serde(default)]
     #[serde(deserialize_with = "str_to_option")]
@@ -211,7 +212,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Tag<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub count: u32,
     pub reach: u32,
 }
@@ -235,7 +236,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
