@@ -2,6 +2,7 @@
 
 use std::convert::{Into, TryFrom};
 use std::io::{Error, ErrorKind};
+use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use url::{Url as StdUrl,UrlQuery};
@@ -362,15 +363,16 @@ empty_lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
+    #[serde(borrow)]
     pub artist: Artist<'dt>,
 }
 
@@ -399,8 +401,8 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Album<'dt> {
-    pub artist: &'dt str,
-    pub title: &'dt str,
+    pub artist: Cow<'dt, str>,
+    pub title: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub image: Vec<Image<'dt>>,
@@ -408,7 +410,7 @@ pub struct Album<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Tag1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
 }
 
@@ -420,7 +422,7 @@ pub struct Tags<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -460,7 +462,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Similar<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
@@ -516,7 +518,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Tag2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub count: u32,
     pub url: Url<'dt>,
 }
@@ -580,7 +582,7 @@ pub struct Field<'dt> {
     pub corrected: u32,
     #[serde(default)]
     #[serde(rename="#text")]
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -619,8 +621,8 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Track2<'dt> {
-    pub name: &'dt str,
-    pub artist: &'dt str,
+    pub name: Cow<'dt, str>,
+    pub artist: Cow<'dt, str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
     pub listeners: u32,
@@ -666,7 +668,7 @@ empty_lastfm_t!(
 #[derive(Deserialize, Debug)]
 pub struct NowPlayingItem<'dt> {
     #[serde(rename="#text")]
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     #[serde(deserialize_with="str_to_val")]
     pub corrected: u32,
 }
@@ -700,7 +702,7 @@ impl TryFrom<u32> for IgnoredMessageCode {
 #[derive(Deserialize, Debug)]
 pub struct IgnoredMessage<'dt> {
     #[serde(rename="#text")]
-    pub reason: &'dt str,
+    pub reason: Cow<'dt, str>,
     #[serde(deserialize_with="str_to_variant")]
     pub code: IgnoredMessageCode,
 }

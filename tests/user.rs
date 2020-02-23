@@ -7,13 +7,6 @@ use common::test_fn;
 use lastfm::structs::user::{TaggingType, Period};
 
 
-use lastfm::user::GetArtistTracks;
-test_fn!(
-    test_user_getartisttracks,
-    GetArtistTracks,
-    ["xenzh", "the haunted", None, None, None]
-);
-
 use lastfm::user::GetFriends;
 test_fn!(
     test_user_getfriends,

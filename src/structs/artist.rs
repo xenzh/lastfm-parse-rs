@@ -1,4 +1,5 @@
 use std::convert::Into;
+use std::borrow::Cow;
 use std::marker::PhantomData;
 
 use url::Url as StdUrl;
@@ -243,7 +244,7 @@ empty_lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
 }
@@ -284,7 +285,7 @@ pub struct Stats {
 
 #[derive(Deserialize, Debug)]
 pub struct Similar1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
     pub image: Vec<Image<'dt>>,
 }
@@ -297,7 +298,7 @@ pub struct SimilarList1<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct Tag1<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub url: Url<'dt>,
 }
 
@@ -310,8 +311,8 @@ pub struct Tags<'dt> {
 #[derive(Deserialize, Debug)]
 pub struct Link<'dt> {
     #[serde(rename = "#text")]
-    pub text: &'dt str,
-    pub rel: &'dt str,
+    pub text: Cow<'dt, str>,
+    pub rel: Cow<'dt, str>,
     pub href: Url<'dt>,
 }
 
@@ -332,7 +333,7 @@ pub struct Bio<'dt> {
 
 #[derive(Deserialize, Debug)]
 pub struct GetInfo<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub image: Vec<Image<'dt>>,
@@ -368,7 +369,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Similar2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     #[serde(rename = "match")]
     #[serde(deserialize_with = "str_to_val")]
@@ -422,7 +423,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Album<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub playcount: u32,
@@ -455,7 +456,7 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Tag2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub count: u32,
     pub url: Url<'dt>,
 }
@@ -483,14 +484,14 @@ lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct Track<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
@@ -541,7 +542,7 @@ empty_lastfm_t!(
 
 #[derive(Deserialize, Debug)]
 pub struct Artist2<'dt> {
-    pub name: &'dt str,
+    pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]

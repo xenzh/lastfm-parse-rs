@@ -30,7 +30,7 @@ pub macro test_fn($name:ident, $lastfm_type:ident, [$($param_val:expr),*]) {
 
         let req = HttpRequest::get(url).unwrap();
         let addr = req.addr().unwrap();
-        
+
         let mut core = Core::new().unwrap(); 
         let handle = core.handle();
 
