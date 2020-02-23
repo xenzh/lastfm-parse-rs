@@ -1,5 +1,4 @@
 #![feature(decl_macro)]
-#![feature(try_from)]
 
 extern crate lastfm_parse_rs as lastfm;
 

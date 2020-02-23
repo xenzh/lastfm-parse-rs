@@ -32,7 +32,6 @@
 //!
 //! 2. Run `cargo run --example <example name>`
 
-#![feature(try_from)]
 
 extern crate serde;
 extern crate serde_json;
