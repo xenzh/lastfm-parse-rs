@@ -1,4 +1,5 @@
 target
+tags
 Cargo.lock
 *.json
 *.sublime-project

@@ -342,8 +342,8 @@ pub struct Track2<'dt> {
     pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
-    pub artist: Id2<'dt>,
-    pub album: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
+    pub album: Option<Id2<'dt>>,
     #[serde(rename = "@attr")]
     pub date: Date3<'dt>,
 }
@@ -450,7 +450,7 @@ pub struct Track3<'dt> {
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub date: Date1<'dt>,
-    pub artist: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
     pub image: Vec<Image<'dt>>,
     pub streamable: Streamable,
 }
@@ -494,7 +494,7 @@ pub struct Track4<'dt> {
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
     pub streamable: Streamable,
-    pub artist: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
     pub image: Vec<Image<'dt>>,
 
     // Service always returns FIXME in fields below
@@ -512,7 +512,7 @@ pub struct Album1<'dt> {
     pub name: Cow<'dt, str>,
     pub mbid: Option<&'dt str>,
     pub url: Url<'dt>,
-    pub artist: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -563,8 +563,8 @@ pub struct Track5<'dt> {
     pub streamable: Option<u32>,
     #[serde(deserialize_with = "str_to_val")]
     pub loved: u32,
-    pub artist: Id2<'dt>,
-    pub album: Id1<'dt>,
+    pub artist: Option<Id2<'dt>>,
+    pub album: Option<Id1<'dt>>,
     pub image: Vec<Image<'dt>>,
     pub date: Option<Date1<'dt>>,
     #[serde(rename = "@attr")]
@@ -602,7 +602,7 @@ pub struct Album2<'dt> {
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    pub artist: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
     pub image: Vec<Image<'dt>>,
     #[serde(rename = "@attr")]
     pub rank: Rank,
@@ -701,7 +701,7 @@ pub struct Track6<'dt> {
     #[serde(deserialize_with = "str_to_val")]
     pub duration: u32,
     pub streamable: Streamable,
-    pub artist: Id2<'dt>,
+    pub artist: Option<Id2<'dt>>,
     pub image: Vec<Image<'dt>>,
     #[serde(rename = "@attr")]
     pub rank: Rank,
@@ -736,7 +736,7 @@ pub struct Album3<'dt> {
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
     pub playcount: Option<u32>,
-    pub artist: Id1<'dt>,
+    pub artist: Option<Id1<'dt>>,
     #[serde(rename = "@attr")]
     pub rank: Rank,
 }
@@ -801,7 +801,7 @@ pub struct Track7<'dt> {
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_val")]
     pub playcount: u32,
-    pub artist: Id1<'dt>,
+    pub artist: Option<Id1<'dt>>,
     #[serde(rename = "@attr")]
     pub rank: Rank,
 }
