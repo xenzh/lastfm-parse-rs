@@ -561,8 +561,6 @@ pub struct Track5<'dt> {
     pub url: Url<'dt>,
     #[serde(deserialize_with = "str_to_option")]
     pub streamable: Option<u32>,
-    #[serde(deserialize_with = "str_to_val")]
-    pub loved: u32,
     pub artist: Id2<'dt>,
     pub album: Id1<'dt>,
     pub image: Vec<Image<'dt>>,
